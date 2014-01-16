@@ -1,0 +1,459 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9638E1F1188879C200062B4C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9638E1F0188879C200062B4C /* Foundation.framework */; };
+		9638E1F3188879C200062B4C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9638E1F2188879C200062B4C /* CoreGraphics.framework */; };
+		9638E1F5188879C200062B4C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9638E1F4188879C200062B4C /* UIKit.framework */; };
+		9638E1FB188879C200062B4C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9638E1F9188879C200062B4C /* InfoPlist.strings */; };
+		9638E1FD188879C200062B4C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9638E1FC188879C200062B4C /* main.m */; };
+		9638E201188879C200062B4C /* HNAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9638E200188879C200062B4C /* HNAppDelegate.m */; };
+		9638E203188879C200062B4C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9638E202188879C200062B4C /* Images.xcassets */; };
+		9638E20A188879C200062B4C /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9638E209188879C200062B4C /* XCTest.framework */; };
+		9638E20B188879C200062B4C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9638E1F0188879C200062B4C /* Foundation.framework */; };
+		9638E20C188879C200062B4C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9638E1F4188879C200062B4C /* UIKit.framework */; };
+		9638E214188879C200062B4C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9638E212188879C200062B4C /* InfoPlist.strings */; };
+		9638E216188879C200062B4C /* Habari_NewsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9638E215188879C200062B4C /* Habari_NewsTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9638E20D188879C200062B4C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9638E1E5188879C200062B4C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9638E1EC188879C200062B4C;
+			remoteInfo = "Habari News";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		9638E1ED188879C200062B4C /* Habari News.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Habari News.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9638E1F0188879C200062B4C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		9638E1F2188879C200062B4C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		9638E1F4188879C200062B4C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		9638E1F8188879C200062B4C /* Habari News-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Habari News-Info.plist"; sourceTree = "<group>"; };
+		9638E1FA188879C200062B4C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9638E1FC188879C200062B4C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9638E1FE188879C200062B4C /* Habari News-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Habari News-Prefix.pch"; sourceTree = "<group>"; };
+		9638E1FF188879C200062B4C /* HNAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNAppDelegate.h; sourceTree = "<group>"; };
+		9638E200188879C200062B4C /* HNAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNAppDelegate.m; sourceTree = "<group>"; };
+		9638E202188879C200062B4C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		9638E208188879C200062B4C /* Habari NewsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Habari NewsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9638E209188879C200062B4C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		9638E211188879C200062B4C /* Habari NewsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Habari NewsTests-Info.plist"; sourceTree = "<group>"; };
+		9638E213188879C200062B4C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9638E215188879C200062B4C /* Habari_NewsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Habari_NewsTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9638E1EA188879C200062B4C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9638E1F3188879C200062B4C /* CoreGraphics.framework in Frameworks */,
+				9638E1F5188879C200062B4C /* UIKit.framework in Frameworks */,
+				9638E1F1188879C200062B4C /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9638E205188879C200062B4C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9638E20A188879C200062B4C /* XCTest.framework in Frameworks */,
+				9638E20C188879C200062B4C /* UIKit.framework in Frameworks */,
+				9638E20B188879C200062B4C /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9638E1E4188879C200062B4C = {
+			isa = PBXGroup;
+			children = (
+				9638E1F6188879C200062B4C /* Habari News */,
+				9638E20F188879C200062B4C /* Habari NewsTests */,
+				9638E1EF188879C200062B4C /* Frameworks */,
+				9638E1EE188879C200062B4C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9638E1EE188879C200062B4C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9638E1ED188879C200062B4C /* Habari News.app */,
+				9638E208188879C200062B4C /* Habari NewsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9638E1EF188879C200062B4C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9638E1F0188879C200062B4C /* Foundation.framework */,
+				9638E1F2188879C200062B4C /* CoreGraphics.framework */,
+				9638E1F4188879C200062B4C /* UIKit.framework */,
+				9638E209188879C200062B4C /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9638E1F6188879C200062B4C /* Habari News */ = {
+			isa = PBXGroup;
+			children = (
+				9638E1FF188879C200062B4C /* HNAppDelegate.h */,
+				9638E200188879C200062B4C /* HNAppDelegate.m */,
+				9638E202188879C200062B4C /* Images.xcassets */,
+				9638E1F7188879C200062B4C /* Supporting Files */,
+			);
+			path = "Habari News";
+			sourceTree = "<group>";
+		};
+		9638E1F7188879C200062B4C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9638E1F8188879C200062B4C /* Habari News-Info.plist */,
+				9638E1F9188879C200062B4C /* InfoPlist.strings */,
+				9638E1FC188879C200062B4C /* main.m */,
+				9638E1FE188879C200062B4C /* Habari News-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9638E20F188879C200062B4C /* Habari NewsTests */ = {
+			isa = PBXGroup;
+			children = (
+				9638E215188879C200062B4C /* Habari_NewsTests.m */,
+				9638E210188879C200062B4C /* Supporting Files */,
+			);
+			path = "Habari NewsTests";
+			sourceTree = "<group>";
+		};
+		9638E210188879C200062B4C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9638E211188879C200062B4C /* Habari NewsTests-Info.plist */,
+				9638E212188879C200062B4C /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9638E1EC188879C200062B4C /* Habari News */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9638E219188879C200062B4C /* Build configuration list for PBXNativeTarget "Habari News" */;
+			buildPhases = (
+				9638E1E9188879C200062B4C /* Sources */,
+				9638E1EA188879C200062B4C /* Frameworks */,
+				9638E1EB188879C200062B4C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Habari News";
+			productName = "Habari News";
+			productReference = 9638E1ED188879C200062B4C /* Habari News.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9638E207188879C200062B4C /* Habari NewsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9638E21C188879C200062B4C /* Build configuration list for PBXNativeTarget "Habari NewsTests" */;
+			buildPhases = (
+				9638E204188879C200062B4C /* Sources */,
+				9638E205188879C200062B4C /* Frameworks */,
+				9638E206188879C200062B4C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9638E20E188879C200062B4C /* PBXTargetDependency */,
+			);
+			name = "Habari NewsTests";
+			productName = "Habari NewsTests";
+			productReference = 9638E208188879C200062B4C /* Habari NewsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9638E1E5188879C200062B4C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = HN;
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Edwin Bosire";
+				TargetAttributes = {
+					9638E207188879C200062B4C = {
+						TestTargetID = 9638E1EC188879C200062B4C;
+					};
+				};
+			};
+			buildConfigurationList = 9638E1E8188879C200062B4C /* Build configuration list for PBXProject "Habari News" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 9638E1E4188879C200062B4C;
+			productRefGroup = 9638E1EE188879C200062B4C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9638E1EC188879C200062B4C /* Habari News */,
+				9638E207188879C200062B4C /* Habari NewsTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9638E1EB188879C200062B4C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9638E1FB188879C200062B4C /* InfoPlist.strings in Resources */,
+				9638E203188879C200062B4C /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9638E206188879C200062B4C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9638E214188879C200062B4C /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9638E1E9188879C200062B4C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9638E201188879C200062B4C /* HNAppDelegate.m in Sources */,
+				9638E1FD188879C200062B4C /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9638E204188879C200062B4C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9638E216188879C200062B4C /* Habari_NewsTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9638E20E188879C200062B4C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9638E1EC188879C200062B4C /* Habari News */;
+			targetProxy = 9638E20D188879C200062B4C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		9638E1F9188879C200062B4C /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9638E1FA188879C200062B4C /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		9638E212188879C200062B4C /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9638E213188879C200062B4C /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9638E217188879C200062B4C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9638E218188879C200062B4C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9638E21A188879C200062B4C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Habari News/Habari News-Prefix.pch";
+				INFOPLIST_FILE = "Habari News/Habari News-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		9638E21B188879C200062B4C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Habari News/Habari News-Prefix.pch";
+				INFOPLIST_FILE = "Habari News/Habari News-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		9638E21D188879C200062B4C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Habari News.app/Habari News";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Habari News/Habari News-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Habari NewsTests/Habari NewsTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		9638E21E188879C200062B4C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Habari News.app/Habari News";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Habari News/Habari News-Prefix.pch";
+				INFOPLIST_FILE = "Habari NewsTests/Habari NewsTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9638E1E8188879C200062B4C /* Build configuration list for PBXProject "Habari News" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9638E217188879C200062B4C /* Debug */,
+				9638E218188879C200062B4C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9638E219188879C200062B4C /* Build configuration list for PBXNativeTarget "Habari News" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9638E21A188879C200062B4C /* Debug */,
+				9638E21B188879C200062B4C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		9638E21C188879C200062B4C /* Build configuration list for PBXNativeTarget "Habari NewsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9638E21D188879C200062B4C /* Debug */,
+				9638E21E188879C200062B4C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9638E1E5188879C200062B4C /* Project object */;
+}

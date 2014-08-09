@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="xH4-DN-qjE" customClass="HNAuthorCell">
+            <rect key="frame" x="0.0" y="0.0" width="300" height="52"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="300" height="52"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="idy-OA-FaC">
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="52"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <attributedString key="attributedText">
+                            <fragment content="BY OUMA WANZALA">
+                                <attributes>
+                                    <color key="NSColor" red="0.0097257047890000007" green="0.018858784810000001" blue="0.17705503110000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <font key="NSFont" size="13" name="HelveticaNeue-Light"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" minimumLineHeight="18" defaultTabInterval="36">
+                                        <tabStops/>
+                                    </paragraphStyle>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="idy-OA-FaC" secondAttribute="bottom" id="5I8-Xq-0qk"/>
+                <constraint firstItem="idy-OA-FaC" firstAttribute="top" secondItem="xH4-DN-qjE" secondAttribute="top" id="k6X-5g-2NM"/>
+                <constraint firstItem="idy-OA-FaC" firstAttribute="leading" secondItem="xH4-DN-qjE" secondAttribute="leading" id="t8n-MJ-FB5"/>
+                <constraint firstAttribute="trailing" secondItem="idy-OA-FaC" secondAttribute="trailing" id="zdl-wd-SPV"/>
+            </constraints>
+            <size key="customSize" width="300" height="52"/>
+            <connections>
+                <outlet property="authorTextTitle" destination="idy-OA-FaC" id="AaF-Ju-SMI"/>
+            </connections>
+        </collectionViewCell>
+    </objects>
+</document>

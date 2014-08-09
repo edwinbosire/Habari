@@ -7,13 +7,32 @@
 //
 
 #import "HNAppDelegate.h"
+#import "HNLatestNewsViewController.h"
+#import "HNLeftMenuViewController.h"
+#import "UIImage+ImageEffects.h"
 
 @implementation HNAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    NSURLCache *cache = [[NSURLCache alloc] initWithMemoryCapacity:4*1024*1024
+                                                      diskCapacity:32*1024*1024
+                                                          diskPath:@"app_cache"];
+    
+    // Set the shared cache to our new  instance
+    [NSURLCache setSharedURLCache:cache];
+    
+    UINavigationController *newsContentView = [[UINavigationController alloc] initWithRootViewController:[HNLatestNewsViewController new]];
+    HNLeftMenuViewController *menuViewController = [HNLeftMenuViewController new];
+    RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:newsContentView menuViewController:menuViewController];
+    UIImage *backgroundImage = [UIImage imageNamed:@"Stars"];
+    sideMenuViewController.backgroundImage = [backgroundImage applyLightEffect];
+    sideMenuViewController.delegate = self;
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
+    self.window.rootViewController = sideMenuViewController;
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
@@ -45,5 +64,30 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+
+#pragma mark -
+#pragma mark RESideMenu Delegate
+
+- (void)sideMenu:(RESideMenu *)sideMenu willShowMenuViewController:(UIViewController *)menuViewController
+{
+
+}
+
+- (void)sideMenu:(RESideMenu *)sideMenu didShowMenuViewController:(UIViewController *)menuViewController
+{
+    
+}
+
+- (void)sideMenu:(RESideMenu *)sideMenu willHideMenuViewController:(UIViewController *)menuViewController
+{
+   
+}
+
+- (void)sideMenu:(RESideMenu *)sideMenu didHideMenuViewController:(UIViewController *)menuViewController
+{
+    
+}
+
 
 @end

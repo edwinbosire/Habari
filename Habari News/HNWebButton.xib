@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="B0l-5r-2QR" customClass="HNWebButton">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yph-N1-aSV">
+                    <rect key="frame" x="10" y="10" width="300" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="300" id="WYY-tP-xDA"/>
+                        <constraint firstAttribute="height" constant="30" id="aUI-j3-xxQ"/>
+                    </constraints>
+                    <state key="normal" title="View on web">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="Yph-N1-aSV" firstAttribute="leading" secondItem="B0l-5r-2QR" secondAttribute="leading" constant="10" id="PyN-qv-IOa"/>
+                <constraint firstItem="Yph-N1-aSV" firstAttribute="top" secondItem="B0l-5r-2QR" secondAttribute="top" constant="10" id="cJG-rR-1Au"/>
+                <constraint firstAttribute="trailing" secondItem="Yph-N1-aSV" secondAttribute="trailing" constant="10" id="m6y-f6-B2S"/>
+                <constraint firstAttribute="bottom" secondItem="Yph-N1-aSV" secondAttribute="bottom" constant="10" id="tUA-Yp-vJF"/>
+            </constraints>
+            <connections>
+                <outlet property="webViewButton" destination="Yph-N1-aSV" id="igw-rC-TTS"/>
+            </connections>
+        </collectionReusableView>
+    </objects>
+</document>

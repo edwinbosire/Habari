@@ -10,13 +10,15 @@
 #import "RESideMenu.h"
 #import "HNClient.h"
 
-
+@class HNNewsCollectionViewCell;
 @interface HNGenericNewsViewController : UIViewController
 
 @property (nonatomic, strong) NSMutableArray *latestNews;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, assign) HNNewsType newsType;
 @property (nonatomic, strong) NSString *viewControllerTitle;
+
+@property (nonatomic) HNNewsCollectionViewCell *selectedCell;
 
 - (void)refresh:(id)sender;
 

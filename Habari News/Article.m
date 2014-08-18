@@ -8,6 +8,7 @@
 
 #import "Article.h"
 
+#define kScreenWidth  300.0f
 
 @implementation Article
 
@@ -130,7 +131,7 @@
     
     static dispatch_once_t onceTokenTitleTextAttributes;
     dispatch_once(&onceTokenTitleTextAttributes, ^{
-        titleTextAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:20.0f],
+        titleTextAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0f],
                                 NSParagraphStyleAttributeName: paraStyle,
                                 NSForegroundColorAttributeName: [UIColor wetAsphaltColor]};
     });
@@ -164,21 +165,21 @@
 
 - (CGSize)cellSizeForTitle{
     
-    CGSize textSize = [[self attributedStringForTitle] boundingRectWithSize:CGSizeMake(300.0f, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading|NSStringDrawingUsesLineFragmentOrigin context:nil].size;
+    CGSize textSize = [[self attributedStringForTitle] boundingRectWithSize:CGSizeMake(kScreenWidth, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading|NSStringDrawingUsesLineFragmentOrigin context:nil].size;
     textSize.width = 310;
     return textSize;
 }
 
 - (CGSize)cellSizeForAuthor{
     
-    CGSize textSize = [[self attributedStringForAuthor] boundingRectWithSize:CGSizeMake(300.0f, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading|NSStringDrawingUsesLineFragmentOrigin context:nil].size;
-    textSize.width = 300.0f;
+    CGSize textSize = [[self attributedStringForAuthor] boundingRectWithSize:CGSizeMake(kScreenWidth, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading|NSStringDrawingUsesLineFragmentOrigin context:nil].size;
+    textSize.width = kScreenWidth;
     textSize.height = 30.0f;
     return textSize;
 }
 
 - (CGSize)cellSizeForContent{
-    CGSize textSize = [[self attributedStringForContent] boundingRectWithSize:CGSizeMake(300.0f, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading|NSStringDrawingUsesLineFragmentOrigin context:nil].size;
+    CGSize textSize = [[self attributedStringForContent] boundingRectWithSize:CGSizeMake(kScreenWidth, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading|NSStringDrawingUsesLineFragmentOrigin context:nil].size;
    textSize.width = 310.0f;
     textSize.height += 30.0f;
     return textSize;

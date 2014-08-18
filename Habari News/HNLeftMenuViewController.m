@@ -105,15 +105,10 @@
     if (indexPath.section == 0){
         
         NSArray *titles = @[@"Latest", @"Tech", @"Business", @"Sports"];
-        NSArray *images = @[@"IconHome", @"IconHome", @"IconHome", @"IconHome"];
         cell.textLabel.text = titles[indexPath.row];
-//        cell.imageView.image = [UIImage imageNamed:images[indexPath.row]];
-        
     } else{
         
         cell.textLabel.text = @"Settings";
-//        cell.imageView.image = [UIImage imageNamed:@"IconSettings"];
-        
     }
     return cell;
 }

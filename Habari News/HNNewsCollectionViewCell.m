@@ -38,8 +38,8 @@
     self.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.layer.bounds] CGPath];
     self.layer.masksToBounds = NO;
 
-    self.title.textColor = [UIColor midnightBlueColor];
-    self.timeStampLabel.textColor = [UIColor wetAsphaltColor];
+    self.title.textColor = [UIColor cloudsColor];
+    self.timeStampLabel.textColor = [UIColor cloudsColor];
 }
 
 - (void)prepareForReuse{
@@ -62,11 +62,12 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:article.largeImage];
     [request addValue:@"image/*" forHTTPHeaderField:@"Accept"];
     
-    __weak UIImageView *weakIV = self.image;
+    
+    typeof(UIImageView) __weak *weakIV = self.image;
     [self.image setImageWithURLRequest:request
                       placeholderImage:nil
                                success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                   weakIV.image =  [image applyExtraLightEffectAtFrame:CGRectMake(0.0f, image.size.height - 80.0f , image.size.width, 80.0f)];
+                                   weakIV.image =  image;//[image applyExtraLightEffectAtFrame:CGRectMake(0.0f, image.size.height - 80.0f , weakIV.image.size.width, 80.0f)];
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         
     }];

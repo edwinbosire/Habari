@@ -51,7 +51,7 @@
         
         for (UICollectionViewLayoutAttributes *attrs in allAttributes) {
             
-            if ([attrs representedElementKind] == UICollectionElementKindSectionHeader) {
+            if ([attrs indexPath] == [NSIndexPath indexPathForItem:0 inSection:0]) {
                 
                 CGRect headerRect = [attrs frame];
                 headerRect.size.height = MAX(minY, headerSize.height + deltaY);

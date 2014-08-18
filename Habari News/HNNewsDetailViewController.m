@@ -8,12 +8,7 @@
 
 #import "HNNewsDetailViewController.h"
 
-//Cells
-#import "HNHeaderReusableView.h"
-#import "HNTitleCell.h"
-#import "HNAuthorCell.h"
-#import "HNContentCell.h"
-#import "HNWebButton.h"
+
 
 //Flowlayout
 #import "SPHGridViewFlowLayout.h"
@@ -27,71 +22,99 @@
 //Viewcontroller
 #import "BrowserViewController.h"
 
-#import "ZoomTransitionProtocol.h"
-
-
-#define HEADER_TITLE 0
-#define AUTHOR_CELL 1
-#define CONTENT_CELL 2
-
 #define kHEADER_IMAGE_HEIGHT 250.0f
+#define kSTANDARD_WIDTH  300.0f
+#define kBUTTON_HEIGHT 50.0f
+#define kANIMATION_OFFSET 100.0f
 
-static NSString *const headerReusableCell = @"headerReusableCell";
-static NSString *const titleReusableCell = @"titleReusableCell";
-static NSString *const authorReusableCell = @"authorReusableCell";
-static NSString *const contentReusableCell = @"contentReusableCell";
-static NSString *const webButtonReusableCell = @"webButtonReusableCell";
-
-@interface HNNewsDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
-
-@property (nonatomic, strong) UICollectionView *collectionView;
+@interface HNNewsDetailViewController () <UIScrollViewDelegate>{
+    CGRect headerRect;
+}
 
 @property (nonatomic, strong) BrowserViewController *browser;
+
 @end
 
 @implementation HNNewsDetailViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     self.automaticallyAdjustsScrollViewInsets = YES;
     self.navigationController.navigationBar.translucent = YES;
-//    self.navigationController.navigationBar.alpha = 0.95f;
     
-    UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(presentActionSheet:)];
+    UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Share-black"] style:UIBarButtonItemStylePlain target:self action:@selector(presentActionSheet:)];
     self.navigationItem.rightBarButtonItem = actionButton;
     
-    self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:[SPHGridViewFlowLayout new]];
-    self.collectionView.delegate = self;
-    self.collectionView.dataSource = self;
+    UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"close"] style:UIBarButtonItemStylePlain target:self action:@selector(closeView)];
+    self.navigationItem.leftBarButtonItem = closeButton;
     
-    self.collectionView.backgroundColor = [UIColor cloudsColor];
+    [self.view addSubview:self.scrollView];
     
-    [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HNHeaderReusableView class]) bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:headerReusableCell];
-    [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HNTitleCell class]) bundle:nil] forCellWithReuseIdentifier:titleReusableCell];
-    [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HNAuthorCell class]) bundle:nil] forCellWithReuseIdentifier:authorReusableCell];
-    [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HNContentCell class]) bundle:nil] forCellWithReuseIdentifier:contentReusableCell];
-    [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HNWebButton class]) bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:webButtonReusableCell];
-    [self.view addSubview:self.collectionView];
+    [self setupScrollView];
     
-    self.collectionView.contentInset = UIEdgeInsetsMake(-10.0f, 0.0f, 0.0f, 0.0f);
+    
+    self.navigationItem.titleView = ({
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 44)];
+        label.backgroundColor = [UIColor clearColor];
+        label.numberOfLines = 2;
+        label.font = [UIFont boldSystemFontOfSize: 14.0f];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = [UIColor midnightBlueColor];
+        label.text = self.article.title;
+        label;
+    });
     
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+
+    
+              [UIView animateKeyframesWithDuration:0.6f
+                                             delay:0.3f
+                                           options:UIViewKeyframeAnimationOptionCalculationModeCubic
+                                        animations:^{
+                                            
+                                            self.titleView.alpha = self.authorView.alpha = self.contentView.alpha = self.webButtonView.alpha = 1.0f;
+
+                                            [UIView addKeyframeWithRelativeStartTime:0.0f relativeDuration:0.5 animations:^{
+                                                 self.titleView.frame = CGRectOffset(self.titleView.frame, 0.0f, -kANIMATION_OFFSET);
+                                            }];
+                                            
+                                            [UIView addKeyframeWithRelativeStartTime:0.2f relativeDuration:0.35 animations:^{
+                                                self.authorView.frame = CGRectOffset(self.authorView.frame, 0.0f, -kANIMATION_OFFSET);
+                                            }];
+                                            
+                                            [UIView addKeyframeWithRelativeStartTime:0.4f relativeDuration:0.25 animations:^{
+                                                self.contentView.frame = CGRectOffset(self.contentView.frame, 0.0f, -kANIMATION_OFFSET);
+                                            }];
+                                            
+                                            [UIView addKeyframeWithRelativeStartTime:0.6f relativeDuration:0.0625 animations:^{
+                                                self.webButtonView.frame = CGRectOffset(self.webButtonView.frame, 0.0f, -kANIMATION_OFFSET);
+                                            }];
+                                            
+                                        } completion:^(BOOL finished) {
+                                            
+                                        }];
+    
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+
+
+}
+- (void)closeView{
+    
+    
+   
+    [self.navigationController popViewControllerAnimated:YES];
+
 }
 
 - (void)presentActionSheet:(id)sender{
@@ -102,123 +125,84 @@ static NSString *const webButtonReusableCell = @"webButtonReusableCell";
     }];
 }
 
-#pragma mark - UICollectionView
-- (UICollectionReusableView *)collectionView:(UICollectionView *)cv viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+
+- (UIScrollView *)scrollView{
     
-    if (kind == UICollectionElementKindSectionHeader){
-      
-        HNHeaderReusableView *header = (HNHeaderReusableView *)[cv dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:headerReusableCell forIndexPath:indexPath];
-        [header.headerImage setImageWithURL:self.article.largeImage placeholderImage:self.placeholderImage];
-        RelativeDateDescriptor *descriptor = [[RelativeDateDescriptor alloc] initWithPriorDateDescriptionFormat:@"%@ ago" postDateDescriptionFormat:@"in %@"];
-        
-        NSString *timestamp = [descriptor describeDate:self.article.published relativeTo:[NSDate date]];
-        NSString *publisher = nil;
-        if ([self.article.url.host isEqualToString:@"www.nation.co.ke"]) {
-            publisher = @"Nation Media";
-        }else{
-            publisher = @"Standard";
-        }
-        
-        NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
-        paraStyle.alignment = NSTextAlignmentRight;
-        
-        NSMutableAttributedString *mutableAttr = [[NSMutableAttributedString alloc] init];
-        NSAttributedString *timeStringAttr  = [[NSAttributedString alloc] initWithString:timestamp attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:15.0f], NSForegroundColorAttributeName:[UIColor concreteColor], NSParagraphStyleAttributeName: paraStyle}];
-        NSAttributedString *separatorStringAttr  = [[NSAttributedString alloc] initWithString:@" | " attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0f], NSForegroundColorAttributeName:[UIColor wetAsphaltColor]}];
-        NSAttributedString *publisherStringAttr  = [[NSAttributedString alloc] initWithString:publisher attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:15.0f], NSForegroundColorAttributeName:[UIColor cloudsColor], NSParagraphStyleAttributeName: paraStyle}];
-        [mutableAttr appendAttributedString:publisherStringAttr];
-        [mutableAttr appendAttributedString:separatorStringAttr];
-        [mutableAttr appendAttributedString:timeStringAttr];
-        
-        header.textView.attributedText = mutableAttr;
-        [header setNeedsDisplay];
-        
-        return header;
-    }else if (kind == UICollectionElementKindSectionFooter){
-        
-        HNWebButton *webButtonFooter = (HNWebButton *)[cv dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:webButtonReusableCell forIndexPath:indexPath];
-        [webButtonFooter.webViewButton addTarget:self action:@selector(presentBrowser:) forControlEvents:UIControlEventTouchUpInside];
-        
-        return webButtonFooter;
+    if (!_scrollView) {
+        _scrollView = ({
+            UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+            scrollView.backgroundColor = [UIColor cloudsColor];
+            scrollView.contentInset = UIEdgeInsetsMake(-10.0f, 0.0f, 0.0f, 0.0f);
+            scrollView.delegate = self;
+            scrollView;
+        });
     }
-    return nil;
-}
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    return 1;
+    return _scrollView;
 }
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    
-    return CONTENT_CELL + 1;
-}
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+- (void)setArticle:(Article *)article{
     
-    switch (indexPath.row) {
-        case HEADER_TITLE:{
-            HNTitleCell *titleCell = (HNTitleCell *)[collectionView dequeueReusableCellWithReuseIdentifier:titleReusableCell forIndexPath:indexPath];
-            titleCell.titleTextView.attributedText = [self.article attributedStringForTitle];
-            return titleCell;
-        }
-            break;
-        case AUTHOR_CELL:{
-            HNAuthorCell *authorCell = (HNAuthorCell *)[collectionView dequeueReusableCellWithReuseIdentifier:authorReusableCell forIndexPath:indexPath];
-            authorCell.authorTextTitle.attributedText = [self.article attributedStringForAuthor];
-            return authorCell;
-        }
-            break;
-        default:{
-            HNContentCell *contentCell = (HNContentCell *)[collectionView dequeueReusableCellWithReuseIdentifier:contentReusableCell forIndexPath:indexPath];
-            contentCell.contentTextView.attributedText = [self.article attributedStringForContent];
-            return contentCell;
-        }
-            
-            break;
-        
+    if (_article == article) {
+        return;
     }
+    
+    _article = article;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+- (void)setupScrollView {
+    
+    NSBundle *mainBundle = [NSBundle mainBundle];
+    
+    self.headerView = [[mainBundle loadNibNamed:NSStringFromClass([HNHeaderView class]) owner:self options:nil] firstObject];
+    self.titleView = [[mainBundle loadNibNamed:NSStringFromClass([HNTitleView class]) owner:self options:nil] firstObject];
+    self.authorView = [[mainBundle loadNibNamed:NSStringFromClass([HNAuthorTextView class]) owner:self options:nil] firstObject];
+    self.contentView = [[mainBundle loadNibNamed:NSStringFromClass([HNContentView class]) owner:self options:nil] firstObject];
+    self.webButtonView = [[mainBundle loadNibNamed:NSStringFromClass([HNWebButton class]) owner:self options:nil] firstObject];
+    
+    //set the header
+    self.headerView.placeholder = self.placeholderImage;
+    self.headerView.article = _article;
+    
+    //set title
+    self.titleView.titleTextView.attributedText = [self.article attributedStringForTitle];
+    
+    //set author
+    self.authorView.authorTextTitle.attributedText = [self.article attributedStringForAuthor];
+    
+    //set content
+    self.contentView.contentTextView.attributedText = [self.article attributedStringForContent];
+    
+    //adjust sizes
+    
+    CGSize titleSize =  [self.article cellSizeForTitle];
+    CGSize authorSize =  [self.article cellSizeForAuthor];
+    CGSize contentSize =  [self.article cellSizeForContent];
+    
+    self.headerView.frame = CGRectMake(0.0f, 0.0f, 320.0f, kHEADER_IMAGE_HEIGHT);
+    self.titleView.frame = CGRectMake(10.0f, kHEADER_IMAGE_HEIGHT - 20 + kANIMATION_OFFSET, kSTANDARD_WIDTH, titleSize.height);
+    self.authorView.frame = CGRectMake(10.0f, CGRectGetMaxY(self.titleView.frame), kSTANDARD_WIDTH, authorSize.height);
+    self.contentView.frame = CGRectMake(10.0f, CGRectGetMaxY(self.authorView.frame), kSTANDARD_WIDTH, contentSize.height);
+    self.webButtonView.frame = CGRectMake(10.0f, CGRectGetMaxY(self.contentView.frame), kSTANDARD_WIDTH, kBUTTON_HEIGHT);
+    
+    self.titleView.alpha = self.authorView.alpha = self.contentView.alpha = self.webButtonView.alpha = 0.0f;
+    self.scrollView.contentSize = [self contentHeight];
+    
+    [self.scrollView addSubview:self.headerView];
+    [self.scrollView addSubview:self.titleView];
+    [self.scrollView addSubview:self.authorView];
+    [self.scrollView addSubview:self.contentView];
+    [self.scrollView addSubview:self.webButtonView];
     
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+- (CGSize)contentHeight{
     
-    switch (indexPath.row) {
-        case HEADER_TITLE:{
-            return [self.article cellSizeForTitle];
-        }
-            break;
-        case AUTHOR_CELL:{
-            return  [self.article cellSizeForAuthor];
-        }
-        case CONTENT_CELL:{
-            return [self.article cellSizeForContent];
-        }
-
-    }
-    return CGSizeZero;
-}
-
-
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-    return 0.0f;
-}
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
-    return 0.0f;
-}
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsZero;
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-    return CGSizeMake(320.0f, kHEADER_IMAGE_HEIGHT);
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section{
-    return CGSizeMake(300.0f, 70.0f);
+    CGSize titleSize =  [self.article cellSizeForTitle];
+    CGSize authorSize =  [self.article cellSizeForAuthor];
+    CGSize contentSize =  [self.article cellSizeForContent];
+    
+    return CGSizeMake(320.0f, (kHEADER_IMAGE_HEIGHT + titleSize.height + authorSize.height + contentSize.height + kBUTTON_HEIGHT + 20.0f));
 }
 
 - (void)presentBrowser:(id)sender{
@@ -227,9 +211,34 @@ static NSString *const webButtonReusableCell = @"webButtonReusableCell";
     [self.navigationController presentViewController:nav animated:YES completion:NULL];
 }
 
-- (UIView *)viewForZoomTransition{
-    HNHeaderReusableView * cell = (HNHeaderReusableView *)[self.collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:headerReusableCell forIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+#pragma - mark - UIScrollView Delegate
 
-    return cell.headerImage;
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+    CGPoint contentOffset = scrollView.contentOffset;
+    CGFloat maxStretch = -140.0f;
+    
+    if (contentOffset.y < maxStretch) {
+        [scrollView setContentOffset:CGPointMake(contentOffset.x, maxStretch)];
+        return;
+    }
+    
+    CGFloat minY = -54;
+    headerRect = self.headerView.frame;
+    CGFloat deltaY = fabsf(contentOffset.y - minY);
+    
+    if (contentOffset.y < minY) {
+        headerRect.origin.y -= headerRect.origin.y + deltaY;
+        self.headerView.frame = headerRect;
+    }
+    
+    //Lets scroll the image once the title has scrolled off it. Gives a nice effect
+    minY = (minY - 20);
+    deltaY = fabsf(contentOffset.y - minY);
+    if (contentOffset.y < minY ) {
+        headerRect.size.height = MAX(minY, kHEADER_IMAGE_HEIGHT + deltaY);
+        self.headerView.frame = headerRect;
+    }
 }
+
 @end

@@ -103,12 +103,25 @@
     
 }
 
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
     
-
-
+    [self.headerView stopOscillating];
+    
+    self.headerView = nil;
 }
+
+- (void)didReceiveMemoryWarning{
+    [super didReceiveMemoryWarning];
+    
+    [self.headerView stopOscillating];
+    
+    self.headerView = nil;
+    self.contentView = nil;
+    self.authorView = nil;
+    self.titleView = nil;
+}
+
 - (void)closeView{
     
     
@@ -129,6 +142,7 @@
 - (UIScrollView *)scrollView{
     
     if (!_scrollView) {
+        
         _scrollView = ({
             UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
             scrollView.backgroundColor = [UIColor cloudsColor];
@@ -150,14 +164,11 @@
     _article = article;
 }
 
+
 - (void)setupScrollView {
     
     NSBundle *mainBundle = [NSBundle mainBundle];
     
-    self.headerView = [[mainBundle loadNibNamed:NSStringFromClass([HNHeaderView class]) owner:self options:nil] firstObject];
-    self.titleView = [[mainBundle loadNibNamed:NSStringFromClass([HNTitleView class]) owner:self options:nil] firstObject];
-    self.authorView = [[mainBundle loadNibNamed:NSStringFromClass([HNAuthorTextView class]) owner:self options:nil] firstObject];
-    self.contentView = [[mainBundle loadNibNamed:NSStringFromClass([HNContentView class]) owner:self options:nil] firstObject];
     self.webButtonView = [[mainBundle loadNibNamed:NSStringFromClass([HNWebButton class]) owner:self options:nil] firstObject];
     
     //set the header
@@ -180,7 +191,7 @@
     CGSize contentSize =  [self.article cellSizeForContent];
     
     self.headerView.frame = CGRectMake(0.0f, 0.0f, 320.0f, kHEADER_IMAGE_HEIGHT);
-    self.titleView.frame = CGRectMake(10.0f, kHEADER_IMAGE_HEIGHT - 20 + kANIMATION_OFFSET, kSTANDARD_WIDTH, titleSize.height);
+    self.titleView.frame = CGRectMake(10.0f, kHEADER_IMAGE_HEIGHT - 20 + kANIMATION_OFFSET, kSTANDARD_WIDTH, titleSize.height+10.0f);
     self.authorView.frame = CGRectMake(10.0f, CGRectGetMaxY(self.titleView.frame), kSTANDARD_WIDTH, authorSize.height);
     self.contentView.frame = CGRectMake(10.0f, CGRectGetMaxY(self.authorView.frame), kSTANDARD_WIDTH, contentSize.height);
     self.webButtonView.frame = CGRectMake(10.0f, CGRectGetMaxY(self.contentView.frame), kSTANDARD_WIDTH, kBUTTON_HEIGHT);
@@ -194,6 +205,7 @@
     [self.scrollView addSubview:self.contentView];
     [self.scrollView addSubview:self.webButtonView];
     
+
 }
 
 - (CGSize)contentHeight{
@@ -209,6 +221,43 @@
     self.browser = [[BrowserViewController alloc] initWithUrls:self.article.url];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:self.browser];
     [self.navigationController presentViewController:nav animated:YES completion:NULL];
+}
+#pragma mark - property
+
+- (HNHeaderView *)headerView{
+    
+    if (!_headerView) {
+
+        _headerView = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([HNHeaderView class]) owner:self options:nil] firstObject];
+    }
+    return _headerView;
+}
+
+- (HNTitleView *)titleView{
+    
+    if (!_titleView) {
+        
+        _titleView = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([HNTitleView class]) owner:self options:nil] firstObject];
+    }
+    return _titleView;
+}
+
+- (HNAuthorTextView *)authorView{
+    
+    if (!_authorView) {
+        _authorView = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([HNAuthorTextView class]) owner:self options:nil] firstObject];
+
+    }
+    return _authorView;
+}
+
+- (HNContentView *)contentView{
+    
+    if (!_contentView) {
+
+        _contentView = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([HNContentView class]) owner:self options:nil] firstObject];
+    }
+    return _contentView;
 }
 
 #pragma - mark - UIScrollView Delegate

@@ -14,27 +14,33 @@
 #import "HNNewsDetailViewController.h"
 #import "HNDetailViewAnimationController.h"
 #import "HNListViewAnimationController.h"
+#import "HNSection.h"
+#import "HNArticle.h"
+#import "HNArticle+Extension.h"
 
 @interface HNGenericNewsViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UINavigationControllerDelegate>
 
 @property (nonatomic) UIActivityIndicatorView *indicator;
+@property (nonatomic) HNSection *sectionItem;
+
 @end
 
 static NSString *reusableCellIdentifier = @"reusableNewsCell";
 
 @implementation HNGenericNewsViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithItem:(HNSection *)item
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super init];
     if (self) {
-        // Custom initialization
+        
+        self.sectionItem = item;
     }
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
+    
     [super viewDidLoad];
     
     UIButton *sideMenuButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -42,12 +48,24 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
     [sideMenuButton setImage:[UIImage imageNamed:@"side_menu_quicklist_icon_selected"] forState:UIControlStateHighlighted];
     [sideMenuButton addTarget:self action:@selector(showMenu) forControlEvents:UIControlEventTouchUpInside];
     [sideMenuButton sizeToFit];
-    sideMenuButton.tintColor = [UIColor midnightBlueColor];
+    sideMenuButton.tintColor = [UIColor colorFromHexCode:self.sectionItem.secondaryColor];
     
     self.navigationController.delegate = self;
-    self.navigationController.navigationBar.tintColor = [UIColor midnightBlueColor];
+    self.navigationController.navigationBar.tintColor = [UIColor colorFromHexCode:self.sectionItem.secondaryColor];
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:sideMenuButton];
+    
+    self.navigationItem.titleView = ({
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 300.0f, 44.0f)];
+        label.backgroundColor = [UIColor clearColor];
+        label.numberOfLines = 2;
+        label.font = [UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:24];
+        label.textAlignment = NSTextAlignmentRight;
+        UIColor *hex = [UIColor colorFromHexCode:self.sectionItem.primaryColor];
+        label.textColor = (self.sectionItem.primaryColor)? hex : [UIColor midnightBlueColor];
+        label.text = self.sectionItem.title;
+        label;
+    });
     
     self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:[HNNewsFlowLayout new]];
     [self.collectionView registerNib:[UINib nibWithNibName:@"HNNewsCollectionView" bundle:nil] forCellWithReuseIdentifier:reusableCellIdentifier];
@@ -57,7 +75,10 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
     
     [self.view addSubview:self.collectionView];
     
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+     [self refresh:nil];
 }
 
 - (void)showIndicator:(BOOL)show{
@@ -76,32 +97,32 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
     }
 }
 
-- (void)setNewsType:(HNNewsType)newsType{
-    _newsType = newsType;
-     HNClient *client = [HNClient new];
-    [client loadNewsFromCacheWithType:newsType completion:^(NSArray *results, NSError *error) {
-        if (!error){
-            self.latestNews = [NSMutableArray arrayWithArray:results];
-            [self.collectionView reloadData];
-        }
-       
-    }];
-}
-
 - (void)refresh:(id)sender{
- 
-    HNClient *client = [HNClient new];
-    [client retrieveLatestNewsWithType:_newsType WithcompletionBlock:^(NSArray *results, NSError *error) {
-        self.latestNews = [NSMutableArray arrayWithArray:results];
+    
+    NSArray * articles = [HNArticle getNewsForSection:self.sectionItem];
+    
+    if (articles.count){
+        
+        self.latestNews = [NSMutableArray arrayWithArray:articles];
         [self.collectionView reloadData];
         
-    }];
+    }else {
+        
+        [[HNClient shareClient] retrieveLatestNewsWithSectionItem:self.sectionItem completionBlock:^(NSArray *articles) {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                self.latestNews = [NSMutableArray arrayWithArray:articles];
+                [self.collectionView reloadData];
+            });
+        }];
+    }
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     
-    [self refresh:nil];
 }
 
 - (void)showMenu {
@@ -111,7 +132,7 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    self.latestNews = nil;
 }
 
 #pragma mark - UICollectionView
@@ -171,21 +192,12 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
     return nil;
 
 }
-#pragma mark - Helper
 
-- (void)setViewControllerTitle:(NSString *)viewControllerTitle{
+#pragma mark - Properties
+
+- (void)setPrimaryColor:(UIColor *)primaryColor{
     
-    self.navigationItem.titleView = ({
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 300.0f, 44.0f)];
-        label.backgroundColor = [UIColor clearColor];
-        label.numberOfLines = 2;
-        label.font = [UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:24];
-        label.textAlignment = NSTextAlignmentRight;
-        label.textColor = [UIColor midnightBlueColor];
-        label.text = viewControllerTitle;
-        label;
-    });
-    
+    _primaryColor = primaryColor;
+    self.navigationController.navigationBar.tintColor = _primaryColor;
 }
-
 @end

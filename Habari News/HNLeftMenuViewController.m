@@ -10,26 +10,23 @@
 
 // Viewcontrollers
 #import "HNSettingsViewController.h"
-#import "HNLatestNewsViewController.h"
-#import "HNBusinessViewController.h"
-#import "HNTechViewController.h"
-#import "HNSportsViewController.h"
-
+#import "HNGenericNewsViewController.h"
 #import "RESideMenu.h"
 
 //Categories
 #import "UIImage+ImageEffects.h"
+
+#import "HNClient.h"
+#import "HNSection.h"
 
 @interface HNLeftMenuViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, readwrite, nonatomic) UITableView *tableView;
 
 //viewcontrollers
-@property (nonatomic, strong) HNLatestNewsViewController *latestViewController;
-@property (nonatomic, strong) HNBusinessViewController *businessNewsViewController;
-@property (nonatomic, strong) HNTechViewController *techNewsViewController;
-@property (nonatomic, strong) HNSportsViewController *sportsNewsViewController;
+@property (nonatomic, strong) HNGenericNewsViewController *genericNewsListViewController;
 
+@property (nonatomic) NSArray *sectionItems;
 @end
 
 @implementation HNLeftMenuViewController
@@ -47,8 +44,9 @@
 {
     [super viewDidLoad];
 	
+    [self reloadData];
     self.tableView = ({
-        UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height - 54 * 5) / 2.0f, self.view.frame.size.width, 54 * 5) style:UITableViewStylePlain];
+        UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height - 54 * 6) / 2.0f, self.view.frame.size.width, 54 * 6) style:UITableViewStylePlain];
         tableView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
         tableView.delegate = self;
         tableView.dataSource = self;
@@ -64,9 +62,15 @@
     });
     [self.view addSubview:self.tableView];
     
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:@"ReloadLeftMenuItems" object:nil];
 }
 
+- (void)reloadData {
+    
+    self.sectionItems = [HNSection fetchSectionsToBeShown];
 
+}
 
 #pragma mark -
 #pragma mark UITableView Datasource
@@ -84,12 +88,14 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
     
-    return  (sectionIndex == 0) ? 4 : 1;
+    return  (sectionIndex == 0) ? [self.sectionItems count] : 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentifier = @"Cell";
+    
+    HNSection *sectionItem = self.sectionItems[indexPath.row];
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
@@ -100,12 +106,15 @@
         cell.textLabel.textColor = [UIColor whiteColor];
         cell.textLabel.highlightedTextColor = [UIColor lightGrayColor];
         cell.selectedBackgroundView = [[UIView alloc] init];
+
+//        UIView *lineBar = [[UIView alloc] initWithFrame:CGRectMake(50.0f, 52, CGRectGetWidth(cell.frame) - 110.0f, 2.0f)];
+//        lineBar.backgroundColor = sectionItem.primaryColor;
+//        [cell addSubview:lineBar];
     }
     
     if (indexPath.section == 0){
         
-        NSArray *titles = @[@"Latest", @"Tech", @"Business", @"Sports"];
-        cell.textLabel.text = titles[indexPath.row];
+        cell.textLabel.text = sectionItem.title;
     } else{
         
         cell.textLabel.text = @"Settings";
@@ -121,31 +130,18 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    HNSection *sectionItem = self.sectionItems[indexPath.row];
+
     if (indexPath.section == 0){
         
-        switch (indexPath.row) {
-            case 0:
-                self.sideMenuViewController.contentViewController = [[UINavigationController alloc] initWithRootViewController:self.latestViewController];
-                [self.sideMenuViewController hideMenuViewController];
-                break;
-            case 1:
-                [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:self.techNewsViewController]
-                                                             animated:YES];
-                [self.sideMenuViewController hideMenuViewController];
-                break;
-            case 2:
-                self.sideMenuViewController.contentViewController = [[UINavigationController alloc] initWithRootViewController:self.businessNewsViewController];
-                [self.sideMenuViewController hideMenuViewController];
-                break;
-            case 3:
-                self.sideMenuViewController.contentViewController = [[UINavigationController alloc] initWithRootViewController:self.sportsNewsViewController];
-                [self.sideMenuViewController hideMenuViewController];
-                break;
-            
-            default:
-                break;
-        }
-        
+//        if (!sectionItem.contentViewController) {
+//            HNGenericNewsViewController *listViewController = [[HNGenericNewsViewController alloc] initWithItem:sectionItem];
+//            sectionItem.contentViewController = listViewController;
+//        }
+//        self.sideMenuViewController.contentViewController = [[UINavigationController alloc] initWithRootViewController:sectionItem.contentViewController];
+
+        [self.sideMenuViewController hideMenuViewController];
+               
     }else{
         
         self.sideMenuViewController.contentViewController = [[UINavigationController alloc] initWithRootViewController:[[HNSettingsViewController alloc] init]];
@@ -155,37 +151,6 @@
 }
 
 
-#pragma mark - Setters
-
-- (HNLatestNewsViewController *)latestViewController{
-    if(!_latestViewController){
-        _latestViewController = [HNLatestNewsViewController new];
-    }
-    
-    return _latestViewController;
-}
-
-- (HNTechViewController *)techNewsViewController{
-    if (!_techNewsViewController){
-        _techNewsViewController = [HNTechViewController new];
-    }
-    return _techNewsViewController;
-}
-
-- (HNSportsViewController *)sportsNewsViewController{
-    if(!_sportsNewsViewController){
-        _sportsNewsViewController = [HNSportsViewController new];
-    }
-    return _sportsNewsViewController;
-}
-
-- (HNBusinessViewController *)businessNewsViewController{
-    
-    if (!_businessNewsViewController){
-        _businessNewsViewController = [HNBusinessViewController new];
-    }
-    return _businessNewsViewController;
-}
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {

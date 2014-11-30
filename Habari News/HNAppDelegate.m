@@ -7,27 +7,33 @@
 //
 
 #import "HNAppDelegate.h"
-#import "HNLatestNewsViewController.h"
 #import "HNLeftMenuViewController.h"
-#import "UIImage+ImageEffects.h"
+#import "HNGenericNewsViewController.h"
+#import "HNClient.h"
 
+typedef NS_OPTIONS(NSUInteger, SectionIdentifier) {
+    sectionTypePopular = 0
+};
 @implementation HNAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
     NSURLCache *cache = [[NSURLCache alloc] initWithMemoryCapacity:4*1024*1024
-                                                      diskCapacity:32*1024*1024
+                                                      diskCapacity:3*1024
                                                           diskPath:@"app_cache"];
     
     // Set the shared cache to our new  instance
     [NSURLCache setSharedURLCache:cache];
     
-    UINavigationController *newsContentView = [[UINavigationController alloc] initWithRootViewController:[HNLatestNewsViewController new]];
+    HNClient *client = [HNClient shareClient];
+    HNSection *popularSection = [HNSection sectionForID:@(sectionTypePopular)];
+    
+    HNGenericNewsViewController *latestViewController = [[HNGenericNewsViewController alloc] initWithItem:popularSection];
+    UINavigationController *newsContentView = [[UINavigationController alloc] initWithRootViewController:latestViewController];
     HNLeftMenuViewController *menuViewController = [HNLeftMenuViewController new];
     RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:newsContentView menuViewController:menuViewController];
-    UIImage *backgroundImage = [UIImage imageNamed:@"Stars"];
-    sideMenuViewController.backgroundImage = [backgroundImage applyLightEffect];
+    sideMenuViewController.backgroundImage = [client retrieveBackgroundImage];
     sideMenuViewController.delegate = self;
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -37,6 +43,7 @@
     [self.window makeKeyAndVisible];
     return YES;
 }
+
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

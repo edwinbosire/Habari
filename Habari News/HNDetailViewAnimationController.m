@@ -29,7 +29,7 @@
     [containerView addSubview:toViewController.view];
 //    [containerView insertSubview:toViewController.view belowSubview:fromViewController.view];
     
-    UICollectionView *toCollectionView = toViewController.collectionView;
+//    UICollectionView *toCollectionView = toViewController.collectionView;
     HNHeaderView *fromHeaderView = fromViewController.headerView;
 
     HNNewsCollectionViewCell *toCell = toViewController.selectedCell; //(HNNewsCollectionViewCell *)[toCollectionView cellForItemAtIndexPath:toViewController.selectedIndexPath];

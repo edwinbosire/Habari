@@ -61,7 +61,7 @@
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:article.largeImage];
     [request addValue:@"image/*" forHTTPHeaderField:@"Accept"];
-    
+    [request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
     
     typeof(UIImageView) __weak *weakIV = self.image;
     [self.image setImageWithURLRequest:request

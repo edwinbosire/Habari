@@ -11,14 +11,18 @@
 #import "HNClient.h"
 
 @class HNNewsCollectionViewCell;
+@class HNSection;
 @interface HNGenericNewsViewController : UIViewController
 
 @property (nonatomic, strong) NSMutableArray *latestNews;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, assign) HNNewsType newsType;
 @property (nonatomic, strong) NSString *viewControllerTitle;
-
+@property (nonatomic) UIColor *primaryColor;
+@property (nonatomic) UIColor *secondaryColor;
 @property (nonatomic) HNNewsCollectionViewCell *selectedCell;
+
+- (instancetype)initWithItem:(HNSection *)item;
 
 - (void)refresh:(id)sender;
 

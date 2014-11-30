@@ -7,89 +7,136 @@
 //
 
 #import "HNClient.h"
-#import "Article.h"
-#import "AFOAuth2Client.h"
+#import "HNSection.h"
+#import "HNArticle.h"
+#import "HNSection+Extension.h"
+#import "HNArticle+Extension.h"
+#import "UIImage+ImageEffects.h"
+#import "EBDataManager.h"
 
-
+#define kINITIAL_LOAD @"initialLoad"
 
 @implementation HNClient
 
++ (instancetype) shareClient {
+	static id shared = nil;
+	if (shared == nil) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            shared = [[self alloc] init];
+        });
+    }
+    return shared;
+}
 
 - (id)init {
-    return [super initWithBaseURL:[NSURL URLWithString:@"http://5.79.0.216/"]];
+    self = [super initWithBaseURL:[NSURL URLWithString:@"http://5.79.0.216/"]];
+    
+    if (self) {
+        
+        [self loadSectionsFromFile];
+    }
+    
+    return self;
 }
 
 
-- (void)retrieveLatestNewsWithType:(HNNewsType)type WithcompletionBlock:(void (^)(NSArray *results, NSError *error))block {
+- (void)retrieveLatestNewsWithSectionItem:(HNSection *)section completionBlock:(void (^)(NSArray *articles))block {
     NSParameterAssert(block);
+   
+    NSArray *news = [HNArticle getNewsForSection:section];
     
-//    NSString *path = [NSString stringWithFormat:@"/categories/%@.json?api=rxTXJZA9deBeoDsqq6DD&limit=10", [self enumToString:type]];
-    NSString *path = [NSString stringWithFormat:@"/popular%@", [self enumToString:type]];
-
-    OVCClient *client = [[OVCClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://5.79.0.216/"]];
-    OVCQuery *products = [OVCQuery queryWithMethod:OVCQueryMethodGet
-                                              path:(type == HNNewsLatest)? @"": path
-                                        parameters:nil
-                                        modelClass:[Article class]
-                                     objectKeyPath:nil];
-    
-    [client setDefaultHeader:@"Content-Type" value:@"application/json"];
-    [client executeQuery:products completionBlock:^(OVCRequestOperation *operation, NSArray *articles, NSError *error) {
-        if (!error) {
-            NSLog(@"success");
-            block(articles, nil);
-            [NSKeyedArchiver archiveRootObject:articles toFile:[self pathForNewsOfType:type]];
-        }
-    }];
-    
-}
-
-- (void)loadNewsFromCacheWithType:(HNNewsType)type completion:(void (^)(NSArray *results, NSError *error))completion{
-    NSParameterAssert(completion);
-
-    NSString *path = [self pathForNewsOfType:type];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
-        NSError *error = [NSError errorWithDomain:@"HabariNews" code:0001 userInfo:@{@"reason": @"file does not exist"}];
-        completion(nil, error);
+    if (!news || news.count < 1){
+        [self loadNewsFromSection:HNNewsLatest completion:block];
     }
-    NSArray *results = [NSKeyedUnarchiver unarchiveObjectWithFile:[self pathForNewsOfType:type]];
-    completion(results, nil);
-}
-
-- (NSString *)pathForNewsOfType:(HNNewsType)type{
     
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    return [NSString stringWithFormat:@"%@/x%@",[paths firstObject],[self enumToString:type]];
-}
-
-- (NSString *)enumToString:(HNNewsType)type{
-    
-    NSString *results = nil;
-    
-    switch(type){
-        case HNNewsBusiness:
-            results = @"/Business";
-            break;
-        case HNNewsLatest:
-            results = @"";
-            break;
-        case HNNewsSports:
-            results = @"/Sports";
-            break;
-        case HNNewsTech:
-            results = @"/Technology";
-            break;
-        default:
-            [NSException raise:NSGenericException format:@"Unexpected News Type."];
+    if (block) {
+        block(news);
     }
-    return results;
 }
 
-- (void)cacheNewArticles:(NSArray *)articles{
+// Load remote data
+- (void)loadNewsFromSection:(HNSection *)section completion:(void(^)(NSArray *articles))block {
     
-    //Find old cache & Delete it.
+    [self setDefaultHeader:@"Content-Type" value:@"application/json"];
     
-    //Save new cache
+    [self getPath:section.endpoint
+       parameters:nil
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              
+              NSError *error = nil;
+              NSArray *response = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments|NSJSONReadingMutableContainers error:&error];
+              
+              for (NSDictionary *article in response) {
+                  
+                  HNArticle *anArticle = [HNArticle articleWithObject:article];
+              }
+              [[EBDataManager shared] saveContext];
+          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              
+          }];
+    
+
+}
+
+#pragma mark - Image Tings
+
+- (UIImage *)saveBackgroundImage{
+    
+    UIImage *backgroundImage = [[UIImage imageNamed:@"Stars"] applyLightEffect];
+    NSData *pngData = UIImagePNGRepresentation(backgroundImage);
+    
+    [pngData writeToFile:[self documentPathWithName:@"blurredImage.png"] atomically:YES];
+    
+    return backgroundImage;
+}
+
+- (UIImage *)retrieveBackgroundImage{
+    
+    NSData *pngData = [NSData dataWithContentsOfFile:[self documentPathWithName:@"blurredImage.png"]];
+    UIImage *image =  [UIImage imageWithData:pngData];
+    if (!pngData) {
+        image = [self saveBackgroundImage];
+    }
+    return image;
+}
+
+- (NSString *)documentPathWithName:(NSString *)fileName {
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsPath = [paths objectAtIndex:0];
+    NSString *filePath = [documentsPath stringByAppendingPathComponent:fileName];
+    
+    return filePath;
+}
+
+- (void)loadSectionsFromFile{
+
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kINITIAL_LOAD]) {
+        return;
+    }
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"NewsSections" ofType:@"plist"];
+    NSArray *sections = [[NSArray alloc] initWithContentsOfFile:path];
+    
+    NSMutableArray *sectionItems = [NSMutableArray new];
+    
+    for (NSDictionary *dict in sections) {
+        
+        HNSection *sect = [HNSection create];
+        sect.sectionId = @([[dict[@"sectionId"] description] integerValue]);
+        sect.title = dict[@"title"];
+        sect.endpoint = dict[@"url"];
+        sect.primaryColor = dict[@"primaryColor"];
+        sect.secondaryColor = dict[@"secondaryColor"];
+        sect.enabled = dict[@"enabled"];
+        sect.show = dict[@"show"];
+        
+        [sectionItems addObject:sect];
+    }
+    
+    [[EBDataManager shared] saveContext];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kINITIAL_LOAD];
     
 }
+
 @end

@@ -14,6 +14,7 @@
     UIView *gradientOverlay;
     CGFloat ambientTimer;
     CGPoint oscillatingOffset;
+    BOOL stopOscillating;
 }
 
 @property (nonatomic) CGFloat timerDelta;
@@ -27,10 +28,11 @@
     [super awakeFromNib];
 //    [self addSubview:[self gradientOverlay]];
     self.backgroundColor = [UIColor cloudsColor];
-    self.refreshRate = 0.0001f;
+    self.refreshRate = 0.001f;
     oscillatingOffset = CGPointMake(20.0f, 20.0f);
     
-    self.headerImage.frame = [self boundsWithOscialltionMargins];
+//    self.headerImage.frame = CGRectInset(self.headerImage.frame, -20.0f, -20.0f);
+    self.backgroundColor = [UIColor whiteColor];
     [self bringSubviewToFront:self.textView];
 }
 
@@ -68,6 +70,8 @@
     
     self.textView.attributedText = mutableAttr;
     [self setNeedsDisplay];
+    
+    stopOscillating = NO;
 }
 
 - (void)setTextView:(UITextView *)textView{
@@ -85,31 +89,27 @@
     
 }
 
-
-- (UIView *)gradientOverlay{
-    
-		gradientOverlay = [[UIView alloc] initWithFrame:CGRectMake(-oscillatingOffset.x, CGRectGetHeight(self.bounds) - 60.0f, 320.0f + oscillatingOffset.x, 80.0f)];
-        CAGradientLayer *gradientLayer = [CAGradientLayer layer];
-		gradientLayer.frame = gradientOverlay.bounds;
-		gradientLayer.colors = [NSArray arrayWithObjects:(id)[[UIColor clearColor] CGColor],
-                                (id)[[[UIColor blackColor] colorWithAlphaComponent:0.3] CGColor],
-                                (id)[[[UIColor blackColor] colorWithAlphaComponent:0.9] CGColor],
-                                (id)[[[UIColor blackColor] colorWithAlphaComponent:1.0] CGColor],nil];
-		[gradientOverlay.layer insertSublayer:gradientLayer atIndex:0];
-	
-	return gradientOverlay;
-}
-
 #pragma mark - Oscillating image
 
-- (void)startOscillating{
+- (void)startOscillating {
     
-    [self oscillate];
+    ambientTimer += self.refreshRate;
+    
+    CGAffineTransform transform = CGAffineTransformMakeTranslation( sinf(ambientTimer*2.0) * oscillatingOffset.x ,sinf(ambientTimer*1.0) * oscillatingOffset.y);
+    self.headerImage.transform = transform;
+    
+    if (stopOscillating) {
+        return;
+    }
+    [self performSelector:@selector(startOscillating) withObject:nil afterDelay:self.refreshRate inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
+
+//    [self oscillate];
 }
 
 - (void)stopOscillating{
-    
+    stopOscillating = YES;
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(oscillate) object:nil];
+    
 }
 
 - (void)oscillate{
@@ -124,9 +124,9 @@
 
 - (void)offsetImageWithTimer:(CGFloat)timer{
     
+    ambientTimer += self.refreshRate;
     CGAffineTransform transform = CGAffineTransformMakeTranslation( sinf(timer*2.0) * oscillatingOffset.x ,sinf(timer*3.0) * oscillatingOffset.y);
     self.headerImage.transform = transform;
-    
 }
 
 - (CGRect)boundsWithOscialltionMargins {

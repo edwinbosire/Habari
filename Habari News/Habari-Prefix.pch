@@ -13,13 +13,11 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
-    #import "MTLJSONAdapter.h"
-    #import "MTLModel.h"
-    #import "MTLJSONAdapter.h"
-    #import "MTLValueTransformer.h"
-    #import "NSValueTransformer+MTLPredefinedTransformerAdditions.h"
-    #import "OVCClient.h"
-    #import "Overcoat.h"
     #import "UIImageView+AFNetworking.h"
     #import "UIColor+FlatUI.h"
+    #import "HNSection.h"
+    #import "HNSection+Extension.h"
+    #import "HNArticle+Extension.h"
+    #import "HNArticle.h"
+
 #endif

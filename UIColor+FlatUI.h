@@ -36,4 +36,6 @@
                               backgroundColor:(UIColor *)backgroundColor
                                  percentBlend:(CGFloat) percentBlend;
 
++ (UIColor*)changeBrightness:(UIColor*)color amount:(CGFloat)amount;
+
 @end

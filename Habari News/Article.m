@@ -166,7 +166,7 @@
 - (CGSize)cellSizeForTitle{
     
     CGSize textSize = [[self attributedStringForTitle] boundingRectWithSize:CGSizeMake(kScreenWidth, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading|NSStringDrawingUsesLineFragmentOrigin context:nil].size;
-    textSize.width = 310;
+    textSize.width = 300;
     return textSize;
 }
 

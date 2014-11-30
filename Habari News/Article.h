@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface Article : MTLModel <MTLJSONSerializing, NSCoding>
+@interface Article : NSObject <NSCoding>
 
 @property (nonatomic, strong) NSString * attribute;
 @property (nonatomic, strong) NSString * author;

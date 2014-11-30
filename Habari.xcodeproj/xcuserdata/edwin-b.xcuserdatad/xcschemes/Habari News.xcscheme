@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9638E1EC188879C200062B4C"
-               BuildableName = "Habari News.app"
+               BuildableName = "Habari.app"
                BlueprintName = "Habari"
                ReferencedContainer = "container:Habari.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9638E207188879C200062B4C"
-               BuildableName = "Habari NewsTests.xctest"
+               BuildableName = "HabariTests.xctest"
                BlueprintName = "HabariTests"
                ReferencedContainer = "container:Habari.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9638E1EC188879C200062B4C"
-            BuildableName = "Habari News.app"
+            BuildableName = "Habari.app"
             BlueprintName = "Habari"
             ReferencedContainer = "container:Habari.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9638E1EC188879C200062B4C"
-            BuildableName = "Habari News.app"
+            BuildableName = "Habari.app"
             BlueprintName = "Habari"
             ReferencedContainer = "container:Habari.xcodeproj">
          </BuildableReference>
@@ -71,6 +71,16 @@
          <AdditionalOption
             key = "NSZombieEnabled"
             value = "YES"
+            isEnabled = "YES">
+         </AdditionalOption>
+         <AdditionalOption
+            key = "OBJC_PRINT_EXCEPTIONS"
+            value = "YES"
+            isEnabled = "YES">
+         </AdditionalOption>
+         <AdditionalOption
+            key = "MallocGuardEdges"
+            value = ""
             isEnabled = "YES">
          </AdditionalOption>
       </AdditionalOptions>
@@ -85,7 +95,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9638E1EC188879C200062B4C"
-            BuildableName = "Habari News.app"
+            BuildableName = "Habari.app"
             BlueprintName = "Habari"
             ReferencedContainer = "container:Habari.xcodeproj">
          </BuildableReference>

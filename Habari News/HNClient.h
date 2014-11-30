@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OVCClient.h"
+#import "AFNetworking.h"
 
 typedef NS_OPTIONS(NSUInteger, HNNewsType){
     HNNewsLatest,
@@ -16,8 +16,15 @@ typedef NS_OPTIONS(NSUInteger, HNNewsType){
     HNNewsSports
 };
 
-@interface HNClient : OVCClient
+@class HNSection;
+@interface HNClient : AFHTTPClient
 
-- (void)retrieveLatestNewsWithType:(HNNewsType)type WithcompletionBlock:(void (^)(NSArray *results, NSError *error))block;
-- (void)loadNewsFromCacheWithType:(HNNewsType)type completion:(void (^)(NSArray *results, NSError *error))completion;
+@property (nonatomic) NSMutableArray *sectionItems;
+
++ (id)shareClient;
+
+- (void)retrieveLatestNewsWithSectionItem:(HNSection *)section completionBlock:(void (^)(NSArray *articles))block;
+
+- (UIImage *)retrieveBackgroundImage;
+
 @end

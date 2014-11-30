@@ -19,8 +19,8 @@
 @implementation HNClient
 
 + (instancetype) shareClient {
-	static id shared = nil;
-	if (shared == nil) {
+    static id shared = nil;
+    if (shared == nil) {
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             shared = [[self alloc] init];
@@ -42,12 +42,11 @@
 
 
 - (void)retrieveLatestNewsWithSectionItem:(HNSection *)section completionBlock:(void (^)(NSArray *articles))block {
-    NSParameterAssert(block);
-   
+    
     NSArray *news = [HNArticle getNewsForSection:section];
     
     if (!news || news.count < 1){
-        [self loadNewsFromSection:HNNewsLatest completion:block];
+        [self loadNewsFromSection:section completion:block];
     }
     
     if (block) {
@@ -67,16 +66,30 @@
               NSError *error = nil;
               NSArray *response = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments|NSJSONReadingMutableContainers error:&error];
               
+              NSMutableArray *results = [NSMutableArray new];
               for (NSDictionary *article in response) {
                   
                   HNArticle *anArticle = [HNArticle articleWithObject:article];
+                  [results addObject:anArticle];
               }
               [[EBDataManager shared] saveContext];
+              dispatch_async(dispatch_get_main_queue(), ^{
+                  
+                  [[NSNotificationCenter defaultCenter] postNotificationName:@"freshDataReceived" object:nil];
+              });
+              
+              if (block) {
+                  block(results);
+              }
           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
               
+              NSLog(@"Shits hit the fan, fetching feeds for %@ failed", section.title);
+              if (block) {
+                  block(nil);
+              }
           }];
     
-
+    
 }
 
 #pragma mark - Image Tings
@@ -111,7 +124,7 @@
 }
 
 - (void)loadSectionsFromFile{
-
+    
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kINITIAL_LOAD]) {
         return;
     }

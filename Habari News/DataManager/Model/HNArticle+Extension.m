@@ -22,15 +22,21 @@
 
 + (HNArticle *)articleWithObject:(NSDictionary *)obj{
     
-    HNArticle *anArticle = [HNArticle create];
+    NSString *newsID = [obj[@"id"] description];
+    HNArticle *anArticle = [HNArticle articleWithId:newsID];
     
+    if (!anArticle) {
+        
+        anArticle = [HNArticle create];
+    }
+    
+    anArticle.newsId = newsID;
     anArticle.author = [obj[@"author"] description];
     anArticle.caption = [obj[@"caption"] description];
     anArticle.category = [obj[@"category"] description];
     anArticle.excerpt = [obj[@"excerpt"] description];
     anArticle.content = [obj[@"content"] description];
-    anArticle.newsId = [obj[@"id"] description];
-    anArticle.datePublished = [obj[@"published"] description];
+    anArticle.datePublished = [self dateFromString:[obj[@"published"] description]];
     anArticle.source = [obj[@"source"] description];
     anArticle.summary = [obj[@"summary"] description];
     anArticle.title = [obj[@"title"] description];
@@ -38,14 +44,35 @@
     anArticle.largeImage = [obj[@"image_large"] description];
     anArticle.smallImage = [obj[@"image_small"] description];
     anArticle.thumbnail = [obj[@"image_thumb"] description];
-    anArticle.originalImageWidth = [obj[@"original_image_width"] description];
-    anArticle.originalImageHeight = [obj[@"original_image_heigh"] description];
+    anArticle.originalImageWidth = @([[obj[@"original_image_width"] description] integerValue]);
+    anArticle.originalImageHeight = @([[obj[@"original_image_heigh"] description] integerValue]);
+    
     return anArticle;
+}
+
+
++ (HNArticle *)articleWithId:(NSString *)identification {
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"newsId == %@", identification];
+    return  [[self executeRequestWithPredicate:predicate] firstObject];
+}
+
++(NSDate *)dateFromString:(NSString *)stringDate {
+    
+    static dispatch_once_t onceToken;
+    static NSDateFormatter *dateFormatter;
+    
+    dispatch_once(&onceToken, ^{
+        dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"yyyy-MM-dd";
+    });
+    
+    return [dateFormatter dateFromString:stringDate];
 }
 
 + (NSArray *)getNewsForSection:(HNSection *)section {
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"category == %@", section.endpoint];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"category == %@", [section.sectionId description]];
     NSArray *news = [HNArticle executeRequestWithPredicate:predicate];
     
     return news;

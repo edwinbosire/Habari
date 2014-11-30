@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class Article;
+@class HNArticle;
 
 @interface HNNewsCollectionViewCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *image;
@@ -17,6 +17,6 @@
 @property (weak, nonatomic) IBOutlet UIView *bottomContentView;
 
 //Data
-@property (strong, nonatomic) Article *article;
+@property (strong, nonatomic) HNArticle *article;
 
 @end

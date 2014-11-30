@@ -27,10 +27,13 @@
 + (NSArray *)fetchSectionsToBeShown {
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"enabled == YES"];
-    NSArray *sections = [HNSection executeRequestWithPredicate:predicate];
-
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"sectionId" ascending:YES];
+    NSArray *sections = [HNSection executeRequestWithPredicate:predicate andSortDescriptor:@[sortDescriptor] ];
+    
     return sections;
 }
+
+
 + (NSArray *)fetchAllSections{
     
     NSFetchRequest* request = [[NSFetchRequest alloc] init];
@@ -44,8 +47,7 @@
     return [managedObjectContext executeFetchRequest:request error:&error];
 }
 
-
-+ (NSArray *)executeRequestWithPredicate:(NSPredicate *)predicate {
++ (NSArray *)executeRequestWithPredicate:(NSPredicate *)predicate andSortDescriptor:(NSArray *)descriptors {
     
     NSFetchRequest* request = [[NSFetchRequest alloc] init];
     request.returnsObjectsAsFaults = NO;
@@ -55,8 +57,16 @@
                                                          inManagedObjectContext:managedObjectContext];
     [request setEntity:entityDescription];
     [request setPredicate:predicate];
-    
+    if (descriptors) {
+        [request setSortDescriptors:descriptors];
+    }
     NSError* error;
     return [managedObjectContext executeFetchRequest:request error:&error];
+}
+
+
++ (NSArray *)executeRequestWithPredicate:(NSPredicate *)predicate {
+    
+    return  [self executeRequestWithPredicate:predicate andSortDescriptor:nil];
 }
 @end

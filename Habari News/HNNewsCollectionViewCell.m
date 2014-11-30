@@ -14,7 +14,6 @@
 //Helper
 #import "RelativeDateDescriptor.h"
 #import "UIImage+BlurredFrame.h"
-
 @implementation HNNewsCollectionViewCell
 
 - (id)initWithFrame:(CGRect)frame
@@ -50,27 +49,29 @@
     self.timeStampLabel.text = nil;
 }
 
-- (void)setArticle:(Article *)article{
+- (void)setArticle:(HNArticle *)article{
     
     _article = article;
     self.title.text = article.title;
     
     RelativeDateDescriptor *descriptor = [[RelativeDateDescriptor alloc] initWithPriorDateDescriptionFormat:@"%@ ago" postDateDescriptionFormat:@"in %@"];
-    NSString *timestamp = [descriptor describeDate:_article.published relativeTo:[NSDate date]];
+    NSString *timestamp = [descriptor describeDate:_article.datePublished relativeTo:[NSDate date]];
     self.timeStampLabel.text = timestamp;
     
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:article.largeImage];
-    [request addValue:@"image/*" forHTTPHeaderField:@"Accept"];
-    [request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
     
     typeof(UIImageView) __weak *weakIV = self.image;
-    [self.image setImageWithURLRequest:request
-                      placeholderImage:nil
-                               success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                   weakIV.image =  image;//[image applyExtraLightEffectAtFrame:CGRectMake(0.0f, image.size.height - 80.0f , weakIV.image.size.width, 80.0f)];
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-        
-    }];
+    
+    [self.image sd_setImageWithURL:[NSURL URLWithString:article.largeImage]
+                  placeholderImage:[UIImage imageNamed:@"placeholder"]
+                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                             
+                             dispatch_async(dispatch_get_main_queue(), ^{
+                                 weakIV.image =  image;//[image applyExtraLightEffectAtFrame:CGRectMake(0.0f, image.size.height - 80.0f , weakIV.image.size.width, 80.0f)];
+
+                             });
+                             
+                         }];
+
 }
 
 - (void)setImage:(UIImageView *)image{

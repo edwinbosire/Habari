@@ -15,11 +15,11 @@
 #import "HNContentView.h"
 #import "HNWebButton.h"
 
-@class Article;
+@class HNArticle;
 @class HNHeaderView;
 @interface HNNewsDetailViewController : UIViewController
 
-@property (nonatomic, strong) Article *article;
+@property (nonatomic, strong) HNArticle *article;
 @property (nonatomic, strong) UIImage *placeholderImage;
 @property (nonatomic, strong) UIScrollView *scrollView;
 

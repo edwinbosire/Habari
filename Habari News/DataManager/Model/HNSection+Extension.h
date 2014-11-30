@@ -18,4 +18,5 @@
 
 + (NSArray *)fetchSectionsToBeShown;
 
++ (NSArray *)executeRequestWithPredicate:(NSPredicate *)predicate andSortDescriptor:(NSArray *)descriptors;
 @end

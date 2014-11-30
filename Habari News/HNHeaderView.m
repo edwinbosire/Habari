@@ -28,7 +28,7 @@
     [super awakeFromNib];
 //    [self addSubview:[self gradientOverlay]];
     self.backgroundColor = [UIColor cloudsColor];
-    self.refreshRate = 0.001f;
+    self.refreshRate = 0.0001f;
     oscillatingOffset = CGPointMake(20.0f, 20.0f);
     
 //    self.headerImage.frame = CGRectInset(self.headerImage.frame, -20.0f, -20.0f);
@@ -37,7 +37,7 @@
 }
 
 
-- (void)setArticle:(Article *)article{
+- (void)setArticle:(HNArticle *)article{
     
     if (_article == article) {
         return;
@@ -45,12 +45,13 @@
     
     _article = article;
     
-    [_headerImage setImageWithURL:_article.largeImage placeholderImage:self.placeholder];
+    [self.headerImage sd_setImageWithURL:[NSURL URLWithString:article.largeImage] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+    
     RelativeDateDescriptor *descriptor = [[RelativeDateDescriptor alloc] initWithPriorDateDescriptionFormat:@"%@ ago" postDateDescriptionFormat:@"in %@"];
     
-    NSString *timestamp = [descriptor describeDate:self.article.published relativeTo:[NSDate date]];
+    NSString *timestamp = [descriptor describeDate:self.article.datePublished relativeTo:[NSDate date]];
     NSString *publisher = nil;
-    if ([_article.url.host isEqualToString:@"www.nation.co.ke"]) {
+    if ([_article.uri isEqualToString:@"www.nation.co.ke"]) {
         publisher = @"Nation Media";
     }else{
         publisher = @"Standard";

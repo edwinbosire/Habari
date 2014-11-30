@@ -75,9 +75,7 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
     
     [self.view addSubview:self.collectionView];
     
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh:) name:@"freshDataReceived" object:nil];
      [self refresh:nil];
 }
 
@@ -101,23 +99,19 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
     
     NSArray * articles = [HNArticle getNewsForSection:self.sectionItem];
     
-    if (articles.count){
+    if (articles.count) {
         
-        self.latestNews = [NSMutableArray arrayWithArray:articles];
+        self.latestNews = [articles copy];
         [self.collectionView reloadData];
-        
-    }else {
+    }else{
         
         [[HNClient shareClient] retrieveLatestNewsWithSectionItem:self.sectionItem completionBlock:^(NSArray *articles) {
             
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                self.latestNews = [NSMutableArray arrayWithArray:articles];
-                [self.collectionView reloadData];
-            });
+            self.latestNews = [articles copy];
+            [self.collectionView reloadData];
         }];
     }
-    
+  
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -149,7 +143,7 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     HNNewsCollectionViewCell *cell = (HNNewsCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:reusableCellIdentifier forIndexPath:indexPath];
-    Article *anArticle = [_latestNews objectAtIndex:indexPath.row];
+    HNArticle *anArticle = [_latestNews objectAtIndex:indexPath.row];
     [cell setArticle:anArticle];
     
     return cell;
@@ -158,7 +152,7 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    Article *anArticle = [_latestNews objectAtIndex:indexPath.row];
+    HNArticle *anArticle = [_latestNews objectAtIndex:indexPath.row];
     
     HNNewsDetailViewController *detailView = [[HNNewsDetailViewController alloc] initWithNibName:nil bundle:nil];
     HNNewsCollectionViewCell *cell = (HNNewsCollectionViewCell *)[collectionView cellForItemAtIndexPath:[collectionView.indexPathsForSelectedItems firstObject]];

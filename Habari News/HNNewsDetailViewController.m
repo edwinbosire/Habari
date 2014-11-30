@@ -8,8 +8,6 @@
 
 #import "HNNewsDetailViewController.h"
 
-
-
 //Flowlayout
 #import "SPHGridViewFlowLayout.h"
 
@@ -71,8 +69,6 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-
-    
               [UIView animateKeyframesWithDuration:0.6f
                                              delay:0.3f
                                            options:UIViewKeyframeAnimationOptionCalculationModeCubic
@@ -132,7 +128,7 @@
 
 - (void)presentActionSheet:(id)sender{
     
-    UIActivityViewController *viewController = [[UIActivityViewController alloc] initWithActivityItems:@[self.article.url] applicationActivities:nil];
+    UIActivityViewController *viewController = [[UIActivityViewController alloc] initWithActivityItems:@[self.article.uri] applicationActivities:nil];
     [self presentViewController:viewController animated:YES completion:^{
         
     }];
@@ -155,12 +151,11 @@
 }
 
 
-- (void)setArticle:(Article *)article{
+- (void)setArticle:(HNArticle *)article{
     
     if (_article == article) {
         return;
     }
-    
     _article = article;
 }
 
@@ -204,8 +199,6 @@
     [self.scrollView addSubview:self.authorView];
     [self.scrollView addSubview:self.contentView];
     [self.scrollView addSubview:self.webButtonView];
-    
-
 }
 
 - (CGSize)contentHeight{
@@ -217,8 +210,9 @@
     return CGSizeMake(320.0f, (kHEADER_IMAGE_HEIGHT + titleSize.height + authorSize.height + contentSize.height + kBUTTON_HEIGHT + 20.0f));
 }
 
-- (void)presentBrowser:(id)sender{
-    self.browser = [[BrowserViewController alloc] initWithUrls:self.article.url];
+- (void)presentBrowser:(id)sender {
+    
+    self.browser = [[BrowserViewController alloc] initWithUrls:[NSURL URLWithString:self.article.uri]];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:self.browser];
     [self.navigationController presentViewController:nav animated:YES completion:NULL];
 }

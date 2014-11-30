@@ -138,7 +138,8 @@
 //            HNGenericNewsViewController *listViewController = [[HNGenericNewsViewController alloc] initWithItem:sectionItem];
 //            sectionItem.contentViewController = listViewController;
 //        }
-//        self.sideMenuViewController.contentViewController = [[UINavigationController alloc] initWithRootViewController:sectionItem.contentViewController];
+        HNGenericNewsViewController *newsListViewController = [[HNGenericNewsViewController alloc] initWithItem:sectionItem];
+        self.sideMenuViewController.contentViewController = [[UINavigationController alloc] initWithRootViewController:newsListViewController];
 
         [self.sideMenuViewController hideMenuViewController];
                

@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@class Article;
+@class HNArticle;
 
 @interface HNHeaderView : UIView
 
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (nonatomic, strong) IBOutlet UIImageView *headerImage;
-@property (nonatomic) Article *article;
+@property (nonatomic) HNArticle *article;
 @property (nonatomic) UIImage *placeholder;
 
 - (void)startOscillating;

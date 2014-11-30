@@ -13,7 +13,7 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
-    #import "UIImageView+AFNetworking.h"
+    #import "UIImageView+WebCache.h"
     #import "UIColor+FlatUI.h"
     #import "HNSection.h"
     #import "HNSection+Extension.h"

@@ -19,4 +19,9 @@
 //Data
 @property (strong, nonatomic) HNArticle *article;
 
+/*
+ Image will always animate according to the imageOffset provided. Higher the value means higher offset for the image
+ */
+@property (nonatomic, assign, readwrite) CGPoint imageOffset;
+
 @end

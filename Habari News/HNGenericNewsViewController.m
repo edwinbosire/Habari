@@ -19,6 +19,8 @@
 #import "HNArticle+Extension.h"
 
 NSUInteger const maxRetryCount = 3;
+CGFloat const IMAGE_HEIGHT = 250.0f;
+CGFloat const IMAGE_OFFSET_SPEED = 1.15f;
 
 @interface HNGenericNewsViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UINavigationControllerDelegate>
 
@@ -194,6 +196,13 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
 
 }
 
+#pragma mark - UIScrollViewdelegate methods
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    for(HNNewsCollectionViewCell *view in self.collectionView.visibleCells) {
+        CGFloat yOffset = ((self.collectionView.contentOffset.y - view.frame.origin.y) / IMAGE_HEIGHT) * IMAGE_OFFSET_SPEED;
+        view.imageOffset = CGPointMake(0.0f, yOffset);
+    }
+}
 #pragma mark - Properties
 
 - (void)setPrimaryColor:(UIColor *)primaryColor{

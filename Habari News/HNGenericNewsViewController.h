@@ -12,6 +12,10 @@
 
 @class HNNewsCollectionViewCell;
 @class HNSection;
+
+#define IMAGE_HEIGHT  300.0f
+#define IMAGE_OFFSET_SPEED  15.0f
+
 @interface HNGenericNewsViewController : UIViewController
 
 @property (nonatomic, strong) NSMutableArray *latestNews;

@@ -19,8 +19,6 @@
 #import "HNArticle+Extension.h"
 
 NSUInteger const maxRetryCount = 3;
-CGFloat const IMAGE_HEIGHT = 300.0f;
-CGFloat const IMAGE_OFFSET_SPEED = 15.0f;
 
 @interface HNGenericNewsViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UINavigationControllerDelegate>
 

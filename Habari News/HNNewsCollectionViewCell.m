@@ -76,6 +76,14 @@
 
 - (void)setImage:(UIImageView *)image{
     _image = image;
+    // Update padding
+    
+    // Grow image view
+    CGRect frame = self.image.bounds;
+    CGRect newFrame = CGRectMake(CGRectGetMinX(frame)+IMAGE_OFFSET_SPEED/2, CGRectGetMinY(frame), CGRectGetWidth(frame)+IMAGE_OFFSET_SPEED, (CGRectGetHeight(frame) + IMAGE_OFFSET_SPEED));
+    self.image.frame = newFrame;
+    
+    [self setImageOffset:self.imageOffset];
 }
 
 - (void)setImageOffset:(CGPoint)imageOffset{

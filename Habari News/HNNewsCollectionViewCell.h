@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#define IMAGE_HEIGHT  300.0f
+#define IMAGE_OFFSET_SPEED  15.0f
+
+
 @class HNArticle;
 
 @interface HNNewsCollectionViewCell : UICollectionViewCell

@@ -36,7 +36,7 @@
     self.layer.shadowOpacity = 0.5f;
     self.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.layer.bounds] CGPath];
     self.layer.masksToBounds = NO;
-
+    
     self.title.textColor = [UIColor cloudsColor];
     self.timeStampLabel.textColor = [UIColor cloudsColor];
 }
@@ -61,17 +61,18 @@
     
     typeof(UIImageView) __weak *weakIV = self.image;
     
+    [self.loadingSpinner startAnimating];
     [self.image sd_setImageWithURL:[NSURL URLWithString:article.largeImage]
                   placeholderImage:[UIImage imageNamed:@"placeholder"]
                          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                              
                              dispatch_async(dispatch_get_main_queue(), ^{
                                  weakIV.image =  image;//[image applyExtraLightEffectAtFrame:CGRectMake(0.0f, image.size.height - 80.0f , weakIV.image.size.width, 80.0f)];
-
+                                 [self.loadingSpinner stopAnimating];
                              });
                              
                          }];
-
+    
 }
 
 - (void)setImage:(UIImageView *)image{

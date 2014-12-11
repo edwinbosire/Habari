@@ -18,10 +18,13 @@
 #import "HNArticle.h"
 #import "HNArticle+Extension.h"
 
+NSUInteger const maxRetryCount = 3;
+
 @interface HNGenericNewsViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UINavigationControllerDelegate>
 
 @property (nonatomic) UIActivityIndicatorView *indicator;
 @property (nonatomic) HNSection *sectionItem;
+@property (nonatomic) NSUInteger retryCount;
 
 @end
 
@@ -75,7 +78,7 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
     
     [self.view addSubview:self.collectionView];
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh:) name:@"freshDataReceived" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh:) name:@"freshDataReceived" object:nil];
      [self refresh:nil];
 }
 
@@ -105,11 +108,15 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
         [self.collectionView reloadData];
     }else{
         
-        [[HNClient shareClient] retrieveLatestNewsWithSectionItem:self.sectionItem completionBlock:^(NSArray *articles) {
+        if (self.retryCount < maxRetryCount) {
             
-            self.latestNews = [articles copy];
-            [self.collectionView reloadData];
-        }];
+            [[HNClient shareClient] retrieveLatestNewsWithSectionItem:self.sectionItem completionBlock:^(NSArray *articles) {
+                
+                self.retryCount ++;
+                // There is a notification fired in the body of this block that calls refresh: so no action is recquired
+            }];
+        }
+      
     }
   
 }

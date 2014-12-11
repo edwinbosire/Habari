@@ -108,8 +108,6 @@
 		969BE98519D0A3B600404066 /* EBDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 969BE98419D0A3B600404066 /* EBDataManager.m */; };
 		969BE98919D0A40A00404066 /* HabariModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 969BE98719D0A40A00404066 /* HabariModel.xcdatamodeld */; };
 		969BE98B19D0A43400404066 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 969BE98A19D0A43400404066 /* CoreData.framework */; };
-		969BE98E19D0B48000404066 /* HNArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 969BE98D19D0B48000404066 /* HNArticle.m */; };
-		969BE99419D0B4C600404066 /* HNSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 969BE99319D0B4C600404066 /* HNSection.m */; };
 		969BE99819D0B5CF00404066 /* HNArticle+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 969BE99719D0B5CF00404066 /* HNArticle+Extension.m */; };
 		969BE99B19D0B64D00404066 /* HNSection+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 969BE99A19D0B64D00404066 /* HNSection+Extension.m */; };
 		96A027191997F8F200B87516 /* WhatsOnTableCellGradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96A027181997F8F200B87516 /* WhatsOnTableCellGradient@2x.png */; };
@@ -158,6 +156,8 @@
 		96DE1D2F19A10645006647BC /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 96DE1D1019A10645006647BC /* iTunesArtwork */; };
 		96DE1D3019A10645006647BC /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = 96DE1D1119A10645006647BC /* iTunesArtwork@2x */; };
 		96DE1D3119A10645006647BC /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = 96DE1D1119A10645006647BC /* iTunesArtwork@2x */; };
+		96EEB5701A3A35FC00F3592E /* HNArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EEB56F1A3A35FC00F3592E /* HNArticle.m */; };
+		96EEB5731A3A35FD00F3592E /* HNSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EEB5721A3A35FD00F3592E /* HNSection.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -342,10 +342,6 @@
 		969BE98419D0A3B600404066 /* EBDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EBDataManager.m; path = DataManager/EBDataManager.m; sourceTree = "<group>"; };
 		969BE98819D0A40A00404066 /* HabariModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HabariModel.xcdatamodel; sourceTree = "<group>"; };
 		969BE98A19D0A43400404066 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		969BE98C19D0B48000404066 /* HNArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HNArticle.h; path = DataManager/Model/HNArticle.h; sourceTree = "<group>"; };
-		969BE98D19D0B48000404066 /* HNArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HNArticle.m; path = DataManager/Model/HNArticle.m; sourceTree = "<group>"; };
-		969BE99219D0B4C600404066 /* HNSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HNSection.h; path = DataManager/Model/HNSection.h; sourceTree = "<group>"; };
-		969BE99319D0B4C600404066 /* HNSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HNSection.m; path = DataManager/Model/HNSection.m; sourceTree = "<group>"; };
 		969BE99619D0B5CF00404066 /* HNArticle+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HNArticle+Extension.h"; path = "DataManager/Model/HNArticle+Extension.h"; sourceTree = "<group>"; };
 		969BE99719D0B5CF00404066 /* HNArticle+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "HNArticle+Extension.m"; path = "DataManager/Model/HNArticle+Extension.m"; sourceTree = "<group>"; };
 		969BE99919D0B64D00404066 /* HNSection+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HNSection+Extension.h"; path = "DataManager/Model/HNSection+Extension.h"; sourceTree = "<group>"; };
@@ -384,6 +380,10 @@
 		96DE1D0F19A10645006647BC /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		96DE1D1019A10645006647BC /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		96DE1D1119A10645006647BC /* iTunesArtwork@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
+		96EEB56E1A3A35FC00F3592E /* HNArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HNArticle.h; path = DataManager/Model/HNArticle.h; sourceTree = "<group>"; };
+		96EEB56F1A3A35FC00F3592E /* HNArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HNArticle.m; path = DataManager/Model/HNArticle.m; sourceTree = "<group>"; };
+		96EEB5711A3A35FD00F3592E /* HNSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HNSection.h; path = DataManager/Model/HNSection.h; sourceTree = "<group>"; };
+		96EEB5721A3A35FD00F3592E /* HNSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HNSection.m; path = DataManager/Model/HNSection.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -695,10 +695,10 @@
 		9638E48618889C3E00062B4C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				969BE99219D0B4C600404066 /* HNSection.h */,
-				969BE99319D0B4C600404066 /* HNSection.m */,
-				969BE98C19D0B48000404066 /* HNArticle.h */,
-				969BE98D19D0B48000404066 /* HNArticle.m */,
+				96EEB5711A3A35FD00F3592E /* HNSection.h */,
+				96EEB5721A3A35FD00F3592E /* HNSection.m */,
+				96EEB56E1A3A35FC00F3592E /* HNArticle.h */,
+				96EEB56F1A3A35FC00F3592E /* HNArticle.m */,
 				969BE99619D0B5CF00404066 /* HNArticle+Extension.h */,
 				969BE99719D0B5CF00404066 /* HNArticle+Extension.m */,
 				969BE99919D0B64D00404066 /* HNSection+Extension.h */,
@@ -1072,11 +1072,12 @@
 				9658546F1A2AAA4800D8B108 /* UIImage+GIF.m in Sources */,
 				9626A62719A55296000424FA /* HNSettingsSectionSelectorCell.m in Sources */,
 				968C2BC9188B01AF0052C395 /* AFJSONRequestOperation.m in Sources */,
+				96EEB5701A3A35FC00F3592E /* HNArticle.m in Sources */,
 				965854721A2AAA4800D8B108 /* UIImageView+HighlightedWebCache.m in Sources */,
 				96879B4E188B467E00BB707A /* BrowserViewController.m in Sources */,
 				968C2BCD188B01AF0052C395 /* AFXMLRequestOperation.m in Sources */,
 				9603A89818983FC2007B03E2 /* MRIconView.m in Sources */,
-				969BE98E19D0B48000404066 /* HNArticle.m in Sources */,
+				96EEB5731A3A35FD00F3592E /* HNSection.m in Sources */,
 				96439E3018E86348000BC672 /* HNWebButton.m in Sources */,
 				967D67CC18C6A8CE005F84D2 /* UIFont+Additions.m in Sources */,
 				965854651A2AAA4800D8B108 /* MKAnnotationView+WebCache.m in Sources */,
@@ -1122,7 +1123,6 @@
 				968C2AD0188AD2DA0052C395 /* RelativeDateDescriptor.m in Sources */,
 				967D67CD18C6A8CE005F84D2 /* UIImage+BlurredFrame.m in Sources */,
 				967D67CF18C6A8CE005F84D2 /* UIImage+Utilities.m in Sources */,
-				969BE99419D0B4C600404066 /* HNSection.m in Sources */,
 				9603A89718983FC2007B03E2 /* MRCircularProgressView.m in Sources */,
 				968C2BC7188B01AF0052C395 /* AFHTTPRequestOperation.m in Sources */,
 				965854681A2AAA4800D8B108 /* SDWebImageCompat.m in Sources */,

@@ -99,18 +99,15 @@
     
 }
 
-- (void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     
+    self.scrollView.delegate = nil;
     [self.headerView stopOscillating];
-    
-    self.headerView = nil;
 }
 
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
-    
-    [self.headerView stopOscillating];
     
     self.headerView = nil;
     self.contentView = nil;
@@ -119,9 +116,7 @@
 }
 
 - (void)closeView{
-    
-    
-   
+
     [self.navigationController popViewControllerAnimated:YES];
 
 }

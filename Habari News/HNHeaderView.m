@@ -12,13 +12,8 @@
 
 @interface HNHeaderView ()<UITextViewDelegate>{
     UIView *gradientOverlay;
-    CGFloat ambientTimer;
-    CGPoint oscillatingOffset;
-    BOOL stopOscillating;
 }
 
-@property (nonatomic) CGFloat timerDelta;
-@property (nonatomic) CGFloat refreshRate;
 
 @end
 
@@ -26,12 +21,8 @@
 
 - (void)awakeFromNib{
     [super awakeFromNib];
-//    [self addSubview:[self gradientOverlay]];
+
     self.backgroundColor = [UIColor cloudsColor];
-    self.refreshRate = 0.0001f;
-    oscillatingOffset = CGPointMake(20.0f, 20.0f);
-    
-//    self.headerImage.frame = CGRectInset(self.headerImage.frame, -20.0f, -20.0f);
     self.backgroundColor = [UIColor whiteColor];
     [self bringSubviewToFront:self.textView];
 }
@@ -72,66 +63,75 @@
     self.textView.attributedText = mutableAttr;
     [self setNeedsDisplay];
     
-    stopOscillating = NO;
-}
-
-- (void)setTextView:(UITextView *)textView{
-    _textView = textView;
-    
 }
 
 - (void)setHeaderImage:(UIImageView *)headerImage{
     _headerImage = headerImage;
     
-    [self startOscillating];
-}
-
-- (void)textViewDidChange:(UITextView *)textView{
-    
+    [self animateImage];
 }
 
 #pragma mark - Oscillating image
-
 - (void)startOscillating {
     
-    ambientTimer += self.refreshRate;
-    
-    CGAffineTransform transform = CGAffineTransformMakeTranslation( sinf(ambientTimer*2.0) * oscillatingOffset.x ,sinf(ambientTimer*1.0) * oscillatingOffset.y);
-    self.headerImage.transform = transform;
-    
-    if (stopOscillating) {
-        return;
+    if (self.headerImage.image) {
+         [self animateImage];
     }
-    [self performSelector:@selector(startOscillating) withObject:nil afterDelay:self.refreshRate inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
-
-//    [self oscillate];
 }
 
-- (void)stopOscillating{
-    stopOscillating = YES;
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(oscillate) object:nil];
+- (void)stopOscillating {
     
+    self.headerImage.transform  = CGAffineTransformIdentity;
 }
 
-- (void)oscillate{
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(oscillate) object:nil];
+- (void)animateImage{
     
-    ambientTimer += self.refreshRate;
-    [self offsetImageWithTimer:ambientTimer];
+    NSInteger randInt = arc4random()%3;
     
-    [self performSelector:@selector(oscillate) withObject:nil afterDelay:self.refreshRate inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
-
-}
-
-- (void)offsetImageWithTimer:(CGFloat)timer{
+    NSInteger translationX = 0;
+    NSInteger translationY = 0;
+    NSInteger scaleX = 0;
+    NSInteger scaleY = 0;
     
-    ambientTimer += self.refreshRate;
-    CGAffineTransform transform = CGAffineTransformMakeTranslation( sinf(timer*2.0) * oscillatingOffset.x ,sinf(timer*3.0) * oscillatingOffset.y);
-    self.headerImage.transform = transform;
-}
-
-- (CGRect)boundsWithOscialltionMargins {
-    return CGRectMake(-oscillatingOffset.x, -oscillatingOffset.y,
-                      self.headerImage.bounds.size.width+oscillatingOffset.x*2.0f, self.headerImage.bounds.size.height+oscillatingOffset.y*2.0f);
+    switch (randInt) {
+        case 0:
+            translationX = 90;
+            translationY = -100;
+            scaleX = 2.5;
+            scaleY = 2.5;
+            break;
+            
+        case 1:
+            translationX = 20;
+            translationY = -70;
+            scaleX = 2.7;
+            scaleY = 2.7;
+            break;
+            
+        case 2:
+            translationX = 40;
+            translationY = -50;
+            scaleX = 2.0;
+            scaleY = 2.0;
+            break;
+            
+        default:
+            break;
+    }
+    
+    // re-animate image background
+    [UIView animateWithDuration:50.0f
+                          delay:0.0f
+                        options:
+     UIViewAnimationOptionCurveLinear |
+     UIViewAnimationOptionAutoreverse |
+     UIViewAnimationOptionRepeat
+                     animations:^{
+                         [UIView setAnimationRepeatCount:10];
+                         CGAffineTransform moveRight = CGAffineTransformMakeTranslation(translationX, translationY);
+                         CGAffineTransform zoomIn = CGAffineTransformMakeScale(scaleX, scaleY);
+                         CGAffineTransform transform = CGAffineTransformConcat(zoomIn, moveRight);
+                         self.headerImage.transform = transform;
+                     } completion:nil];
 }
 @end

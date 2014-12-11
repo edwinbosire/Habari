@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6252" systemVersion="14A389" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="HNArticle" representedClassName="HNArticle" syncable="YES">
         <attribute name="author" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="caption" optional="YES" attributeType="String" syncable="YES"/>
@@ -17,6 +17,7 @@
         <attribute name="thumbnail" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uri" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="sections" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="HNSection" inverseName="articles" inverseEntity="HNSection" syncable="YES"/>
     </entity>
     <entity name="HNSection" representedClassName="HNSection" syncable="YES">
         <attribute name="enabled" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -27,9 +28,10 @@
         <attribute name="sectionId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="show" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="articles" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="HNArticle" inverseName="sections" inverseEntity="HNArticle" syncable="YES"/>
     </entity>
     <elements>
-        <element name="HNArticle" positionX="-63" positionY="-18" width="128" height="283"/>
-        <element name="HNSection" positionX="-54" positionY="108" width="128" height="163"/>
+        <element name="HNArticle" positionX="-63" positionY="-18" width="128" height="298"/>
+        <element name="HNSection" positionX="-389" positionY="53" width="128" height="178"/>
     </elements>
 </model>

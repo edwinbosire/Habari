@@ -70,6 +70,7 @@
               for (NSDictionary *article in response) {
                   
                   HNArticle *anArticle = [HNArticle articleWithObject:article];
+                  [anArticle addSectionsObject:section];
                   [results addObject:anArticle];
               }
               [[EBDataManager shared] saveContext];

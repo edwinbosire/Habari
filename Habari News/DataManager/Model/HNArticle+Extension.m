@@ -72,7 +72,7 @@
 
 + (NSArray *)getNewsForSection:(HNSection *)section {
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"category == %@", [section.sectionId description]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"ANY sections == %@", section];
     NSArray *news = [HNArticle executeRequestWithPredicate:predicate];
     
     return news;
@@ -83,7 +83,6 @@
     
     NSFetchRequest* request = [[NSFetchRequest alloc] init];
     request.returnsObjectsAsFaults = NO;
-    
     NSManagedObjectContext* managedObjectContext = [EBDataManager shared].managedObjectContext;
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass([HNArticle class])
                                                          inManagedObjectContext:managedObjectContext];
@@ -225,4 +224,16 @@
     return cleanContent;
 }
 
+
+#pragma mark - Apple bug fix
+/*
+ This is a fix for Apple's own bug that they wont rectify
+ */
+
+- (void)addSectionsObject:(HNSection *)value {
+    
+    NSMutableOrderedSet *sections = [NSMutableOrderedSet orderedSetWithOrderedSet:self.sections];
+    [sections addObject:value];
+    self.sections = sections;
+}
 @end

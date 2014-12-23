@@ -2,7 +2,7 @@
 //  HNArticle.m
 //  Habari
 //
-//  Created by edwin bosire on 11/12/2014.
+//  Created by edwin bosire on 23/12/2014.
 //  Copyright (c) 2014 Edwin Bosire. All rights reserved.
 //
 
@@ -28,6 +28,7 @@
 @dynamic thumbnail;
 @dynamic title;
 @dynamic uri;
+@dynamic dateStamp;
 @dynamic sections;
 
 @end

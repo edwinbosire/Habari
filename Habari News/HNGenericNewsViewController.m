@@ -17,12 +17,12 @@
 #import "HNSection.h"
 #import "HNArticle.h"
 #import "HNArticle+Extension.h"
+#import "MRProgress.h"
 
 NSUInteger const maxRetryCount = 3;
 
 @interface HNGenericNewsViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UINavigationControllerDelegate>
 
-@property (nonatomic) UIActivityIndicatorView *indicator;
 @property (nonatomic) HNSection *sectionItem;
 @property (nonatomic) NSUInteger retryCount;
 
@@ -77,28 +77,25 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
     self.collectionView.backgroundColor = [UIColor cloudsColor];
     
     [self.view addSubview:self.collectionView];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh:) name:@"freshDataReceived" object:nil];
      [self refresh:nil];
 }
 
 - (void)showIndicator:(BOOL)show{
     
-    if (!_indicator) {
-         _indicator = [[UIActivityIndicatorView alloc ] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        _indicator.frame = CGRectMake(CGRectGetMidX(self.view.frame), CGRectGetMidY(self.view.frame), 50.0f, 50.0f);
-        [_indicator startAnimating];
+    if (show) {
+       MRProgressOverlayView *overlay = [MRProgressOverlayView showOverlayAddedTo:self.view animated:YES];
+        overlay.tintColor = [UIColor colorFromHexCode:self.sectionItem.secondaryColor];
+    }else{
         
-        UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMidX(self.view.frame), CGRectGetMidY(self.view.frame) - 70.0f, 300.0f, 50.0f)];
-        loadingLabel.backgroundColor = [UIColor clearColor];
-        loadingLabel.text = @"Loading News";
-        
-        [self.view addSubview:_indicator];
-        [self.view addSubview:loadingLabel];
+        [MRProgressOverlayView dismissAllOverlaysForView:self.view animated:YES];
     }
 }
 
 - (void)refresh:(id)sender{
+    
+    [self showIndicator:YES];
     
     NSArray * articles = [HNArticle getNewsForSection:self.sectionItem];
     
@@ -106,6 +103,7 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
         
         self.latestNews = [articles copy];
         [self.collectionView reloadData];
+        [self showIndicator:NO];
     }else{
         
         if (self.retryCount < maxRetryCount) {
@@ -113,7 +111,7 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
             [[HNClient shareClient] retrieveLatestNewsWithSectionItem:self.sectionItem completionBlock:^(NSArray *articles) {
                 
                 self.retryCount ++;
-                // There is a notification fired in the body of this block that calls refresh: so no action is recquired
+                // There is a notification fired in the body of this block that calls refresh: so no action is required
             }];
         }
       

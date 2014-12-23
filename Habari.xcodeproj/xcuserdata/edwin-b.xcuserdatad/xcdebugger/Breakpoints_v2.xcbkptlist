@@ -9,22 +9,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Habari News/HNClient.m"
-            timestampString = "426545816.687944"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
-            landmarkName = "-init"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Habari News/ZoomInteractiveTransition.m"
             timestampString = "427157418.592346"
             startingColumnNumber = "9223372036854775807"
@@ -59,8 +43,8 @@
             timestampString = "440041484.638802"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "194"
-            endingLineNumber = "194"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
             landmarkName = "-setupScrollView"
             landmarkType = "5">
          </BreakpointContent>
@@ -68,16 +52,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Habari News/HNNewsDetailViewController.m"
-            timestampString = "440041484.638802"
+            filePath = "Habari News/DataManager/Model/HNArticle+Extension.m"
+            timestampString = "441046275.913032"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
-            landmarkName = "-setupScrollView"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
+            landmarkName = "-dateStamp"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

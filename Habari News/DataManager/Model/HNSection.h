@@ -2,7 +2,7 @@
 //  HNSection.h
 //  Habari
 //
-//  Created by edwin bosire on 11/12/2014.
+//  Created by edwin bosire on 23/12/2014.
 //  Copyright (c) 2014 Edwin Bosire. All rights reserved.
 //
 
@@ -21,6 +21,7 @@
 @property (nonatomic, retain) NSNumber * sectionId;
 @property (nonatomic, retain) NSNumber * show;
 @property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSDate * lastUpdate;
 @property (nonatomic, retain) NSOrderedSet *articles;
 @end
 

@@ -43,14 +43,19 @@
 
 - (void)retrieveLatestNewsWithSectionItem:(HNSection *)section completionBlock:(void (^)(NSArray *articles))block {
     
-    NSArray *news = [HNArticle getNewsForSection:section];
+    /**
+     *  If last update was less than 4hours ago, retrieve stored data, else try and fetch new data
+     */
     
-    if (!news || news.count < 1){
-        [self loadNewsFromSection:section completion:block];
-    }
-    
-    if (block) {
-        block(news);
+    NSTimeInterval secsSince = [[NSDate date] timeIntervalSinceDate:section.lastUpdate];
+    if (secsSince > 21600 || isnan(secsSince)) { //4 * 60 * 60 4 hours
+         [self loadNewsFromSection:section completion:block];
+    }else{
+        
+        NSArray *news = [HNArticle getNewsForSection:section];
+        if (block) {
+            block(news);
+        }
     }
 }
 
@@ -77,10 +82,12 @@
               dispatch_async(dispatch_get_main_queue(), ^{
                   
                   [[NSNotificationCenter defaultCenter] postNotificationName:@"freshDataReceived" object:nil];
+                  section.lastUpdate = [NSDate date];
               });
               
+              NSArray *news = [HNArticle getNewsForSection:section];
               if (block) {
-                  block(results);
+                  block(news);
               }
           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
               

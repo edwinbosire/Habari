@@ -9,7 +9,7 @@
 #import "HNArticle+Extension.h"
 #import "EBDataManager.h"
 #import "HNSection.h"
-
+#import "RelativeDateDescriptor.h"
 #define kScreenWidth  300.0f
 
 
@@ -86,8 +86,11 @@
     request.returnsObjectsAsFaults = NO;
     NSManagedObjectContext* managedObjectContext = [EBDataManager shared].managedObjectContext;
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass([HNArticle class]) inManagedObjectContext:managedObjectContext];
-    NSSortDescriptor *dateSort = [NSSortDescriptor sortDescriptorWithKey:@"datePublished" ascending:YES];
-    [request setSortDescriptors:@[dateSort]];
+
+    //Using two sort descriptors to ensure that order is maintained between requests
+    NSSortDescriptor *newsIdSort = [NSSortDescriptor sortDescriptorWithKey:@"newsId" ascending:NO];
+    NSSortDescriptor *dateSort = [NSSortDescriptor sortDescriptorWithKey:@"datePublished" ascending:NO];
+    [request setSortDescriptors:@[dateSort, newsIdSort]];
     [request setEntity:entityDescription];
     [request setPredicate:predicate];
     
@@ -232,7 +235,7 @@
 
 - (NSString *)formattedContent {
     
-    NSString *style = @"<style> body {font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light'; font-size: 18px; style='background-color: transparent;' color: '34495E'; text-indent: 10px; letter-spacing: 50%; line-height: 100%;} p{letter-spacing: 1.2px} </style>";
+    NSString *style = @"<style> body {font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light'; font-size: 18px; background-color: transparent; color: #777; text-indent: 10px;} </style>";
     
     NSString *content = [self.content stringByReplacingOccurrencesOfString:@"\n" withString:@"<p>"];
     NSString *formattedString = [NSString stringWithFormat:@"<html><head> %@ </head><body> %@ </html>", style, content];
@@ -249,5 +252,14 @@
     NSMutableOrderedSet *sections = [NSMutableOrderedSet orderedSetWithOrderedSet:self.sections];
     [sections addObject:value];
     self.sections = sections;
+}
+
+
+- (NSString *)dateStamp {
+
+    return [NSDateFormatter localizedStringFromDate:self.datePublished
+                                          dateStyle:NSDateFormatterShortStyle
+                                          timeStyle:NSDateFormatterNoStyle];
+    
 }
 @end

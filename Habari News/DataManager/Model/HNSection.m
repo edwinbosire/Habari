@@ -2,7 +2,7 @@
 //  HNSection.m
 //  Habari
 //
-//  Created by edwin bosire on 11/12/2014.
+//  Created by edwin bosire on 23/12/2014.
 //  Copyright (c) 2014 Edwin Bosire. All rights reserved.
 //
 
@@ -20,6 +20,7 @@
 @dynamic sectionId;
 @dynamic show;
 @dynamic title;
+@dynamic lastUpdate;
 @dynamic articles;
 
 @end

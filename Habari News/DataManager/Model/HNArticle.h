@@ -2,7 +2,7 @@
 //  HNArticle.h
 //  Habari
 //
-//  Created by edwin bosire on 11/12/2014.
+//  Created by edwin bosire on 23/12/2014.
 //  Copyright (c) 2014 Edwin Bosire. All rights reserved.
 //
 
@@ -29,6 +29,7 @@
 @property (nonatomic, retain) NSString * thumbnail;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * uri;
+@property (nonatomic, retain) NSNumber * dateStamp;
 @property (nonatomic, retain) NSOrderedSet *sections;
 @end
 

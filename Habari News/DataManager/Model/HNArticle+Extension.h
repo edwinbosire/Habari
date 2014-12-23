@@ -11,6 +11,7 @@
 @class HNSection;
 @interface HNArticle (Extension)
 
+
 + (HNArticle *)create;
 
 + (HNArticle *)articleWithObject:(NSDictionary *)obj;

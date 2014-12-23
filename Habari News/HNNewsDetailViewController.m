@@ -180,7 +180,7 @@
     
     CGSize titleSize =  [self.article cellSizeForTitle];
     CGSize authorSize =  [self.article cellSizeForAuthor];
-    CGSize contentSize =  self.contentView.webview.scrollView.contentSize;//[self.article cellSizeForContent];
+    CGSize contentSize =  CGSizeMake(300.0f, 200.0f);//self.contentView.webview.scrollView.contentSize;//[self.article cellSizeForContent];
     
     self.headerView.frame = CGRectMake(0.0f, 0.0f, 320.0f, kHEADER_IMAGE_HEIGHT);
     self.titleView.frame = CGRectMake(10.0f, kHEADER_IMAGE_HEIGHT - 20 + kANIMATION_OFFSET, kSTANDARD_WIDTH, titleSize.height+10.0f);
@@ -293,6 +293,6 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     
-    [self position];
+    [self performSelector:@selector(position) withObject:nil afterDelay:1.0f]; // allow for presentation before re-adjusting size
 }
 @end

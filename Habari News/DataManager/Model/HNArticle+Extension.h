@@ -27,4 +27,6 @@
 - (NSAttributedString *)attributedStringForContent;
 
 - (NSAttributedString *)attributedStringForCaption;
+
+- (NSString *)formattedContent;
 @end

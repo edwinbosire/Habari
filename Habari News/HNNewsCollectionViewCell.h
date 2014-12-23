@@ -8,9 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-#define IMAGE_HEIGHT  300.0f
-#define IMAGE_OFFSET_SPEED  15.0f
-
+#define IMAGE_HEIGHT 300
+#define IMAGE_OFFSET_SPEED 15
 
 @class HNArticle;
 
@@ -19,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *title;
 @property (weak, nonatomic) IBOutlet UILabel *timeStampLabel;
 @property (weak, nonatomic) IBOutlet UIView *bottomContentView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingSpinner;
 
 //Data
 @property (strong, nonatomic) HNArticle *article;

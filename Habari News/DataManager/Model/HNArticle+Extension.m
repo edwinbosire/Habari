@@ -73,6 +73,7 @@
 + (NSArray *)getNewsForSection:(HNSection *)section {
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"ANY sections == %@", section];
+    
     NSArray *news = [HNArticle executeRequestWithPredicate:predicate];
     
     return news;
@@ -84,8 +85,9 @@
     NSFetchRequest* request = [[NSFetchRequest alloc] init];
     request.returnsObjectsAsFaults = NO;
     NSManagedObjectContext* managedObjectContext = [EBDataManager shared].managedObjectContext;
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass([HNArticle class])
-                                                         inManagedObjectContext:managedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass([HNArticle class]) inManagedObjectContext:managedObjectContext];
+    NSSortDescriptor *dateSort = [NSSortDescriptor sortDescriptorWithKey:@"datePublished" ascending:YES];
+    [request setSortDescriptors:@[dateSort]];
     [request setEntity:entityDescription];
     [request setPredicate:predicate];
     
@@ -150,9 +152,10 @@
     static dispatch_once_t onceTokenBottomParagraphStyle;
     dispatch_once(&onceTokenBottomParagraphStyle, ^{
         paraStyle = [[NSMutableParagraphStyle alloc] init];
-        paraStyle.paragraphSpacing = 2.0;
+        paraStyle.paragraphSpacing = 9.0;
         paraStyle.lineHeightMultiple = 1.2f;
         paraStyle.alignment = NSTextAlignmentLeft;
+        paraStyle.lineBreakMode = NSLineBreakByWordWrapping;
     });
     
     
@@ -206,9 +209,12 @@
 }
 
 - (CGSize)cellSizeForContent{
-    CGSize textSize = [[self attributedStringForContent] boundingRectWithSize:CGSizeMake(kScreenWidth, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading|NSStringDrawingUsesLineFragmentOrigin context:nil].size;
+    CGSize textSize = [[self attributedStringForContent] boundingRectWithSize:CGSizeMake(kScreenWidth, CGFLOAT_MAX)
+                                                                      options:NSStringDrawingUsesLineFragmentOrigin
+                                                                      context:nil].size;
+    
     textSize.width = 310.0f;
-    textSize.height += 30.0f;
+    textSize.height =  ceilf(textSize.height) * 1.08f;
     return textSize;
 }
 
@@ -224,7 +230,15 @@
     return cleanContent;
 }
 
-
+- (NSString *)formattedContent {
+    
+    NSString *style = @"<style> body {font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light'; font-size: 18px; style='background-color: transparent;' color: '34495E'; text-indent: 10px; letter-spacing: 50%; line-height: 100%;} p{letter-spacing: 1.2px} </style>";
+    
+    NSString *content = [self.content stringByReplacingOccurrencesOfString:@"\n" withString:@"<p>"];
+    NSString *formattedString = [NSString stringWithFormat:@"<html><head> %@ </head><body> %@ </html>", style, content];
+    
+    return formattedString;
+}
 #pragma mark - Apple bug fix
 /*
  This is a fix for Apple's own bug that they wont rectify

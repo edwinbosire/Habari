@@ -25,7 +25,7 @@
 #define kBUTTON_HEIGHT 50.0f
 #define kANIMATION_OFFSET 100.0f
 
-@interface HNNewsDetailViewController () <UIScrollViewDelegate>{
+@interface HNNewsDetailViewController () <UIScrollViewDelegate, UIWebViewDelegate>{
     CGRect headerRect;
 }
 
@@ -152,6 +152,7 @@
         return;
     }
     _article = article;
+
 }
 
 
@@ -172,13 +173,14 @@
     self.authorView.authorTextTitle.attributedText = [self.article attributedStringForAuthor];
     
     //set content
-    self.contentView.contentTextView.attributedText = [self.article attributedStringForContent];
-    
+//    self.contentView.contentTextView.attributedText = [self.article attributedStringForContent];
+    [self.contentView.webview loadHTMLString:self.article.formattedContent baseURL:nil];
+
     //adjust sizes
     
     CGSize titleSize =  [self.article cellSizeForTitle];
     CGSize authorSize =  [self.article cellSizeForAuthor];
-    CGSize contentSize =  [self.article cellSizeForContent];
+    CGSize contentSize =  self.contentView.webview.scrollView.contentSize;//[self.article cellSizeForContent];
     
     self.headerView.frame = CGRectMake(0.0f, 0.0f, 320.0f, kHEADER_IMAGE_HEIGHT);
     self.titleView.frame = CGRectMake(10.0f, kHEADER_IMAGE_HEIGHT - 20 + kANIMATION_OFFSET, kSTANDARD_WIDTH, titleSize.height+10.0f);
@@ -196,11 +198,18 @@
     [self.scrollView addSubview:self.webButtonView];
 }
 
+- (void)position {
+    
+    self.contentView.frame = CGRectMake(10.0f, CGRectGetMinY(self.contentView.frame), kSTANDARD_WIDTH, self.contentView.webview.scrollView.contentSize.height);
+    self.webButtonView.frame = CGRectMake(10.0f, CGRectGetMaxY(self.contentView.frame), kSTANDARD_WIDTH, kBUTTON_HEIGHT);
+    self.scrollView.contentSize = [self contentHeight];
+}
+
 - (CGSize)contentHeight{
     
     CGSize titleSize =  [self.article cellSizeForTitle];
     CGSize authorSize =  [self.article cellSizeForAuthor];
-    CGSize contentSize =  [self.article cellSizeForContent];
+    CGSize contentSize =  self.contentView.webview.scrollView.contentSize;//[self.article cellSizeForContent];
     
     return CGSizeMake(320.0f, (kHEADER_IMAGE_HEIGHT + titleSize.height + authorSize.height + contentSize.height + kBUTTON_HEIGHT + 20.0f));
 }
@@ -245,6 +254,7 @@
     if (!_contentView) {
 
         _contentView = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([HNContentView class]) owner:self options:nil] firstObject];
+        _contentView.webview.delegate = self;
     }
     return _contentView;
 }
@@ -279,4 +289,10 @@
     }
 }
 
+#pragma mark - webview delegate
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    
+    [self position];
+}
 @end

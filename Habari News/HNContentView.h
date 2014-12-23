@@ -10,5 +10,6 @@
 
 @interface HNContentView : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
+@property (weak, nonatomic) IBOutlet UIWebView *webview;
 
 @end

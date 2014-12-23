@@ -28,6 +28,14 @@
     self.webViewButton.backgroundColor =  [UIColor silverColor];
     
 }
+- (IBAction)openInWeb:(id)sender {
+    
+    if (self.openInWebBrowserBlock) {
+        self.openInWebBrowserBlock();
+    }
+}
+
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

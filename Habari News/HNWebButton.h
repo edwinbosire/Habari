@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^OpenInWebBrowserBlock)(void);
+
 @interface HNWebButton : UICollectionReusableView
 @property (weak, nonatomic) IBOutlet UIButton *webViewButton;
-
+@property (strong, nonatomic) OpenInWebBrowserBlock openInWebBrowserBlock;
 @end

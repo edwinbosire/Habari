@@ -25,12 +25,14 @@
 #define kBUTTON_HEIGHT 50.0f
 #define kANIMATION_OFFSET 100.0f
 
+//static dispatch_once_t presentOnceToken;
+
 @interface HNNewsDetailViewController () <UIScrollViewDelegate, UIWebViewDelegate>{
     CGRect headerRect;
+    dispatch_once_t presentOnceToken;
 }
 
 @property (nonatomic, strong) BrowserViewController *browser;
-
 @end
 
 @implementation HNNewsDetailViewController
@@ -69,41 +71,47 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-              [UIView animateKeyframesWithDuration:0.6f
-                                             delay:0.3f
-                                           options:UIViewKeyframeAnimationOptionCalculationModeCubic
-                                        animations:^{
-                                            
-                                            self.titleView.alpha = self.authorView.alpha = self.contentView.alpha = self.webButtonView.alpha = 1.0f;
+    dispatch_once(&presentOnceToken, ^{
+        
+        [self presentationAnimation];
+    });
+}
 
-                                            [UIView addKeyframeWithRelativeStartTime:0.0f relativeDuration:0.5 animations:^{
-                                                 self.titleView.frame = CGRectOffset(self.titleView.frame, 0.0f, -kANIMATION_OFFSET);
-                                            }];
-                                            
-                                            [UIView addKeyframeWithRelativeStartTime:0.2f relativeDuration:0.35 animations:^{
-                                                self.authorView.frame = CGRectOffset(self.authorView.frame, 0.0f, -kANIMATION_OFFSET);
-                                            }];
-                                            
-                                            [UIView addKeyframeWithRelativeStartTime:0.4f relativeDuration:0.25 animations:^{
-                                                self.contentView.frame = CGRectOffset(self.contentView.frame, 0.0f, -kANIMATION_OFFSET);
-                                            }];
-                                            
-                                            [UIView addKeyframeWithRelativeStartTime:0.6f relativeDuration:0.0625 animations:^{
-                                                self.webButtonView.frame = CGRectOffset(self.webButtonView.frame, 0.0f, -kANIMATION_OFFSET);
-                                            }];
-                                            
-                                        } completion:^(BOOL finished) {
-                                            
-                                        }];
+- (void)presentationAnimation {
     
-    
+    [UIView animateKeyframesWithDuration:0.6f
+                                   delay:0.3f
+                                 options:UIViewKeyframeAnimationOptionCalculationModeCubic
+                              animations:^{
+                                  
+                                  self.titleView.alpha = self.authorView.alpha = self.contentView.alpha = self.webButtonView.alpha = 1.0f;
+                                  
+                                  [UIView addKeyframeWithRelativeStartTime:0.0f relativeDuration:0.5 animations:^{
+                                      self.titleView.frame = CGRectOffset(self.titleView.frame, 0.0f, -kANIMATION_OFFSET);
+                                  }];
+                                  
+                                  [UIView addKeyframeWithRelativeStartTime:0.2f relativeDuration:0.35 animations:^{
+                                      self.authorView.frame = CGRectOffset(self.authorView.frame, 0.0f, -kANIMATION_OFFSET);
+                                  }];
+                                  
+                                  [UIView addKeyframeWithRelativeStartTime:0.4f relativeDuration:0.25 animations:^{
+                                      self.contentView.frame = CGRectOffset(self.contentView.frame, 0.0f, -kANIMATION_OFFSET);
+                                  }];
+                                  
+                                  [UIView addKeyframeWithRelativeStartTime:0.6f relativeDuration:0.0625 animations:^{
+                                      self.webButtonView.frame = CGRectOffset(self.webButtonView.frame, 0.0f, -kANIMATION_OFFSET);
+                                  }];
+                                  
+                              } completion:^(BOOL finished) {
+                                  
+                              }];
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
     self.scrollView.delegate = nil;
-    [self.headerView stopOscillating];
 }
 
 - (void)didReceiveMemoryWarning{
@@ -123,7 +131,7 @@
 
 - (void)presentActionSheet:(id)sender{
     
-    UIActivityViewController *viewController = [[UIActivityViewController alloc] initWithActivityItems:@[self.article.uri] applicationActivities:nil];
+    UIActivityViewController *viewController = [[UIActivityViewController alloc] initWithActivityItems:@[self.article.title, self.article.uri] applicationActivities:nil];
     [self presentViewController:viewController animated:YES completion:^{
         
     }];
@@ -157,10 +165,6 @@
 
 
 - (void)setupScrollView {
-    
-    NSBundle *mainBundle = [NSBundle mainBundle];
-    
-    self.webButtonView = [[mainBundle loadNibNamed:NSStringFromClass([HNWebButton class]) owner:self options:nil] firstObject];
     
     //set the header
     self.headerView.placeholder = self.placeholderImage;
@@ -214,12 +218,6 @@
     return CGSizeMake(320.0f, (kHEADER_IMAGE_HEIGHT + titleSize.height + authorSize.height + contentSize.height + kBUTTON_HEIGHT + 20.0f));
 }
 
-- (void)presentBrowser:(id)sender {
-    
-    self.browser = [[BrowserViewController alloc] initWithUrls:[NSURL URLWithString:self.article.uri]];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:self.browser];
-    [self.navigationController presentViewController:nav animated:YES completion:NULL];
-}
 #pragma mark - property
 
 - (HNHeaderView *)headerView{
@@ -259,6 +257,18 @@
     return _contentView;
 }
 
+- (HNWebButton *)webButtonView {
+    
+    if (!_webButtonView) {
+        _webButtonView = [[ [NSBundle mainBundle] loadNibNamed:NSStringFromClass([HNWebButton class]) owner:self options:nil] firstObject];
+    }
+    
+    typeof(self) _weakSelf = self;
+    [_webButtonView setOpenInWebBrowserBlock:^{
+        [_weakSelf openWebView];
+    }];
+    return _webButtonView;
+}
 #pragma - mark - UIScrollView Delegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
@@ -293,6 +303,14 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     
-    [self performSelector:@selector(position) withObject:nil afterDelay:1.0f]; // allow for presentation before re-adjusting size
+    [self performSelector:@selector(position) withObject:nil afterDelay:0.8f]; // allow for presentation before re-adjusting size
+}
+
+#pragma mark - open web browser
+
+- (void)openWebView {
+    
+    BrowserViewController *browser = [[BrowserViewController alloc] initWithUrls:[NSURL URLWithString:self.article.uri]];
+    [self.navigationController pushViewController:browser animated:YES];
 }
 @end

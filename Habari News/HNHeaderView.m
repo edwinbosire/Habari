@@ -68,7 +68,7 @@
 - (void)setHeaderImage:(UIImageView *)headerImage{
     _headerImage = headerImage;
     
-    [self animateImage];
+    [self performSelector:@selector(animateImage) withObject:nil afterDelay:0.5f];
 }
 
 #pragma mark - Oscillating image

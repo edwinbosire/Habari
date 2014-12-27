@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AFNetworking.h"
+#import <AFNetworking/AFNetworking.h>
 
 typedef NS_OPTIONS(NSUInteger, HNNewsType){
     HNNewsLatest,
@@ -17,7 +17,7 @@ typedef NS_OPTIONS(NSUInteger, HNNewsType){
 };
 
 @class HNSection;
-@interface HNClient : AFHTTPClient
+@interface HNClient : AFHTTPSessionManager
 
 @property (nonatomic) NSMutableArray *sectionItems;
 

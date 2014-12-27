@@ -51,11 +51,6 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" id="AJ4-Mx-xnf">
-                    <rect key="frame" x="150" y="150" width="20" height="20"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                    <color key="color" red="0.022046700240000001" green="0.040160711840000002" blue="0.18935600829999999" alpha="1" colorSpace="calibratedRGB"/>
-                </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
@@ -64,7 +59,6 @@
                 <outlet property="bottomContentView" destination="9EJ-WM-3sn" id="CyK-ae-aTA"/>
                 <outlet property="image" destination="fpz-MJ-Mh8" id="Daa-zc-sNz"/>
                 <outlet property="imageContainer" destination="yYj-iX-ejl" id="PuD-dM-HgW"/>
-                <outlet property="loadingSpinner" destination="AJ4-Mx-xnf" id="sUH-dM-Z9S"/>
                 <outlet property="timeStampLabel" destination="4Cx-kc-oZ9" id="AHZ-CP-M3g"/>
                 <outlet property="title" destination="Gj1-h7-JQG" id="9G2-1V-R8j"/>
             </connections>

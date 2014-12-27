@@ -13,11 +13,12 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
-    #import "UIImageView+WebCache.h"
     #import "UIColor+FlatUI.h"
     #import "HNSection.h"
     #import "HNSection+Extension.h"
     #import "HNArticle+Extension.h"
     #import "HNArticle.h"
+    #import "UIImageView+XLNetworking.h"
+    #import "UIImageView+XLProgressIndicator.h"
 
 #endif

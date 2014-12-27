@@ -71,6 +71,7 @@
         self.url = u;
         
         activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+        activityIndicator.color = [UIColor darkGrayColor];
         
         self.activityIndicatorButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
         

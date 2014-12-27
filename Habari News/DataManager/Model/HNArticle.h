@@ -29,7 +29,7 @@
 @property (nonatomic, retain) NSString * thumbnail;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * uri;
-@property (nonatomic, retain) NSNumber * dateStamp;
+@property (nonatomic, retain) NSString * dateStamp;
 @property (nonatomic, retain) NSOrderedSet *sections;
 @end
 

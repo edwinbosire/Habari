@@ -48,7 +48,7 @@
      */
     
     NSTimeInterval secsSince = [[NSDate date] timeIntervalSinceDate:section.lastUpdate];
-    if (secsSince > 21600 || isnan(secsSince)) { //4 * 60 * 60 4 hours
+    if (secsSince > 21600 || isnan(secsSince)) { //4 * 60 * 60 = 4 hours
          [self loadNewsFromSection:section completion:block];
     }else{
         
@@ -61,35 +61,33 @@
 
 // Load remote data
 - (void)loadNewsFromSection:(HNSection *)section completion:(void(^)(NSArray *articles))block {
-    
-    [self setDefaultHeader:@"Content-Type" value:@"application/json"];
-    
-    [self getPath:section.endpoint
+        
+    [self GET:section.endpoint
        parameters:nil
-          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          success:^(NSURLSessionDataTask *task, id responseObject) {
               
-              NSError *error = nil;
-              NSArray *response = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments|NSJSONReadingMutableContainers error:&error];
+//              NSError *error = nil;
+//              NSArray *response = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments|NSJSONReadingMutableContainers error:&error];
               
               NSMutableArray *results = [NSMutableArray new];
-              for (NSDictionary *article in response) {
+              for (NSDictionary *article in responseObject) {
                   
                   HNArticle *anArticle = [HNArticle articleWithObject:article];
                   [anArticle addSectionsObject:section];
                   [results addObject:anArticle];
               }
-              [[EBDataManager shared] saveContext];
+             
               dispatch_async(dispatch_get_main_queue(), ^{
                   
                   [[NSNotificationCenter defaultCenter] postNotificationName:@"freshDataReceived" object:nil];
                   section.lastUpdate = [NSDate date];
               });
-              
+               [[EBDataManager shared] saveContext];
               NSArray *news = [HNArticle getNewsForSection:section];
               if (block) {
                   block(news);
               }
-          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          } failure:^(NSURLSessionDataTask *task, NSError *error) {
               
               NSLog(@"Shits hit the fan, fetching feeds for %@ failed", section.title);
               if (block) {

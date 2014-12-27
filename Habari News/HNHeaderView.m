@@ -35,9 +35,7 @@
     }
     
     _article = article;
-    
-    [self.headerImage sd_setImageWithURL:[NSURL URLWithString:article.largeImage] placeholderImage:[UIImage imageNamed:@"placeholder"]];
-    
+    [self.headerImage setImageWithProgressIndicatorAndURL:[NSURL URLWithString:article.largeImage] placeholderImage:[UIImage imageNamed:@"placeholder"]];
     RelativeDateDescriptor *descriptor = [[RelativeDateDescriptor alloc] initWithPriorDateDescriptionFormat:@"%@ ago" postDateDescriptionFormat:@"in %@"];
     
     NSString *timestamp = [descriptor describeDate:self.article.datePublished relativeTo:[NSDate date]];

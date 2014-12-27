@@ -19,6 +19,7 @@
 #import "HNArticle+Extension.h"
 #import "MRProgress.h"
 
+CGFloat const kDefaultItemSize = 300.0f;
 NSUInteger const maxRetryCount = 3;
 
 @interface HNGenericNewsViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UINavigationControllerDelegate>
@@ -78,7 +79,7 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
     
     [self.view addSubview:self.collectionView];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh:) name:@"freshDataReceived" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh:) name:@"freshDataReceived" object:nil];
      [self refresh:nil];
 }
 
@@ -88,7 +89,6 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
        MRProgressOverlayView *overlay = [MRProgressOverlayView showOverlayAddedTo:self.view animated:YES];
         overlay.tintColor = [UIColor colorFromHexCode:self.sectionItem.secondaryColor];
     }else{
-        
         [MRProgressOverlayView dismissAllOverlaysForView:self.view animated:YES];
     }
 }
@@ -97,26 +97,17 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
     
     [self showIndicator:YES];
     
-    NSArray * articles = [HNArticle getNewsForSection:self.sectionItem];
-    
-    if (articles.count) {
-        
-        self.latestNews = [articles copy];
-        [self.collectionView reloadData];
-        [self showIndicator:NO];
-    }else{
-        
         if (self.retryCount < maxRetryCount) {
             
             [[HNClient shareClient] retrieveLatestNewsWithSectionItem:self.sectionItem completionBlock:^(NSArray *articles) {
                 
                 self.retryCount ++;
-                // There is a notification fired in the body of this block that calls refresh: so no action is required
+                
+                self.latestNews = [articles copy];
+                [self.collectionView reloadData];
+                [self showIndicator:NO];
             }];
         }
-      
-    }
-  
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -141,7 +132,6 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    
     return _latestNews.count;
 }
 
@@ -163,13 +153,12 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
     HNNewsCollectionViewCell *cell = (HNNewsCollectionViewCell *)[collectionView cellForItemAtIndexPath:[collectionView.indexPathsForSelectedItems firstObject]];
     
     detailView.article = anArticle;
-//    detailView.placeholderImage = cell.image.image;
     self.selectedCell = cell;
     [self.navigationController pushViewController:detailView animated:YES];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(300.0f, 300.0f);
+    return CGSizeMake(kDefaultItemSize, kDefaultItemSize);
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
@@ -180,19 +169,22 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
 
 - (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC{
     
-    if ([fromVC isKindOfClass:[HNGenericNewsViewController class]] && [toVC isKindOfClass:[HNNewsDetailViewController class]])
-    {
+    if ([fromVC isKindOfClass:[HNGenericNewsViewController class]] && [toVC isKindOfClass:[HNNewsDetailViewController class]]){
         return [HNListViewAnimationController new];
     }
-    else if ([fromVC isKindOfClass:[HNNewsDetailViewController class]] && [toVC isKindOfClass:[HNGenericNewsViewController class]])
-    {
+    else if ([fromVC isKindOfClass:[HNNewsDetailViewController class]] && [toVC isKindOfClass:[HNGenericNewsViewController class]]){
         return [HNDetailViewAnimationController new];
     }
     return nil;
 
 }
 
+/**
+ *  Creating the parallax effects means moving components with relative speed depending on scroll offset
+ *
+ */
 #pragma mark - UIScrollViewdelegate methods
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     for(HNNewsCollectionViewCell *view in self.collectionView.visibleCells) {
         CGFloat yOffset = ((self.collectionView.contentOffset.y - view.frame.origin.y) / IMAGE_HEIGHT) * IMAGE_OFFSET_SPEED;

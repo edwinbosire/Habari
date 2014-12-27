@@ -15,6 +15,7 @@
 #import "RelativeDateDescriptor.h"
 #import "UIImage+BlurredFrame.h"
 
+
 @interface HNNewsCollectionViewCell ()
 @property (weak, nonatomic) IBOutlet UIView *imageContainer;
 
@@ -59,25 +60,13 @@
     
     _article = article;
     self.title.text = article.title;
-    
-    RelativeDateDescriptor *descriptor = [[RelativeDateDescriptor alloc] initWithPriorDateDescriptionFormat:@"%@ ago" postDateDescriptionFormat:@"in %@"];
-    NSString *timestamp = [descriptor describeDate:_article.datePublished relativeTo:[NSDate date]];
-    self.timeStampLabel.text = timestamp;
-    
-    
-    typeof(UIImageView) __weak *weakIV = self.image;
-    
-    [self.loadingSpinner startAnimating];
-    [self.image sd_setImageWithURL:[NSURL URLWithString:article.largeImage]
-                  placeholderImage:[UIImage imageNamed:@"placeholder"]
-                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                             
-                             dispatch_async(dispatch_get_main_queue(), ^{
-                                 weakIV.image =  image;//[image applyExtraLightEffectAtFrame:CGRectMake(0.0f, image.size.height - 80.0f , weakIV.image.size.width, 80.0f)];
-                                 [self.loadingSpinner stopAnimating];
-                             });
-                             
-                         }];
+    self.timeStampLabel.text = article.dateStamp;
+
+    if (article.largeImage) {
+        [self.image setImageWithProgressIndicatorAndURL:[NSURL URLWithString:article.largeImage] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+    }else{
+        [self.image setImage:[UIImage imageNamed:@"placeholder"]];
+    }
 
 }
 

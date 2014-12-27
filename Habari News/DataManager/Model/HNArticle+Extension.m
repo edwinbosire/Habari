@@ -242,6 +242,7 @@
     
     return formattedString;
 }
+
 #pragma mark - Apple bug fix
 /*
  This is a fix for Apple's own bug that they wont rectify
@@ -257,9 +258,9 @@
 
 - (NSString *)dateStamp {
 
-    return [NSDateFormatter localizedStringFromDate:self.datePublished
-                                          dateStyle:NSDateFormatterShortStyle
-                                          timeStyle:NSDateFormatterNoStyle];
-    
+    RelativeDateDescriptor *descriptor = [[RelativeDateDescriptor alloc] initWithPriorDateDescriptionFormat:@"%@ ago" postDateDescriptionFormat:@"in %@"];
+    NSString *timestamp = [descriptor describeDate:self.datePublished relativeTo:[NSDate date]];
+
+    return timestamp;
 }
 @end

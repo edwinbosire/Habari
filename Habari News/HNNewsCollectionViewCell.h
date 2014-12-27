@@ -18,7 +18,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *title;
 @property (weak, nonatomic) IBOutlet UILabel *timeStampLabel;
 @property (weak, nonatomic) IBOutlet UIView *bottomContentView;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingSpinner;
 
 //Data
 @property (strong, nonatomic) HNArticle *article;

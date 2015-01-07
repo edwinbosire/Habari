@@ -141,16 +141,20 @@
     
     for (NSDictionary *dict in sections) {
         
-        HNSection *sect = [HNSection create];
-        sect.sectionId = @([[dict[@"sectionId"] description] integerValue]);
-        sect.title = dict[@"title"];
-        sect.endpoint = dict[@"url"];
-        sect.primaryColor = dict[@"primaryColor"];
-        sect.secondaryColor = dict[@"secondaryColor"];
-        sect.enabled = dict[@"enabled"];
-        sect.show = dict[@"show"];
+        if (dict[@"enabled"]) {
+            
+            HNSection *sect = [HNSection create];
+            sect.sectionId = @([[dict[@"sectionId"] description] integerValue]);
+            sect.title = dict[@"title"];
+            sect.endpoint = dict[@"url"];
+            sect.primaryColor = dict[@"primaryColor"];
+            sect.secondaryColor = dict[@"secondaryColor"];
+            sect.enabled = dict[@"enabled"];
+            sect.show = dict[@"show"];
+            
+            [sectionItems addObject:sect];
+        }
         
-        [sectionItems addObject:sect];
     }
     
     [[EBDataManager shared] saveContext];

@@ -76,7 +76,7 @@
 		<key>secondaryColor</key>
 		<string>2980b9</string>
 		<key>enabled</key>
-		<true/>
+		<false/>
 		<key>show</key>
 		<true/>
 		<key>sectionId</key>
@@ -92,7 +92,7 @@
 		<key>secondaryColor</key>
 		<string>8e44ad</string>
 		<key>enabled</key>
-		<true/>
+		<false/>
 		<key>show</key>
 		<true/>
 		<key>sectionId</key>

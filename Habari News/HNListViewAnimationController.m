@@ -11,6 +11,10 @@
 #import "HNGenericNewsViewController.h"
 #import "HNNewsCollectionViewCell.h"
 #import "HNHeaderView.h"
+#import "MPCollectionViewAdPlacer.h"
+
+//CGFloat const kDefaultItemWidth = 320.0f;
+//CGFloat const kDefaultItemHeight = 300.0f;
 
 @implementation HNListViewAnimationController
 
@@ -28,9 +32,9 @@
     [containerView insertSubview:toViewController.view aboveSubview:fromViewController.view];
     
     UICollectionView *fromCollectionView = fromViewController.collectionView;
-    HNNewsCollectionViewCell *fromCell = (HNNewsCollectionViewCell *)[fromCollectionView cellForItemAtIndexPath:[fromCollectionView.indexPathsForSelectedItems firstObject]];
+    HNNewsCollectionViewCell *fromCell = (HNNewsCollectionViewCell *)[fromCollectionView mp_cellForItemAtIndexPath:[fromCollectionView.indexPathsForSelectedItems firstObject]];
  
-    UIImageView *cellImageSnapShot = [[UIImageView alloc] initWithFrame:fromCell.image.frame];
+    UIImageView *cellImageSnapShot = [[UIImageView alloc] initWithFrame:CGRectMake(fromCell.image.frame.origin.x, fromCell.image.frame.origin.y, kDefaultItemWidth, kDefaultItemHeight)];
     cellImageSnapShot.image = fromCell.image.image;
     cellImageSnapShot.contentMode = UIViewContentModeScaleAspectFill;
     cellImageSnapShot.clipsToBounds = YES;

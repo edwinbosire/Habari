@@ -13,6 +13,9 @@
 @class HNNewsCollectionViewCell;
 @class HNSection;
 
+extern CGFloat const kDefaultItemWidth;
+extern CGFloat const kDefaultItemHeight;
+
 @interface HNGenericNewsViewController : UIViewController
 
 @property (nonatomic, strong) NSMutableArray *latestNews;

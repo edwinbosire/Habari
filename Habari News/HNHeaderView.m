@@ -7,7 +7,6 @@
 //
 
 #import "HNHeaderView.h"
-#import "RelativeDateDescriptor.h"
 #import "Article.h"
 
 @interface HNHeaderView ()<UITextViewDelegate>{
@@ -24,6 +23,7 @@
 
     self.backgroundColor = [UIColor cloudsColor];
     self.backgroundColor = [UIColor whiteColor];
+    self.headerImage.backgroundColor = [UIColor cloudsColor];
     [self bringSubviewToFront:self.textView];
 }
 
@@ -36,11 +36,9 @@
     
     _article = article;
     [self.headerImage setImageWithProgressIndicatorAndURL:[NSURL URLWithString:article.largeImage] placeholderImage:[UIImage imageNamed:@"placeholder"]];
-    RelativeDateDescriptor *descriptor = [[RelativeDateDescriptor alloc] initWithPriorDateDescriptionFormat:@"%@ ago" postDateDescriptionFormat:@"in %@"];
     
-    NSString *timestamp = [descriptor describeDate:self.article.datePublished relativeTo:[NSDate date]];
     NSString *publisher = nil;
-    if ([_article.uri isEqualToString:@"www.nation.co.ke"]) {
+    if ([_article.uri rangeOfString:@"www.nation.co.ke"].location != NSNotFound) {
         publisher = @"Nation Media";
     }else{
         publisher = @"Standard";
@@ -50,7 +48,7 @@
     paraStyle.alignment = NSTextAlignmentRight;
     
     NSMutableAttributedString *mutableAttr = [[NSMutableAttributedString alloc] init];
-    NSAttributedString *timeStringAttr  = [[NSAttributedString alloc] initWithString:timestamp attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:15.0f], NSForegroundColorAttributeName:[UIColor silverColor], NSParagraphStyleAttributeName: paraStyle}];
+    NSAttributedString *timeStringAttr  = [[NSAttributedString alloc] initWithString:_article.dateStamp attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:15.0f], NSForegroundColorAttributeName:[UIColor silverColor], NSParagraphStyleAttributeName: paraStyle}];
     NSAttributedString *separatorStringAttr  = [[NSAttributedString alloc] initWithString:@" | " attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0f], NSForegroundColorAttributeName:[UIColor concreteColor]}];
     NSAttributedString *publisherStringAttr  = [[NSAttributedString alloc] initWithString:publisher attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:15.0f], NSForegroundColorAttributeName:[UIColor cloudsColor], NSParagraphStyleAttributeName: paraStyle}];
     
@@ -93,24 +91,24 @@
     
     switch (randInt) {
         case 0:
-            translationX = 90;
-            translationY = -100;
-            scaleX = 2.5;
-            scaleY = 2.5;
+            translationX = 40;
+            translationY = -20;
+            scaleX = 1.5;
+            scaleY = 1.5;
             break;
             
         case 1:
             translationX = 20;
-            translationY = -70;
-            scaleX = 2.7;
-            scaleY = 2.7;
+            translationY = -10;
+            scaleX = 1.9;
+            scaleY = 1.9;
             break;
             
         case 2:
-            translationX = 40;
-            translationY = -50;
-            scaleX = 2.0;
-            scaleY = 2.0;
+            translationX = 10;
+            translationY = -5;
+            scaleX = 1.3;
+            scaleY = 1.3;
             break;
             
         default:
@@ -118,7 +116,7 @@
     }
     
     // re-animate image background
-    [UIView animateWithDuration:50.0f
+    [UIView animateWithDuration:20.0f
                           delay:0.0f
                         options:
      UIViewAnimationOptionCurveLinear |

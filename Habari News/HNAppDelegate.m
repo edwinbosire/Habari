@@ -10,14 +10,30 @@
 #import "HNLeftMenuViewController.h"
 #import "HNGenericNewsViewController.h"
 #import "HNClient.h"
+#import <Parse/Parse.h>
+
+#define kApplicationID @"c4o4qrzihavbdWmyH933RxA9XrUEbAqTwWmpXM2j"
+#define kClientKey @"YmAJ0W0fpxcQRIgtDz4bsEQqJI6CHj6Db53vYeCF"
 
 typedef NS_OPTIONS(NSUInteger, SectionIdentifier) {
-    sectionTypePopular = 0
+    sectionTypePopular = 0,
+    sectionTypePolitics = 1
 };
 @implementation HNAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    //Push Notifications
+    
+    [Parse setApplicationId:kApplicationID clientKey:kClientKey];
+    
+    UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
+                                                    UIUserNotificationTypeBadge |
+                                                    UIUserNotificationTypeSound);
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes  categories:nil];
+    [application registerUserNotificationSettings:settings];
+    [application registerForRemoteNotifications];
     
     NSURLCache *cache = [[NSURLCache alloc] initWithMemoryCapacity:40*1024*1024
                                                       diskCapacity:50*1024*1024
@@ -35,9 +51,9 @@ typedef NS_OPTIONS(NSUInteger, SectionIdentifier) {
     [[XLCircleProgressIndicator appearance] setStrokeWidth:6.0f];
     
     HNClient *client = [HNClient shareClient];
-    HNSection *popularSection = [HNSection sectionForID:@(sectionTypePopular)];
+    HNSection *politicsSection = [HNSection sectionForID:@(sectionTypePolitics)];
     
-    HNGenericNewsViewController *latestViewController = [[HNGenericNewsViewController alloc] initWithItem:popularSection];
+    HNGenericNewsViewController *latestViewController = [[HNGenericNewsViewController alloc] initWithItem:politicsSection];
     UINavigationController *newsContentView = [[UINavigationController alloc] initWithRootViewController:latestViewController];
     HNLeftMenuViewController *menuViewController = [HNLeftMenuViewController new];
     RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:newsContentView menuViewController:menuViewController];
@@ -51,7 +67,6 @@ typedef NS_OPTIONS(NSUInteger, SectionIdentifier) {
     [self.window makeKeyAndVisible];
     return YES;
 }
-
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -81,28 +96,15 @@ typedef NS_OPTIONS(NSUInteger, SectionIdentifier) {
 }
 
 
-#pragma mark -
-#pragma mark RESideMenu Delegate
-
-- (void)sideMenu:(RESideMenu *)sideMenu willShowMenuViewController:(UIViewController *)menuViewController
-{
-
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    // Store the deviceToken in the current installation and save it to Parse.
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation setDeviceTokenFromData:deviceToken];
+    currentInstallation.channels = @[ @"global" ];
+    [currentInstallation saveInBackground];
 }
 
-- (void)sideMenu:(RESideMenu *)sideMenu didShowMenuViewController:(UIViewController *)menuViewController
-{
-    
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    [PFPush handlePush:userInfo];
 }
-
-- (void)sideMenu:(RESideMenu *)sideMenu willHideMenuViewController:(UIViewController *)menuViewController
-{
-   
-}
-
-- (void)sideMenu:(RESideMenu *)sideMenu didHideMenuViewController:(UIViewController *)menuViewController
-{
-    
-}
-
-
 @end

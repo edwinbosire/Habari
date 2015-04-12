@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#define IMAGE_HEIGHT 300
 #define IMAGE_OFFSET_SPEED 15
 
 @class HNArticle;

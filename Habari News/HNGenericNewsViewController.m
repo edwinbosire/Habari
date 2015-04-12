@@ -10,7 +10,6 @@
 #import "HNNewsFlowLayout.h"
 #import "HNNewsCollectionViewCell.h"
 #import "Article.h"
-#import "RelativeDateDescriptor.h"
 #import "HNNewsDetailViewController.h"
 #import "HNDetailViewAnimationController.h"
 #import "HNListViewAnimationController.h"
@@ -18,18 +17,30 @@
 #import "HNArticle.h"
 #import "HNArticle+Extension.h"
 #import "MRProgress.h"
+#import "HNNewsNoTitleCell.h"
 
-CGFloat const kDefaultItemSize = 300.0f;
+//Ads
+#import "MPServerAdPositioning.h"
+#import "MPCollectionViewAdPlacer.h"
+#import "MPNativeAdRequestTargeting.h"
+#import "MPNativeAdConstants.h"
+#import "HNAdpositionCell.h"
+
 NSUInteger const maxRetryCount = 3;
+CGFloat const kDefaultItemWidth = 320.0f;
+CGFloat const kDefaultItemHeight = 250.0f;
 
 @interface HNGenericNewsViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UINavigationControllerDelegate>
 
 @property (nonatomic) HNSection *sectionItem;
 @property (nonatomic) NSUInteger retryCount;
-
+@property (nonatomic) UIRefreshControl *refreshControl;
+@property (nonatomic) MPCollectionViewAdPlacer *adPlacer;
 @end
 
-static NSString *reusableCellIdentifier = @"reusableNewsCell";
+static NSString *reusableCellWithImageIdentifier = @"reusableNewsCell";
+static NSString *reusableCellWithNoImageIdentifier = @"reusableCellWithNoImageIdentifier";
+static NSString *kAdUniID = @"882308b3e6c44c9f8706bb8bf394bc8e";
 
 @implementation HNGenericNewsViewController
 
@@ -48,11 +59,10 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
     [super viewDidLoad];
     
     UIButton *sideMenuButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [sideMenuButton setImage:[UIImage imageNamed:@"side_menu_quicklist_icon"] forState:UIControlStateNormal];
-    [sideMenuButton setImage:[UIImage imageNamed:@"side_menu_quicklist_icon_selected"] forState:UIControlStateHighlighted];
+    [sideMenuButton setImage:[UIImage imageNamed:@"burgerMenu"] forState:UIControlStateNormal];
     [sideMenuButton addTarget:self action:@selector(showMenu) forControlEvents:UIControlEventTouchUpInside];
     [sideMenuButton sizeToFit];
-    sideMenuButton.tintColor = [UIColor colorFromHexCode:self.sectionItem.secondaryColor];
+    sideMenuButton.tintColor = [UIColor redColor];// [UIColor colorFromHexCode:self.sectionItem.secondaryColor];
     
     self.navigationController.delegate = self;
     self.navigationController.navigationBar.tintColor = [UIColor colorFromHexCode:self.sectionItem.secondaryColor];
@@ -71,16 +81,30 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
         label;
     });
     
-    self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:[HNNewsFlowLayout new]];
-    [self.collectionView registerNib:[UINib nibWithNibName:@"HNNewsCollectionView" bundle:nil] forCellWithReuseIdentifier:reusableCellIdentifier];
-    self.collectionView.delegate = self;
-    self.collectionView.dataSource = self;
-    self.collectionView.backgroundColor = [UIColor cloudsColor];
-    
-    [self.view addSubview:self.collectionView];
 
+    [self.collectionView registerNib:[UINib nibWithNibName:@"HNNewsCollectionView" bundle:nil] forCellWithReuseIdentifier:reusableCellWithImageIdentifier];
+    [self.collectionView registerNib:[UINib nibWithNibName:@"HNNewsNoTitleCell" bundle:nil] forCellWithReuseIdentifier:reusableCellWithNoImageIdentifier];
+    
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh:) name:@"freshDataReceived" object:nil];
      [self refresh:nil];
+    
+    //Ads
+    
+    MPServerAdPositioning *positioning = [[MPServerAdPositioning alloc] init];
+    self.adPlacer = [MPCollectionViewAdPlacer placerWithCollectionView:self.collectionView
+                                                        viewController:self
+                                                         adPositioning:positioning
+                                               defaultAdRenderingClass:[HNAdpositionCell class]];
+    
+    MPNativeAdRequestTargeting *targeting = [MPNativeAdRequestTargeting targeting];
+    targeting.desiredAssets = [NSSet setWithObjects:kAdIconImageKey, kAdMainImageKey, kAdCTATextKey, kAdTextKey, kAdTitleKey, nil];
+    [self.adPlacer loadAdsForAdUnitID:kAdUniID targeting:targeting];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+
 }
 
 - (void)showIndicator:(BOOL)show{
@@ -106,8 +130,23 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
                 self.latestNews = [articles copy];
                 [self.collectionView reloadData];
                 [self showIndicator:NO];
+                [self.refreshControl endRefreshing];
             }];
         }
+}
+
+- (void)pullToRefresh:(id)sender {
+    
+    [[HNClient shareClient] retrieveLatestNewsWithSectionItem:self.sectionItem completionBlock:^(NSArray *articles) {
+        
+        self.retryCount ++;
+        
+        self.latestNews = [articles copy];
+        [self.collectionView reloadData];
+        [self showIndicator:NO];
+        [self.refreshControl endRefreshing];
+    }];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -137,11 +176,20 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    HNNewsCollectionViewCell *cell = (HNNewsCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:reusableCellIdentifier forIndexPath:indexPath];
     HNArticle *anArticle = [_latestNews objectAtIndex:indexPath.row];
-    [cell setArticle:anArticle];
-    
-    return cell;
+
+    if (anArticle.largeImage) {
+        
+        HNNewsCollectionViewCell *cell = (HNNewsCollectionViewCell *)[collectionView mp_dequeueReusableCellWithReuseIdentifier:reusableCellWithImageIdentifier forIndexPath:indexPath];
+        [cell setArticle:anArticle];
+        return cell;
+    }else {
+        
+        HNNewsNoTitleCell *cell = (HNNewsNoTitleCell *)[collectionView mp_dequeueReusableCellWithReuseIdentifier:reusableCellWithNoImageIdentifier forIndexPath:indexPath];
+        [cell setArticle:anArticle];
+        return cell;
+    }
+  
 }
 
 
@@ -150,21 +198,33 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
     HNArticle *anArticle = [_latestNews objectAtIndex:indexPath.row];
     
     HNNewsDetailViewController *detailView = [[HNNewsDetailViewController alloc] initWithNibName:nil bundle:nil];
-    HNNewsCollectionViewCell *cell = (HNNewsCollectionViewCell *)[collectionView cellForItemAtIndexPath:[collectionView.indexPathsForSelectedItems firstObject]];
+    HNNewsCollectionViewCell *cell = (HNNewsCollectionViewCell *)[collectionView mp_cellForItemAtIndexPath:[collectionView.indexPathsForSelectedItems firstObject]];
     
     detailView.article = anArticle;
     self.selectedCell = cell;
+
+    if (!anArticle.largeImage) {
+        self.navigationController.delegate = nil;
+    }else {
+        self.navigationController.delegate = self;
+    }
+    
     [self.navigationController pushViewController:detailView animated:YES];
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(kDefaultItemSize, kDefaultItemSize);
-}
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    HNArticle *anArticle = [_latestNews objectAtIndex:indexPath.row];
+    HNAdpositionCell *cell = (HNAdpositionCell *)[collectionView mp_cellForItemAtIndexPath:indexPath];
 
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(10.0f, 0.0f, 10.0f, 0.0f);
+    CGSize size;
+    if (anArticle.largeImage || [cell isKindOfClass:[HNAdpositionCell class]]) {
+        size = CGSizeMake(kDefaultItemWidth, kDefaultItemHeight);
+    }else {
+        size = CGSizeMake(kDefaultItemWidth, 155.0f);
+    }
+    return size;
 }
-
 #pragma mark - UINavigationController Delegate
 
 - (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC{
@@ -185,17 +245,36 @@ static NSString *reusableCellIdentifier = @"reusableNewsCell";
  */
 #pragma mark - UIScrollViewdelegate methods
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    for(HNNewsCollectionViewCell *view in self.collectionView.visibleCells) {
-        CGFloat yOffset = ((self.collectionView.contentOffset.y - view.frame.origin.y) / IMAGE_HEIGHT) * IMAGE_OFFSET_SPEED;
-        view.imageOffset = CGPointMake(0.0f, yOffset);
-    }
-}
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    for(HNNewsCollectionViewCell *view in self.collectionView.visibleCells) {
+//        CGFloat yOffset = ((self.collectionView.contentOffset.y - view.frame.origin.y) / kDefaultItemHeight) * IMAGE_OFFSET_SPEED;
+//        if ([view respondsToSelector:@selector(setImageOffset:)]) {
+//            view.imageOffset = CGPointMake(0.0f, yOffset);
+//        }
+//        
+//    }
+//}
 #pragma mark - Properties
 
 - (void)setPrimaryColor:(UIColor *)primaryColor{
     
     _primaryColor = primaryColor;
     self.navigationController.navigationBar.tintColor = _primaryColor;
+}
+
+- (UICollectionView *)collectionView {
+    
+    if (!_collectionView) {
+        _collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:[HNNewsFlowLayout new]];
+        _collectionView.delegate = self;
+        _collectionView.dataSource = self;
+        _collectionView.backgroundColor = [UIColor cloudsColor];
+        [self.view addSubview:_collectionView];
+
+        self.refreshControl = [[UIRefreshControl alloc] init];
+        [self.refreshControl addTarget:self action:@selector(pullToRefresh:) forControlEvents:UIControlEventValueChanged];
+        [_collectionView addSubview:self.refreshControl];
+    }
+    return _collectionView;
 }
 @end

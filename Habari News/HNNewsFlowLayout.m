@@ -8,6 +8,18 @@
 
 #import "HNNewsFlowLayout.h"
 
+
+
 @implementation HNNewsFlowLayout
 
+-(id)init
+{
+    if (!(self = [super init])) return nil;
+    
+    self.sectionInset = UIEdgeInsetsZero;
+    self.minimumInteritemSpacing = 0.0f;
+    self.minimumLineSpacing = 0.0f;
+    
+    return self;
+}
 @end

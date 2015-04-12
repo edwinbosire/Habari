@@ -16,6 +16,8 @@
 
 + (HNArticle *)articleWithObject:(NSDictionary *)obj;
 
++ (NSArray *)retrieveLatestItemsWithLimit:(NSInteger)limit;
+
 + (NSArray *)getNewsForSection:(HNSection *)section;
 
 - (CGSize)cellSizeForTitle;

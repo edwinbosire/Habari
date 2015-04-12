@@ -4,9 +4,9 @@
 <array>
 	<dict>
 		<key>title</key>
-		<string>Latest News</string>
+		<string>Politics</string>
 		<key>url</key>
-		<string>popular</string>
+		<string>popular/Politics</string>
 		<key>primaryColor</key>
 		<string>1abc9c</string>
 		<key>secondaryColor</key>
@@ -16,7 +16,7 @@
 		<key>show</key>
 		<true/>
 		<key>sectionId</key>
-		<string>0</string>
+		<string>1</string>
 	</dict>
 	<dict>
 		<key>title</key>
@@ -32,7 +32,7 @@
 		<key>show</key>
 		<true/>
 		<key>sectionId</key>
-		<string>1</string>
+		<string>2</string>
 	</dict>
 	<dict>
 		<key>title</key>
@@ -48,7 +48,7 @@
 		<key>show</key>
 		<false/>
 		<key>sectionId</key>
-		<string>2</string>
+		<string>3</string>
 	</dict>
 	<dict>
 		<key>title</key>
@@ -64,7 +64,7 @@
 		<key>show</key>
 		<true/>
 		<key>sectionId</key>
-		<string>3</string>
+		<string>4</string>
 	</dict>
 	<dict>
 		<key>title</key>
@@ -80,13 +80,13 @@
 		<key>show</key>
 		<true/>
 		<key>sectionId</key>
-		<string>4</string>
+		<string>5</string>
 	</dict>
 	<dict>
 		<key>title</key>
 		<string>Blogs</string>
 		<key>url</key>
-		<string>popular/Blogs</string>
+		<string>popular/Blog</string>
 		<key>primaryColor</key>
 		<string>9b59b6</string>
 		<key>secondaryColor</key>
@@ -94,25 +94,25 @@
 		<key>enabled</key>
 		<false/>
 		<key>show</key>
-		<true/>
+		<false/>
 		<key>sectionId</key>
-		<string>5</string>
+		<string>6</string>
 	</dict>
 	<dict>
 		<key>title</key>
 		<string>Lifestyle</string>
 		<key>url</key>
-		<string>popular/Lifestyle</string>
+		<string>popular/Enterprise</string>
 		<key>primaryColor</key>
 		<string>34495e</string>
 		<key>secondaryColor</key>
 		<string>2c3e50</string>
 		<key>enabled</key>
-		<true/>
+		<false/>
 		<key>show</key>
-		<true/>
+		<false/>
 		<key>sectionId</key>
-		<string>6</string>
+		<string>7</string>
 	</dict>
 </array>
 </plist>

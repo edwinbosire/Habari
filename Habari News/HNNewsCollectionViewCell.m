@@ -12,7 +12,6 @@
 #import "Article.h"
 
 //Helper
-#import "RelativeDateDescriptor.h"
 #import "UIImage+BlurredFrame.h"
 
 
@@ -34,18 +33,9 @@
 - (void)awakeFromNib{
     [super awakeFromNib];
     
-    self.layer.borderColor = [UIColor cloudsColor].CGColor;
-    self.layer.borderWidth = 1.0f;
-    self.layer.shadowColor = [UIColor blackColor].CGColor;
-    self.layer.shadowRadius = 1.0f;
-    self.layer.shadowOffset = CGSizeMake(0.0f, 1.0f);
-    self.layer.shadowOpacity = 0.5f;
-    self.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.layer.bounds] CGPath];
-    self.layer.masksToBounds = NO;
-
-    self.imageContainer.clipsToBounds = YES;
     self.title.textColor = [UIColor cloudsColor];
-    self.timeStampLabel.textColor = [UIColor cloudsColor];
+    self.timeStampLabel.textColor = [UIColor concreteColor];
+
 }
 
 - (void)prepareForReuse{
@@ -63,7 +53,16 @@
     self.timeStampLabel.text = article.dateStamp;
 
     if (article.largeImage) {
-        [self.image setImageWithProgressIndicatorAndURL:[NSURL URLWithString:article.largeImage] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+        [self.image setImageWithProgressIndicatorAndURL:[NSURL URLWithString:article.largeImage]
+                                       placeholderImage:[UIImage imageNamed:@"placeholder"]
+                                    imageDidAppearBlock:^(UIImageView *imageView) {
+                                        //self.image.alpha = 0.0f;
+                                        self.image = imageView;
+
+                                        [UIView animateWithDuration:0.4 animations:^{
+                                            self.image.alpha = 1.0f;
+                                        }];
+        }];
     }else{
         [self.image setImage:[UIImage imageNamed:@"placeholder"]];
     }
@@ -75,11 +74,11 @@
     // Update padding
     
     // Grow image view
-    CGRect frame = self.image.bounds;
-    CGRect newFrame = CGRectMake(CGRectGetMinX(frame)+IMAGE_OFFSET_SPEED/2, CGRectGetMinY(frame), CGRectGetWidth(frame)+IMAGE_OFFSET_SPEED, (CGRectGetHeight(frame) + IMAGE_OFFSET_SPEED));
-    self.image.frame = newFrame;
-    self.image.contentMode = UIViewContentModeScaleAspectFill;
-    [self setImageOffset:self.imageOffset];
+//    CGRect frame = self.image.bounds;
+//    CGRect newFrame = CGRectMake(CGRectGetMinX(frame)+IMAGE_OFFSET_SPEED/2, CGRectGetMinY(frame), CGRectGetWidth(frame), (CGRectGetHeight(frame) + IMAGE_OFFSET_SPEED));
+//    self.image.frame = newFrame;
+//    self.image.contentMode = UIViewContentModeScaleAspectFill;
+////    [self setImageOffset:self.imageOffset];
 }
 
 - (void)setImageOffset:(CGPoint)imageOffset{
@@ -87,9 +86,9 @@
     // Store padding value
     _imageOffset = imageOffset;
     
-    // Grow image view
-    CGRect frame = self.image.bounds;
-    CGRect offsetFrame = CGRectOffset(frame, _imageOffset.x, _imageOffset.y);
-    self.image.frame = offsetFrame;
+//    // Grow image view
+//    CGRect frame = self.image.bounds;
+//    CGRect offsetFrame = CGRectOffset(frame, 0.0f, _imageOffset.y);
+//    self.image.frame = offsetFrame;
 }
 @end

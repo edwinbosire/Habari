@@ -34,11 +34,12 @@
 
     HNNewsCollectionViewCell *toCell = toViewController.selectedCell; //(HNNewsCollectionViewCell *)[toCollectionView cellForItemAtIndexPath:toViewController.selectedIndexPath];
     
-    UIImageView *headerImageSnapShot = [[UIImageView alloc] initWithFrame:fromHeaderView.headerImage.frame];
+    CGRect snapShotRect = CGRectMake(0.0f, 0.0f, kDefaultItemWidth, kDefaultItemHeight);
+    UIImageView *headerImageSnapShot = [[UIImageView alloc] initWithFrame:snapShotRect];
     headerImageSnapShot.image = fromHeaderView.headerImage.image;
     headerImageSnapShot.contentMode = UIViewContentModeScaleAspectFill;
     headerImageSnapShot.clipsToBounds = YES;
-    headerImageSnapShot.frame = [containerView convertRect:fromHeaderView.headerImage.frame fromView:fromHeaderView.headerImage.superview];
+    headerImageSnapShot.frame = [containerView convertRect:snapShotRect fromView:fromHeaderView.headerImage.superview];
    
     if (CGRectGetMinY(headerImageSnapShot.frame) < 0) { //Scenario where the image has been scrolled past screen
         headerImageSnapShot.frame = CGRectOffset(headerImageSnapShot.frame, 0, -CGRectGetMinY(headerImageSnapShot.frame) + 64.0f);
@@ -59,12 +60,12 @@
                      animations:^{
                          
                          CGFloat offScreenOffset = 200;
-                         fromViewController.titleView.frame = CGRectOffset(fromViewController.titleView.frame, 0.0f, offScreenOffset);
-                         fromViewController.authorView.frame = CGRectOffset(fromViewController.authorView.frame, 0.0f, offScreenOffset);
-                         fromViewController.contentView.frame = CGRectOffset(fromViewController.contentView.frame, 0.0f, offScreenOffset);
-                         fromViewController.webButtonView.frame = CGRectOffset(fromViewController.webButtonView.frame, 0.0f, offScreenOffset);
+//                         fromViewController.titleView.frame = CGRectOffset(fromViewController.titleView.frame, 0.0f, offScreenOffset);
+//                         fromViewController.authorView.frame = CGRectOffset(fromViewController.authorView.frame, 0.0f, offScreenOffset);
+//                         fromViewController.contentView.frame = CGRectOffset(fromViewController.contentView.frame, 0.0f, offScreenOffset);
+//                         fromViewController.webButtonView.frame = CGRectOffset(fromViewController.webButtonView.frame, 0.0f, offScreenOffset);
                          
-                         fromViewController.titleView.alpha = fromViewController.authorView.alpha = fromViewController.contentView.alpha = fromViewController.webButtonView.alpha = 0.0f;
+//                         fromViewController.titleView.alpha = fromViewController.authorView.alpha = fromViewController.contentView.alpha = fromViewController.webButtonView.alpha = 0.0f;
 
                          toViewController.view.alpha = 1.0f;
                          CGRect finalFrame = [containerView convertRect:toCell.frame fromView:toViewController.collectionView];

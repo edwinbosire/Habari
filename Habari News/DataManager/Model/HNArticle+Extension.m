@@ -9,7 +9,8 @@
 #import "HNArticle+Extension.h"
 #import "EBDataManager.h"
 #import "HNSection.h"
-#import "RelativeDateDescriptor.h"
+#import "NSDate+DateTools.h"
+
 #define kScreenWidth  300.0f
 
 
@@ -22,24 +23,24 @@
 
 + (HNArticle *)articleWithObject:(NSDictionary *)obj{
     
-    NSString *newsID = [obj[@"id"] description];
-    HNArticle *anArticle = [HNArticle articleWithId:newsID];
+    NSString *newsTitle = [obj[@"title"] description];
+    HNArticle *anArticle = [HNArticle articleWithTitle:newsTitle];
     
     if (!anArticle) {
         
         anArticle = [HNArticle create];
     }
     
-    anArticle.newsId = newsID;
+    anArticle.title = newsTitle;
+    anArticle.newsId = [obj[@"id"] description];;
     anArticle.author = [obj[@"author"] description];
     anArticle.caption = [obj[@"caption"] description];
     anArticle.category = [obj[@"category"] description];
     anArticle.excerpt = [obj[@"excerpt"] description];
     anArticle.content = [obj[@"content"] description];
-    anArticle.datePublished = [self dateFromString:[obj[@"published"] description]];
+    anArticle.datePublished = [HNArticle dateFromString:[obj[@"published"] description]];
     anArticle.source = [obj[@"source"] description];
     anArticle.summary = [obj[@"summary"] description];
-    anArticle.title = [obj[@"title"] description];
     anArticle.uri = [obj[@"uri"] description];
     anArticle.largeImage = [obj[@"image_large"] description];
     anArticle.smallImage = [obj[@"image_small"] description];
@@ -51,9 +52,9 @@
 }
 
 
-+ (HNArticle *)articleWithId:(NSString *)identification {
++ (HNArticle *)articleWithTitle:(NSString *)title {
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"newsId == %@", identification];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title LIKE[cd] %@", title];
     return  [[self executeRequestWithPredicate:predicate] firstObject];
 }
 
@@ -64,21 +65,26 @@
     
     dispatch_once(&onceToken, ^{
         dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.dateFormat = @"yyyy-MM-dd";
+        dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss"; /* 2015-03-13 09:59:13*/
     });
     
     return [dateFormatter dateFromString:stringDate];
 }
 
++ (NSArray *)retrieveLatestItemsWithLimit:(NSInteger)limit {
+    
+    NSPredicate *predicate = nil;
+    NSArray *news = [HNArticle executeRequestWithPredicate:predicate];
+    return news;
+}
+
 + (NSArray *)getNewsForSection:(HNSection *)section {
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"ANY sections == %@", section];
-    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"ANY sections.sectionId == %@", section.sectionId];
     NSArray *news = [HNArticle executeRequestWithPredicate:predicate];
     
     return news;
 }
-
 
 + (NSArray *)executeRequestWithPredicate:(NSPredicate *)predicate {
     
@@ -109,14 +115,17 @@
         paraStyle = [[NSMutableParagraphStyle alloc] init];
         //        paraStyle.paragraphSpacing = 1.0;
         //        paraStyle.lineHeightMultiple = 1.2f;
-        paraStyle.alignment = NSTextAlignmentLeft;
+        paraStyle.lineBreakMode = NSLineBreakByWordWrapping;
+        paraStyle.alignment = NSTextAlignmentCenter;
     });
     
     static NSDictionary *titleTextAttributes = nil;
     static dispatch_once_t onceTokenTitleTextAttributes;
     dispatch_once(&onceTokenTitleTextAttributes, ^{
         
-        titleTextAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:37.0f], NSParagraphStyleAttributeName: paraStyle, NSForegroundColorAttributeName: [UIColor midnightBlueColor]};
+        titleTextAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:37.0f],
+                                NSParagraphStyleAttributeName: paraStyle,
+                                NSForegroundColorAttributeName: [UIColor midnightBlueColor]};
     });
     
     NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:self.title attributes:titleTextAttributes];
@@ -141,7 +150,8 @@
         
         titleTextAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:14.0f], NSParagraphStyleAttributeName: paraStyle, NSForegroundColorAttributeName: [UIColor midnightBlueColor]};
     });
-    NSString *author = [NSString stringWithFormat:@"By %@",(self.author)?self.author : @"Unknown"];
+    NSString *cleanAuthor = [self.author stringByReplacingOccurrencesOfString:@"By " withString:@""];
+    NSString *author = [NSString stringWithFormat:@"By %@",(cleanAuthor.length > 2)?cleanAuthor : @"News Team"];
     NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:author attributes:titleTextAttributes];
     
     return attributedString;
@@ -198,14 +208,16 @@
 
 - (CGSize)cellSizeForTitle{
     
-    CGSize textSize = [[self attributedStringForTitle] boundingRectWithSize:CGSizeMake(kScreenWidth, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading|NSStringDrawingUsesLineFragmentOrigin context:nil].size;
-    textSize.width = 300;
+    CGSize textSize = [[self attributedStringForTitle] boundingRectWithSize:CGSizeMake(kScreenWidth-50, CGFLOAT_MAX)
+                                                                    options:NSStringDrawingUsesFontLeading|NSStringDrawingUsesLineFragmentOrigin
+                                                                    context:nil].size;
+    textSize.width = kScreenWidth;
     return textSize;
 }
 
 - (CGSize)cellSizeForAuthor{
     
-    CGSize textSize = [[self attributedStringForAuthor] boundingRectWithSize:CGSizeMake(kScreenWidth, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading|NSStringDrawingUsesLineFragmentOrigin context:nil].size;
+    CGSize textSize;// = [[self attributedStringForAuthor] boundingRectWithSize:CGSizeMake(kScreenWidth, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading|NSStringDrawingUsesLineFragmentOrigin context:nil].size;
     textSize.width = kScreenWidth;
     textSize.height = 30.0f;
     return textSize;
@@ -235,7 +247,7 @@
 
 - (NSString *)formattedContent {
     
-    NSString *style = @"<style> body {font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light'; font-size: 18px; background-color: transparent; color: #777; text-indent: 10px;} </style>";
+    NSString *style = @"<style> body {font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light'; font-size: 18px; background-color: transparent; color: #777; text-indent: 10px;} img, alt, figcaption {display:none} </style>";
     
     NSString *content = [self.content stringByReplacingOccurrencesOfString:@"\n" withString:@"<p>"];
     NSString *formattedString = [NSString stringWithFormat:@"<html><head> %@ </head><body> %@ </html>", style, content];
@@ -258,9 +270,11 @@
 
 - (NSString *)dateStamp {
 
-    RelativeDateDescriptor *descriptor = [[RelativeDateDescriptor alloc] initWithPriorDateDescriptionFormat:@"%@ ago" postDateDescriptionFormat:@"in %@"];
-    NSString *timestamp = [descriptor describeDate:self.datePublished relativeTo:[NSDate date]];
+    if (!self.datePublished) {
+        return @"";
+    }
+    NSString *timestamp = [NSDate timeAgoSinceDate:self.datePublished];
 
-    return timestamp;
+    return (timestamp) ? timestamp : @"";
 }
 @end

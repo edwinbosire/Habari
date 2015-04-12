@@ -31,15 +31,6 @@
 
 @implementation HNLeftMenuViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -55,7 +46,7 @@
         
         tableView.backgroundView = nil;
         tableView.backgroundColor = [UIColor clearColor];
-        tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         tableView.separatorInset = UIEdgeInsetsMake(0, 50, 0, 110);
         tableView.bounces = NO;
         tableView;
@@ -65,6 +56,8 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:@"ReloadLeftMenuItems" object:nil];
 }
+
+
 
 - (void)reloadData {
     
@@ -102,14 +95,11 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         cell.backgroundColor = [UIColor clearColor];
-        cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
+        cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
         cell.textLabel.textColor = [UIColor whiteColor];
         cell.textLabel.highlightedTextColor = [UIColor lightGrayColor];
         cell.selectedBackgroundView = [[UIView alloc] init];
 
-//        UIView *lineBar = [[UIView alloc] initWithFrame:CGRectMake(50.0f, 52, CGRectGetWidth(cell.frame) - 110.0f, 2.0f)];
-//        lineBar.backgroundColor = sectionItem.primaryColor;
-//        [cell addSubview:lineBar];
     }
     
     if (indexPath.section == 0){
@@ -117,6 +107,7 @@
         cell.textLabel.text = sectionItem.title;
     } else{
         
+//        cell.imageView.image = [UIImage imageNamed:@"IconSettings"];
         cell.textLabel.text = @"Settings";
     }
     return cell;
@@ -151,12 +142,6 @@
     }
 }
 
-
-
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
-    return UIStatusBarStyleLightContent;
-}
 
 
 @end

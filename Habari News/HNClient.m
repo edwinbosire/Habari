@@ -15,6 +15,9 @@
 #import "EBDataManager.h"
 
 #define kINITIAL_LOAD @"initialLoad"
+#define EC2_SERVER_ADDRESS @"http://ec2-54-91-71-32.compute-1.amazonaws.com"
+#define kCacheExpiry 0//5 * 60
+#define kLastUpdateKey @"LastUpdateKey"
 
 @implementation HNClient
 
@@ -30,7 +33,7 @@
 }
 
 - (id)init {
-    self = [super initWithBaseURL:[NSURL URLWithString:@"http://5.79.0.216/"]];
+    self = [super initWithBaseURL:[NSURL URLWithString:EC2_SERVER_ADDRESS]];
     
     if (self) {
         
@@ -48,26 +51,19 @@
      */
     
     NSTimeInterval secsSince = [[NSDate date] timeIntervalSinceDate:section.lastUpdate];
-    if (secsSince > 21600 || isnan(secsSince)) { //4 * 60 * 60 = 4 hours
+    if (secsSince > kCacheExpiry || isnan(secsSince)) {
          [self loadNewsFromSection:section completion:block];
     }else{
-        
-        NSArray *news = [HNArticle getNewsForSection:section];
-        if (block) {
-            block(news);
-        }
+        [self loadCacheDataForSection:section withCompletionBlock:block];
     }
 }
 
 // Load remote data
 - (void)loadNewsFromSection:(HNSection *)section completion:(void(^)(NSArray *articles))block {
-        
+    
     [self GET:section.endpoint
        parameters:nil
           success:^(NSURLSessionDataTask *task, id responseObject) {
-              
-//              NSError *error = nil;
-//              NSArray *response = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments|NSJSONReadingMutableContainers error:&error];
               
               NSMutableArray *results = [NSMutableArray new];
               for (NSDictionary *article in responseObject) {
@@ -82,6 +78,10 @@
                   [[NSNotificationCenter defaultCenter] postNotificationName:@"freshDataReceived" object:nil];
                   section.lastUpdate = [NSDate date];
               });
+              
+              [[NSUserDefaults standardUserDefaults] setValue:[NSDate date] forKey:kLastUpdateKey];
+              [[NSUserDefaults standardUserDefaults] synchronize];
+              
                [[EBDataManager shared] saveContext];
               NSArray *news = [HNArticle getNewsForSection:section];
               if (block) {
@@ -90,11 +90,19 @@
           } failure:^(NSURLSessionDataTask *task, NSError *error) {
               
               NSLog(@"Shits hit the fan, fetching feeds for %@ failed", section.title);
-              if (block) {
-                  block(nil);
-              }
+               [self loadCacheDataForSection:section withCompletionBlock:block];
           }];
     
+    
+}
+
+
+- (void)loadCacheDataForSection:(HNSection *)section withCompletionBlock:(void (^)(NSArray *articles))block {
+    
+    NSArray *news = [HNArticle getNewsForSection:section];
+    if (block) {
+        block(news);
+    }
     
 }
 

@@ -13,9 +13,6 @@
 #import "HNHeaderView.h"
 #import "MPCollectionViewAdPlacer.h"
 
-//CGFloat const kDefaultItemWidth = 320.0f;
-//CGFloat const kDefaultItemHeight = 300.0f;
-
 @implementation HNListViewAnimationController
 
 
@@ -40,8 +37,6 @@
     cellImageSnapShot.clipsToBounds = YES;
     cellImageSnapShot.frame = [containerView convertRect:fromCell.image.frame fromView:fromCell.image.superview];
    
-    
-    
     UILabel *label = [[UILabel alloc] initWithFrame:fromCell.title.frame];
     label.backgroundColor = [UIColor clearColor];
     label.numberOfLines = 2;
@@ -57,22 +52,18 @@
     toViewController.view.frame = [transitionContext finalFrameForViewController:toViewController];
     toViewController.view.alpha = 0.0f;
     toViewController.headerView.hidden = YES;
-//    toViewController.navigationItem.titleView.hidden = YES;
     [containerView insertSubview:cellImageSnapShot aboveSubview:toViewController.view];
-//    [containerView.window insertSubview:label aboveSubview:cellImageSnapShot];
-   
+	
     [UIView animateWithDuration: [self transitionDuration:transitionContext]
                      animations:^{
                          
                          toViewController.view.alpha = 1.0f;
                          cellImageSnapShot.frame = [containerView convertRect:toViewController.headerView.frame fromView:toViewController.scrollView];
-//                         label.frame = CGRectMake(55.0f, 20.0f, 190, 44.0f);//[containerView.window convertRect:toViewController.navigationController.navigationBar.frame fromView:toViewController.view.superview];
-                         
+						 
                      } completion:^(BOOL finished) {
                          fromViewController.view.alpha = 1;
                          toViewController.headerView.hidden = NO;
                          fromCell.hidden = NO;
-//                         toViewController.navigationItem.titleView.hidden = NO;
 
                          [UIView animateWithDuration:0.3f
                                           animations:^{

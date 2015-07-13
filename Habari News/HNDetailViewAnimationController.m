@@ -27,20 +27,16 @@
     UIView *containerView = transitionContext.containerView;
     
     [containerView addSubview:toViewController.view];
-//    [containerView insertSubview:toViewController.view belowSubview:fromViewController.view];
-    
-//    UICollectionView *toCollectionView = toViewController.collectionView;
     HNHeaderView *fromHeaderView = fromViewController.headerView;
 
-    HNNewsCollectionViewCell *toCell = toViewController.selectedCell; //(HNNewsCollectionViewCell *)[toCollectionView cellForItemAtIndexPath:toViewController.selectedIndexPath];
-    
-    CGRect snapShotRect = CGRectMake(0.0f, 0.0f, kDefaultItemWidth, kDefaultItemHeight);
-    UIImageView *headerImageSnapShot = [[UIImageView alloc] initWithFrame:snapShotRect];
-    headerImageSnapShot.image = fromHeaderView.headerImage.image;
-    headerImageSnapShot.contentMode = UIViewContentModeScaleAspectFill;
-    headerImageSnapShot.clipsToBounds = YES;
-    headerImageSnapShot.frame = [containerView convertRect:snapShotRect fromView:fromHeaderView.headerImage.superview];
-   
+    HNNewsCollectionViewCell *toCell = toViewController.selectedCell;
+	
+	UIGraphicsBeginImageContext(fromHeaderView.headerImage.frame.size);
+	[fromHeaderView.headerImage.layer renderInContext:UIGraphicsGetCurrentContext()];
+	UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	UIImageView *headerImageSnapShot = [[UIImageView alloc] initWithImage:viewImage];
+	
     if (CGRectGetMinY(headerImageSnapShot.frame) < 0) { //Scenario where the image has been scrolled past screen
         headerImageSnapShot.frame = CGRectOffset(headerImageSnapShot.frame, 0, -CGRectGetMinY(headerImageSnapShot.frame) + 64.0f);
     }
@@ -54,21 +50,16 @@
     
     if (!toCell) {
         NSLog(@"No destination cell, wait for animation to complete before navigating away");
+		 [transitionContext completeTransition:YES];
+		return;
     }
     
     [UIView animateWithDuration: [self transitionDuration:transitionContext]
                      animations:^{
-                         
-                         CGFloat offScreenOffset = 200;
-//                         fromViewController.titleView.frame = CGRectOffset(fromViewController.titleView.frame, 0.0f, offScreenOffset);
-//                         fromViewController.authorView.frame = CGRectOffset(fromViewController.authorView.frame, 0.0f, offScreenOffset);
-//                         fromViewController.contentView.frame = CGRectOffset(fromViewController.contentView.frame, 0.0f, offScreenOffset);
-//                         fromViewController.webButtonView.frame = CGRectOffset(fromViewController.webButtonView.frame, 0.0f, offScreenOffset);
-                         
-//                         fromViewController.titleView.alpha = fromViewController.authorView.alpha = fromViewController.contentView.alpha = fromViewController.webButtonView.alpha = 0.0f;
 
                          toViewController.view.alpha = 1.0f;
                          CGRect finalFrame = [containerView convertRect:toCell.frame fromView:toViewController.collectionView];
+						 finalFrame.size = CGSizeMake(finalFrame.size.width, kDefaultImageHeight);
                          headerImageSnapShot.frame = finalFrame;
                          
                      } completion:^(BOOL finished) {

@@ -15,6 +15,7 @@
 
 extern CGFloat const kDefaultItemWidth;
 extern CGFloat const kDefaultItemHeight;
+extern CGFloat const kDefaultImageHeight;
 
 @interface HNGenericNewsViewController : UIViewController
 

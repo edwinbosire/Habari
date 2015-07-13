@@ -18,7 +18,5 @@
     #import "HNSection+Extension.h"
     #import "HNArticle+Extension.h"
     #import "HNArticle.h"
-    #import "UIImageView+XLNetworking.h"
-    #import "UIImageView+XLProgressIndicator.h"
-
+	#import "UIImageView+WebCache.h"
 #endif

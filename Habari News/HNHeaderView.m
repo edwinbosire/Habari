@@ -8,6 +8,7 @@
 
 #import "HNHeaderView.h"
 #import "Article.h"
+#import "UIImage+Utilities.h"
 
 @interface HNHeaderView ()<UITextViewDelegate>{
     UIView *gradientOverlay;
@@ -34,8 +35,8 @@
     }
     
     _article = article;
-    [self.headerImage setImageWithProgressIndicatorAndURL:[NSURL URLWithString:article.largeImage]
-										 placeholderImage:[UIImage imageNamed:@"placeholder"]];
+	
+	[self.headerImage sd_setImageWithURL:[NSURL URLWithString:article.largeImage] placeholderImage:[UIImage imageNamed:@"placeholder"]];
     
     NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
     paraStyle.alignment = NSTextAlignmentRight;

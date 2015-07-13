@@ -63,16 +63,19 @@
 
     if (article.largeImage) {
 		self.image.alpha = 0.0f;
-        [self.image setImageWithProgressIndicatorAndURL:[NSURL URLWithString:article.largeImage]
-                                       placeholderImage:[UIImage imageNamed:@"placeholder"]
-                                    imageDidAppearBlock:^(UIImageView *imageView) {
-										
-                                        self.image = imageView;
-
-                                        [UIView animateWithDuration:0.4 animations:^{
-                                            self.image.alpha = 1.0f;
-                                        }];
-        }];
+		
+		NSString *fullAddressURL = [article.largeImage stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		NSURL *imageURL = [NSURL URLWithString:fullAddressURL];
+		
+		[self.image sd_setImageWithURL:imageURL
+					  placeholderImage:[UIImage imageNamed:@"placeholder"]
+							 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+								 
+								 [UIView animateWithDuration:0.4 animations:^{
+									 self.image.alpha = 1.0f;
+								 }];
+		}];
+		
     }else{
         [self.image setImage:[UIImage imageNamed:@"placeholder"]];
     }

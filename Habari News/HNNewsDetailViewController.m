@@ -240,7 +240,9 @@
         self.headerView.alpha = 0.0f;
         height = kHEADER_NO_IMAGE_HEIGHT;
     }
-    self.headerView.frame = CGRectMake(0.0f, 0.0f, 320.0f, height);
+	
+	CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    self.headerView.frame = CGRectMake(0.0f, 0.0f, width, height);
     self.titleView.frame = CGRectMake(10.0f, CGRectGetHeight(self.headerView.frame) - 20 + kANIMATION_OFFSET, kSTANDARD_WIDTH, titleSize.height+10.0f);
     self.authorView.frame = CGRectMake(10.0f, CGRectGetMaxY(self.titleView.frame), kSTANDARD_WIDTH, authorSize.height);
     self.contentView.frame = CGRectMake(10.0f, CGRectGetMaxY(self.authorView.frame), kSTANDARD_WIDTH, contentSize.height);

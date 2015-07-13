@@ -34,22 +34,8 @@ typedef NS_OPTIONS(NSUInteger, SectionIdentifier) {
     UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes  categories:nil];
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
-    
-    NSURLCache *cache = [[NSURLCache alloc] initWithMemoryCapacity:40*1024*1024
-                                                      diskCapacity:50*1024*1024
-                                                          diskPath:@"app_cache"];
-    
-    // Set the shared cache to our new  instance
-    [NSURLCache setSharedURLCache:cache];
-    
-    [[XLCircleProgressIndicator appearance] setStrokeProgressColor:[UIColor wetAsphaltColor]];
-    
-    // remaining color, gray color in the example image
-    [[XLCircleProgressIndicator appearance] setStrokeRemainingColor:[UIColor asbestosColor]];
-    
-    //In order to set up the circle stroke's width you can choose between these 2 ways.
-    [[XLCircleProgressIndicator appearance] setStrokeWidth:6.0f];
-    
+
+	
     HNClient *client = [HNClient shareClient];
     HNSection *politicsSection = [HNSection sectionForID:@(sectionTypePolitics)];
     

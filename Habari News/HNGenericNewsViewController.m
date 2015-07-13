@@ -29,6 +29,7 @@
 NSUInteger const maxRetryCount = 3;
 CGFloat const kDefaultItemWidth = 320.0f;
 CGFloat const kDefaultItemHeight = 330.0f;
+CGFloat const kDefaultImageHeight = 250.0f;
 
 @interface HNGenericNewsViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UINavigationControllerDelegate>
 

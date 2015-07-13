@@ -28,7 +28,7 @@
 
 NSUInteger const maxRetryCount = 3;
 CGFloat const kDefaultItemWidth = 320.0f;
-CGFloat const kDefaultItemHeight = 250.0f;
+CGFloat const kDefaultItemHeight = 330.0f;
 
 @interface HNGenericNewsViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UINavigationControllerDelegate>
 
@@ -40,7 +40,7 @@ CGFloat const kDefaultItemHeight = 250.0f;
 
 static NSString *reusableCellWithImageIdentifier = @"reusableNewsCell";
 static NSString *reusableCellWithNoImageIdentifier = @"reusableCellWithNoImageIdentifier";
-static NSString *kAdUniID = @"882308b3e6c44c9f8706bb8bf394bc8e";
+static NSString *kAdUniID = @"8ce943e5b65a4689b434d72736dbed02";
 
 @implementation HNGenericNewsViewController
 
@@ -98,7 +98,10 @@ static NSString *kAdUniID = @"882308b3e6c44c9f8706bb8bf394bc8e";
     
     MPNativeAdRequestTargeting *targeting = [MPNativeAdRequestTargeting targeting];
     targeting.desiredAssets = [NSSet setWithObjects:kAdIconImageKey, kAdMainImageKey, kAdCTATextKey, kAdTextKey, kAdTitleKey, nil];
-    [self.adPlacer loadAdsForAdUnitID:kAdUniID targeting:targeting];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"enableAds"]){
+        [self.adPlacer loadAdsForAdUnitID:kAdUniID targeting:targeting];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -198,7 +201,7 @@ static NSString *kAdUniID = @"882308b3e6c44c9f8706bb8bf394bc8e";
     HNArticle *anArticle = [_latestNews objectAtIndex:indexPath.row];
     
     HNNewsDetailViewController *detailView = [[HNNewsDetailViewController alloc] initWithNibName:nil bundle:nil];
-    HNNewsCollectionViewCell *cell = (HNNewsCollectionViewCell *)[collectionView mp_cellForItemAtIndexPath:[collectionView.indexPathsForSelectedItems firstObject]];
+    HNNewsCollectionViewCell *cell = (HNNewsCollectionViewCell *)[collectionView mp_cellForItemAtIndexPath:indexPath];
     
     detailView.article = anArticle;
     self.selectedCell = cell;

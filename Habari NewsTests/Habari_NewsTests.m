@@ -7,6 +7,8 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "HNClient.h"
+#import <Foundation/Foundation.h>
 
 @interface Habari_NewsTests : XCTestCase
 
@@ -26,9 +28,12 @@
     [super tearDown];
 }
 
-- (void)testExample
-{
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+- (void)testBackgroundImage {
+	
+	HNClient *sut = [HNClient shareClient];
+	UIImage *bgImage = [sut retrieveBackgroundImage];
+	
+	XCTAssert(bgImage, @"background image exists");
 }
 
 @end

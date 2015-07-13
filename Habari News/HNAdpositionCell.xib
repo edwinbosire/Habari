@@ -35,7 +35,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nrr-3K-Luy" userLabel="CTA button">
-                        <rect key="frame" x="252" y="10" width="60" height="30"/>
+                        <rect key="frame" x="224" y="10" width="88" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                         <color key="backgroundColor" red="0.29746905039999999" green="1" blue="0.53026998140000003" alpha="1" colorSpace="calibratedRGB"/>
                         <state key="normal" title="Install">

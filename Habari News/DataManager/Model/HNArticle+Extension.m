@@ -10,6 +10,7 @@
 #import "EBDataManager.h"
 #import "HNSection.h"
 #import "NSDate+DateTools.h"
+#import "UIFont+Additions.h"
 
 #define kScreenWidth  300.0f
 
@@ -33,25 +34,32 @@
     
     anArticle.title = newsTitle;
     anArticle.newsId = [obj[@"id"] description];;
-    anArticle.author = [obj[@"author"] description];
-    anArticle.caption = [obj[@"caption"] description];
-    anArticle.category = [obj[@"category"] description];
+    anArticle.author = [obj[@"author"][@"name"] description];
+    anArticle.caption = [obj[@"excerpt"] description];
+    anArticle.category = [obj[@"channel"] description];
     anArticle.excerpt = [obj[@"excerpt"] description];
     anArticle.content = [obj[@"content"] description];
-    anArticle.datePublished = [HNArticle dateFromString:[obj[@"published"] description]];
-    anArticle.source = [obj[@"source"] description];
-    anArticle.summary = [obj[@"summary"] description];
-    anArticle.uri = [obj[@"uri"] description];
-    anArticle.largeImage = [obj[@"image_large"] description];
-    anArticle.smallImage = [obj[@"image_small"] description];
-    anArticle.thumbnail = [obj[@"image_thumb"] description];
-    anArticle.originalImageWidth = @([[obj[@"original_image_width"] description] integerValue]);
-    anArticle.originalImageHeight = @([[obj[@"original_image_heigh"] description] integerValue]);
+    anArticle.datePublished = [HNArticle dateFromString:[obj[@"date"] description]];
+    anArticle.source = @"Techweeze"; //[obj[@"source"] description];
+    anArticle.summary = [obj[@"excerpt"] description];
+    anArticle.uri = [obj[@"url"] description];
+	anArticle.largeImage = [HNArticle fullImageURL: [obj[@"thumbnail"] description]];
+    anArticle.smallImage = [obj[@"thumbnail"] description];
+    anArticle.thumbnail = [obj[@"thumbnail"] description];
     
     return anArticle;
 }
 
-
++ (NSString *)fullImageURL:(NSString *)url {
+	
+	if (![url containsString:@"resize="]) {
+		return nil;
+	}
+	
+	NSRange range = [url rangeOfString:@"?resize="];
+	NSString *fullURL = [url substringToIndex:range.location];
+	return fullURL;
+}
 + (HNArticle *)articleWithTitle:(NSString *)title {
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title LIKE[cd] %@", title];
@@ -60,12 +68,14 @@
 
 +(NSDate *)dateFromString:(NSString *)stringDate {
     
+    // 2015-04-02T19:30:18+00:00 mashable
+    //2015-05-11 20:31:02 //WP
     static dispatch_once_t onceToken;
     static NSDateFormatter *dateFormatter;
     
     dispatch_once(&onceToken, ^{
         dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss"; /* 2015-03-13 09:59:13*/
+        dateFormatter.dateFormat = @"yyyy-MM-dd' 'HH:mm:ss";
     });
     
     return [dateFormatter dateFromString:stringDate];
@@ -113,8 +123,6 @@
     static dispatch_once_t onceTokenBottomParagraphStyle;
     dispatch_once(&onceTokenBottomParagraphStyle, ^{
         paraStyle = [[NSMutableParagraphStyle alloc] init];
-        //        paraStyle.paragraphSpacing = 1.0;
-        //        paraStyle.lineHeightMultiple = 1.2f;
         paraStyle.lineBreakMode = NSLineBreakByWordWrapping;
         paraStyle.alignment = NSTextAlignmentCenter;
     });
@@ -123,7 +131,7 @@
     static dispatch_once_t onceTokenTitleTextAttributes;
     dispatch_once(&onceTokenTitleTextAttributes, ^{
         
-        titleTextAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:37.0f],
+        titleTextAttributes = @{NSFontAttributeName:[UIFont fontWithType:SHFontTypeBold size:24.0f],
                                 NSParagraphStyleAttributeName: paraStyle,
                                 NSForegroundColorAttributeName: [UIColor midnightBlueColor]};
     });
@@ -139,8 +147,6 @@
     static dispatch_once_t onceTokenBottomParagraphStyle;
     dispatch_once(&onceTokenBottomParagraphStyle, ^{
         paraStyle = [[NSMutableParagraphStyle alloc] init];
-        //        paraStyle.paragraphSpacing = 1.0;
-        //        paraStyle.lineHeightMultiple = 1.2f;
         paraStyle.alignment = NSTextAlignmentCenter;
     });
     
@@ -148,7 +154,7 @@
     static dispatch_once_t onceTokenTitleTextAttributes;
     dispatch_once(&onceTokenTitleTextAttributes, ^{
         
-        titleTextAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:14.0f], NSParagraphStyleAttributeName: paraStyle, NSForegroundColorAttributeName: [UIColor midnightBlueColor]};
+        titleTextAttributes = @{NSFontAttributeName: [UIFont fontWithType:SHFontTypeLight size:12.0f], NSParagraphStyleAttributeName: paraStyle, NSForegroundColorAttributeName: [UIColor midnightBlueColor]};
     });
     NSString *cleanAuthor = [self.author stringByReplacingOccurrencesOfString:@"By " withString:@""];
     NSString *author = [NSString stringWithFormat:@"By %@",(cleanAuthor.length > 2)?cleanAuthor : @"News Team"];
@@ -174,7 +180,7 @@
     
     static dispatch_once_t onceTokenTitleTextAttributes;
     dispatch_once(&onceTokenTitleTextAttributes, ^{
-        titleTextAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0f],
+        titleTextAttributes = @{NSFontAttributeName: [UIFont regular],
                                 NSParagraphStyleAttributeName: paraStyle,
                                 NSForegroundColorAttributeName: [UIColor wetAsphaltColor]};
     });
@@ -232,7 +238,6 @@
     textSize.height =  ceilf(textSize.height) * 1.08f;
     return textSize;
 }
-
 
 - (NSString *)cleanString{
     NSString *cleanContent = [self.content stringByReplacingOccurrencesOfString:@"</p><p>" withString:@"\n\n"];

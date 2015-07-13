@@ -32,4 +32,9 @@
 - (NSAttributedString *)attributedStringForCaption;
 
 - (NSString *)formattedContent;
+
++ (NSString *)fullImageURL:(NSString *)url;
+
++(NSDate *)dateFromString:(NSString *)stringDate;
+
 @end

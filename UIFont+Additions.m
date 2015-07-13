@@ -11,22 +11,33 @@
 
 
 @implementation UIFont (Additions)
++ (UIFont *) titleFont {	
+	return [UIFont fontWithType:SHFontTypeSemiBold size:16.0f];
+}
+
++ (UIFont *) timeStampFont {
+	return [UIFont fontWithType:SHFontTypeLight size:10.0f];
+}
+
++ (UIFont *) regular {
+	return [UIFont fontWithType:SHFontTypeRegular size:18.0f];
+}
 
 + (UIFont*) fontWithType:(SHFontType)fontType size:(CGFloat)pointSize {
-    NSString *fontFamilyName = @"HelveticaNeue";
+    NSString *fontFamilyName = @"OpenSans";
     UIFont *font = nil;
     switch (fontType) {
-        case SHFontTypeMedium:
-            font = [UIFont fontWithName:[fontFamilyName stringByAppendingFormat:@"-Medium"] size:pointSize];
+        case SHFontTypeSemiBold:
+            font = [UIFont fontWithName:[fontFamilyName stringByAppendingFormat:@"-Semibold"] size:pointSize];
             break;
         case SHFontTypeRegular:
-            font = [UIFont fontWithName:fontFamilyName size:pointSize];
+            font = [UIFont fontWithName:@"Open Sans"  size:pointSize];
             break;
         case SHFontTypeLight:
             font = [UIFont fontWithName:[fontFamilyName stringByAppendingFormat:@"-Light"] size:pointSize];
             break;
-        case SHFontTypeThin:
-            font = [UIFont fontWithName:[fontFamilyName stringByAppendingFormat:@"-Thin"] size:pointSize];
+        case SHFontTypeItalic:
+            font = [UIFont fontWithName:[fontFamilyName stringByAppendingFormat:@"-Italic"] size:pointSize];
             break;
         case SHFontTypeBold:
             font = [UIFont fontWithName:[fontFamilyName stringByAppendingFormat:@"-Bold"] size:pointSize];

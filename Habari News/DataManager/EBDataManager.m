@@ -36,7 +36,6 @@
         }
         
     }
-
 }
 
 #pragma mark - Core Data stack

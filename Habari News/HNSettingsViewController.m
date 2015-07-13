@@ -146,6 +146,9 @@ MFMailComposeViewControllerDelegate>
         case SettingCellTypeAdsSwitch:{
             HNSwitchTableViewCell *switchCell =  (HNSwitchTableViewCell *)[tableView dequeueReusableCellWithIdentifier:adsCellIdentifier];
             switchCell.titleLabel.text = @"Enable Ads";
+            [switchCell.switchButton addTarget:self action:@selector(setAds:) forControlEvents:UIControlEventValueChanged];
+           
+           switchCell.switchButton.on =  ![[NSUserDefaults standardUserDefaults] valueForKey:@"enableAds"];
             cell = switchCell;
         }
             break;
@@ -207,6 +210,14 @@ MFMailComposeViewControllerDelegate>
     }
     return height;
 
+}
+
+- (void)setAds:(id)sender {
+
+    UISwitch *switchButton = (UISwitch *)sender;
+    
+    [[NSUserDefaults standardUserDefaults] setBool:switchButton.on forKey:@"enableAds"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 #pragma Group Button Delegate
 

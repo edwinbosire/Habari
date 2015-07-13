@@ -4,9 +4,9 @@
 <array>
 	<dict>
 		<key>title</key>
-		<string>Politics</string>
+		<string>Top Stories</string>
 		<key>url</key>
-		<string>popular/Politics</string>
+		<string>?json=1</string>
 		<key>primaryColor</key>
 		<string>1abc9c</string>
 		<key>secondaryColor</key>
@@ -20,9 +20,9 @@
 	</dict>
 	<dict>
 		<key>title</key>
-		<string>Business</string>
+		<string>Reviews</string>
 		<key>url</key>
-		<string>popular/Business</string>
+		<string>category/reviews/?json=1</string>
 		<key>primaryColor</key>
 		<string>E67E22</string>
 		<key>secondaryColor</key>
@@ -36,9 +36,9 @@
 	</dict>
 	<dict>
 		<key>title</key>
-		<string>Technology</string>
+		<string>Editorial</string>
 		<key>url</key>
-		<string>popular/Technology</string>
+		<string>category/editorial/?json=1</string>
 		<key>primaryColor</key>
 		<string>2ecc71</string>
 		<key>secondaryColor</key>
@@ -49,70 +49,6 @@
 		<false/>
 		<key>sectionId</key>
 		<string>3</string>
-	</dict>
-	<dict>
-		<key>title</key>
-		<string>Sports</string>
-		<key>url</key>
-		<string>popular/Sports</string>
-		<key>primaryColor</key>
-		<string>e74c3c</string>
-		<key>secondaryColor</key>
-		<string>c0392b</string>
-		<key>enabled</key>
-		<true/>
-		<key>show</key>
-		<true/>
-		<key>sectionId</key>
-		<string>4</string>
-	</dict>
-	<dict>
-		<key>title</key>
-		<string>Counties</string>
-		<key>url</key>
-		<string>popular/Counties</string>
-		<key>primaryColor</key>
-		<string>3498db</string>
-		<key>secondaryColor</key>
-		<string>2980b9</string>
-		<key>enabled</key>
-		<false/>
-		<key>show</key>
-		<true/>
-		<key>sectionId</key>
-		<string>5</string>
-	</dict>
-	<dict>
-		<key>title</key>
-		<string>Blogs</string>
-		<key>url</key>
-		<string>popular/Blog</string>
-		<key>primaryColor</key>
-		<string>9b59b6</string>
-		<key>secondaryColor</key>
-		<string>8e44ad</string>
-		<key>enabled</key>
-		<false/>
-		<key>show</key>
-		<false/>
-		<key>sectionId</key>
-		<string>6</string>
-	</dict>
-	<dict>
-		<key>title</key>
-		<string>Lifestyle</string>
-		<key>url</key>
-		<string>popular/Enterprise</string>
-		<key>primaryColor</key>
-		<string>34495e</string>
-		<key>secondaryColor</key>
-		<string>2c3e50</string>
-		<key>enabled</key>
-		<false/>
-		<key>show</key>
-		<false/>
-		<key>sectionId</key>
-		<string>7</string>
 	</dict>
 </array>
 </plist>

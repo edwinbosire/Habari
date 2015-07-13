@@ -15,7 +15,7 @@
 #import "EBDataManager.h"
 
 #define kINITIAL_LOAD @"initialLoad"
-#define EC2_SERVER_ADDRESS @"http://ec2-54-91-71-32.compute-1.amazonaws.com"
+#define SERVER_ADDRESS @"http://www.techweez.com/"
 #define kCacheExpiry 0//5 * 60
 #define kLastUpdateKey @"LastUpdateKey"
 
@@ -33,7 +33,7 @@
 }
 
 - (id)init {
-    self = [super initWithBaseURL:[NSURL URLWithString:EC2_SERVER_ADDRESS]];
+    self = [super initWithBaseURL:[NSURL URLWithString:SERVER_ADDRESS]];
     
     if (self) {
         
@@ -66,7 +66,8 @@
           success:^(NSURLSessionDataTask *task, id responseObject) {
               
               NSMutableArray *results = [NSMutableArray new];
-              for (NSDictionary *article in responseObject) {
+              NSArray *newArticles = responseObject[@"posts"];
+              for (NSDictionary *article in newArticles) {
                   
                   HNArticle *anArticle = [HNArticle articleWithObject:article];
                   [anArticle addSectionsObject:section];

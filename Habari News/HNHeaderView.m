@@ -22,8 +22,7 @@
     [super awakeFromNib];
 
     self.backgroundColor = [UIColor cloudsColor];
-    self.backgroundColor = [UIColor whiteColor];
-    self.headerImage.backgroundColor = [UIColor cloudsColor];
+//    self.headerImage.backgroundColor = [UIColor redColor];
     [self bringSubviewToFront:self.textView];
 }
 
@@ -35,14 +34,8 @@
     }
     
     _article = article;
-    [self.headerImage setImageWithProgressIndicatorAndURL:[NSURL URLWithString:article.largeImage] placeholderImage:[UIImage imageNamed:@"placeholder"]];
-    
-    NSString *publisher = nil;
-    if ([_article.uri rangeOfString:@"www.nation.co.ke"].location != NSNotFound) {
-        publisher = @"Nation Media";
-    }else{
-        publisher = @"Standard";
-    }
+    [self.headerImage setImageWithProgressIndicatorAndURL:[NSURL URLWithString:article.largeImage]
+										 placeholderImage:[UIImage imageNamed:@"placeholder"]];
     
     NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
     paraStyle.alignment = NSTextAlignmentRight;
@@ -50,7 +43,7 @@
     NSMutableAttributedString *mutableAttr = [[NSMutableAttributedString alloc] init];
     NSAttributedString *timeStringAttr  = [[NSAttributedString alloc] initWithString:_article.dateStamp attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:15.0f], NSForegroundColorAttributeName:[UIColor silverColor], NSParagraphStyleAttributeName: paraStyle}];
     NSAttributedString *separatorStringAttr  = [[NSAttributedString alloc] initWithString:@" | " attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0f], NSForegroundColorAttributeName:[UIColor concreteColor]}];
-    NSAttributedString *publisherStringAttr  = [[NSAttributedString alloc] initWithString:publisher attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:15.0f], NSForegroundColorAttributeName:[UIColor cloudsColor], NSParagraphStyleAttributeName: paraStyle}];
+    NSAttributedString *publisherStringAttr  = [[NSAttributedString alloc] initWithString:_article.source attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:15.0f], NSForegroundColorAttributeName:[UIColor cloudsColor], NSParagraphStyleAttributeName: paraStyle}];
     
     [mutableAttr appendAttributedString:publisherStringAttr];
     [mutableAttr appendAttributedString:separatorStringAttr];

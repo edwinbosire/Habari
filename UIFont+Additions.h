@@ -10,15 +10,18 @@
 
 typedef enum {
     SHFontTypeDefault,
-    SHFontTypeMedium,
+    SHFontTypeSemiBold,
     SHFontTypeRegular,
     SHFontTypeLight,
-    SHFontTypeThin,
+    SHFontTypeItalic,
     SHFontTypeBold,
 } SHFontType;
 
 @interface UIFont (Additions)
 
++ (UIFont *) titleFont;
++ (UIFont *) timeStampFont;
++ (UIFont *) regular;
 + (UIFont*) fontWithType:(SHFontType)fontType size:(CGFloat)pointSize;
 + (UIFont*) italicFont:(UIFont*)font;
 

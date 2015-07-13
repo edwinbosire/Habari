@@ -12,8 +12,8 @@
 #import "Article.h"
 
 //Helper
-#import "UIImage+BlurredFrame.h"
-
+#import "UIFont+Additions.h"
+#import "UIColor+FlatUI.h"
 
 @interface HNNewsCollectionViewCell ()
 @property (weak, nonatomic) IBOutlet UIView *imageContainer;
@@ -49,14 +49,24 @@
 - (void)setArticle:(HNArticle *)article{
     
     _article = article;
-    self.title.text = article.title;
-    self.timeStampLabel.text = article.dateStamp;
+	
+	NSAttributedString *attrTitle = [[NSAttributedString alloc] initWithString:[article.title stringByReplacingOccurrencesOfString:@"&#8217;" withString:@"'"]
+																	attributes:@{NSFontAttributeName: [UIFont titleFont],
+																				 NSForegroundColorAttributeName: [UIColor midnightBlueColor]}];
+	
+	NSAttributedString *attrTime = [[NSAttributedString alloc] initWithString:article.dateStamp
+																	attributes:@{NSFontAttributeName: [UIFont timeStampFont],
+																				 NSForegroundColorAttributeName: [UIColor asbestosColor]}];
+
+	self.title.attributedText = attrTitle;
+    self.timeStampLabel.attributedText = attrTime;
 
     if (article.largeImage) {
+		self.image.alpha = 0.0f;
         [self.image setImageWithProgressIndicatorAndURL:[NSURL URLWithString:article.largeImage]
                                        placeholderImage:[UIImage imageNamed:@"placeholder"]
                                     imageDidAppearBlock:^(UIImageView *imageView) {
-                                        //self.image.alpha = 0.0f;
+										
                                         self.image = imageView;
 
                                         [UIView animateWithDuration:0.4 animations:^{

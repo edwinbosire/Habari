@@ -10,11 +10,10 @@ This project was started a while a go, it was for a Kenyan news services, then i
 
 The project has been renamed **Windmil**, therefore any references to the original project name - **Habari** should be ignored.
 
-
-
 <p align="center">
-  <img src="http://i.imgur.com/075PjH2.gif" alt="Animated gif">
+  <img src="http://i.imgur.com/075PjH2.gifv" alt="Windmill app gif">
 </p>
+
 #Structure
 
 The project structure is quite simple, we query a service that returns json, we parse and store the json in coredata, and display the results in a collectionview, a detail view is also available with other bells and whistles.

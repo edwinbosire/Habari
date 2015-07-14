@@ -16,7 +16,7 @@
 
 #define kINITIAL_LOAD @"initialLoad"
 #define SERVER_ADDRESS @"http://www.techweez.com/"
-#define kCacheExpiry 0//5 * 60
+#define kCacheExpiry 5 * 60
 #define kLastUpdateKey @"LastUpdateKey"
 
 @implementation HNClient
@@ -45,14 +45,13 @@
 
 
 - (void)retrieveLatestNewsWithSectionItem:(HNSection *)section completionBlock:(void (^)(NSArray *articles))block {
-    
-    /**
-     *  If last update was less than 4hours ago, retrieve stored data, else try and fetch new data
-     */
-    
-    NSTimeInterval secsSince = [[NSDate date] timeIntervalSinceDate:section.lastUpdate];
+	
+	NSUserDefaults *storage = [NSUserDefaults standardUserDefaults];
+	NSTimeInterval secsSince = [storage doubleForKey:@"lastUpdated"];
     if (secsSince > kCacheExpiry || isnan(secsSince)) {
          [self loadNewsFromSection:section completion:block];
+		NSTimeInterval time =  [[NSDate date] timeIntervalSinceDate:section.lastUpdate];
+		[storage setDouble:time forKey:@"lastUpdated"];
     }else{
         [self loadCacheDataForSection:section withCompletionBlock:block];
     }

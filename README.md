@@ -11,9 +11,8 @@ This project was started a while a go, it was for a Kenyan news services, then i
 The project has been renamed **Windmil**, therefore any references to the original project name - **Habari** should be ignored.
 
 
-
 <p align="center">
-  <img src="http://i.imgur.com/075PjH2.gif" alt="Animated gif">
+  <img src="http://i.imgur.com/075PjH2.gifv" alt="Windmill app gif">
 </p>
 
 #Structure

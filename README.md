@@ -11,7 +11,7 @@ This project was started a while a go, it was for a Kenyan news services, then i
 The project has been renamed **Windmil**, therefore any references to the original project name - **Habari** should be ignored.
 
 <p align="center">
-  <img src="/Marketting/windmillgif.gif`" alt="Windmill app gif">
+  <img src="https://github.com/edwinbosire/Habari/blob/master/Marketting/windmillgif.gif" alt="Windmill app gif">
 </p>
 
 #Structure

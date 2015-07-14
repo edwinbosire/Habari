@@ -1133,6 +1133,7 @@
 		9638E1F7188879C200062B4C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9626A63719AAAA66000424FA /* NewsSections.plist */,
 				96F9C5431AB7A55100450F1F /* Images.xcassets */,
 				96DE1D0119A10645006647BC /* Icon */,
 				9638E1F8188879C200062B4C /* Windmill-Info.plist */,
@@ -1243,7 +1244,6 @@
 			children = (
 				9638E23718887D7500062B4C /* HNLeftMenuViewController.h */,
 				9638E23818887D7500062B4C /* HNLeftMenuViewController.m */,
-				9626A63719AAAA66000424FA /* NewsSections.plist */,
 			);
 			name = Menu;
 			sourceTree = "<group>";

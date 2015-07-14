@@ -63,7 +63,7 @@ static NSString *kAdUniID = @"8ce943e5b65a4689b434d72736dbed02";
     [sideMenuButton setImage:[UIImage imageNamed:@"burgerMenu"] forState:UIControlStateNormal];
     [sideMenuButton addTarget:self action:@selector(showMenu) forControlEvents:UIControlEventTouchUpInside];
     [sideMenuButton sizeToFit];
-    sideMenuButton.tintColor = [UIColor redColor];// [UIColor colorFromHexCode:self.sectionItem.secondaryColor];
+    sideMenuButton.tintColor = [UIColor redColor];
     
     self.navigationController.delegate = self;
     self.navigationController.navigationBar.tintColor = [UIColor colorFromHexCode:self.sectionItem.secondaryColor];
@@ -86,7 +86,6 @@ static NSString *kAdUniID = @"8ce943e5b65a4689b434d72736dbed02";
     [self.collectionView registerNib:[UINib nibWithNibName:@"HNNewsCollectionView" bundle:nil] forCellWithReuseIdentifier:reusableCellWithImageIdentifier];
     [self.collectionView registerNib:[UINib nibWithNibName:@"HNNewsNoTitleCell" bundle:nil] forCellWithReuseIdentifier:reusableCellWithNoImageIdentifier];
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh:) name:@"freshDataReceived" object:nil];
      [self refresh:nil];
     
     //Ads
@@ -151,11 +150,6 @@ static NSString *kAdUniID = @"8ce943e5b65a4689b434d72736dbed02";
         [self.refreshControl endRefreshing];
     }];
 
-}
-
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    
 }
 
 - (void)showMenu {
@@ -229,6 +223,7 @@ static NSString *kAdUniID = @"8ce943e5b65a4689b434d72736dbed02";
     }
     return size;
 }
+
 #pragma mark - UINavigationController Delegate
 
 - (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC{

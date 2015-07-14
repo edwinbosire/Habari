@@ -40,8 +40,6 @@
 		9638E23018887C6200062B4C /* HNSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9638E22F18887C6200062B4C /* HNSettingsViewController.m */; };
 		9638E23418887CBD00062B4C /* HNFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9638E23318887CBD00062B4C /* HNFeedBackViewController.m */; };
 		9638E23918887D7500062B4C /* HNLeftMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9638E23818887D7500062B4C /* HNLeftMenuViewController.m */; };
-		9638E241188891E200062B4C /* menu-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9638E23F188891E200062B4C /* menu-icon.png */; };
-		9638E242188891E200062B4C /* menu-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9638E240188891E200062B4C /* menu-icon@2x.png */; };
 		9638E4CA1888A27300062B4C /* HNClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 9638E4C91888A27300062B4C /* HNClient.m */; };
 		9638E5061888AB0E00062B4C /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9638E5051888AB0E00062B4C /* Accounts.framework */; };
 		9638E5081888AB1900062B4C /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9638E5071888AB1900062B4C /* Social.framework */; };
@@ -89,14 +87,6 @@
 		96879B51188B467E00BB707A /* left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96879B4B188B467E00BB707A /* left@2x.png */; };
 		96879B52188B467E00BB707A /* right.png in Resources */ = {isa = PBXBuildFile; fileRef = 96879B4C188B467E00BB707A /* right.png */; };
 		96879B53188B467E00BB707A /* right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96879B4D188B467E00BB707A /* right@2x.png */; };
-		96879B63188B4D6D00BB707A /* BlackXButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 96879B61188B4D6D00BB707A /* BlackXButton.png */; };
-		96879B64188B4D6D00BB707A /* BlackXButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96879B62188B4D6D00BB707A /* BlackXButton@2x.png */; };
-		96879B67188C08E200BB707A /* ico_close.png in Resources */ = {isa = PBXBuildFile; fileRef = 96879B65188C08E200BB707A /* ico_close.png */; };
-		96879B68188C08E200BB707A /* ico_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96879B66188C08E200BB707A /* ico_close@2x.png */; };
-		96879B6B188C0CD300BB707A /* side_menu_quicklist_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 96879B69188C0CD300BB707A /* side_menu_quicklist_icon.png */; };
-		96879B6C188C0CD300BB707A /* side_menu_quicklist_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96879B6A188C0CD300BB707A /* side_menu_quicklist_icon@2x.png */; };
-		96879B6F188C0EF900BB707A /* side_menu_quicklist_icon_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 96879B6D188C0EF900BB707A /* side_menu_quicklist_icon_selected.png */; };
-		96879B70188C0EF900BB707A /* side_menu_quicklist_icon_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96879B6E188C0EF900BB707A /* side_menu_quicklist_icon_selected@2x.png */; };
 		96879B76188C17BC00BB707A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96879B75188C17BC00BB707A /* SystemConfiguration.framework */; };
 		96879B78188C17C900BB707A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96879B77188C17C800BB707A /* MobileCoreServices.framework */; };
 		968C2AC6188ACBD80052C395 /* HNNewsFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 968C2AC5188ACBD80052C395 /* HNNewsFlowLayout.m */; };
@@ -509,8 +499,6 @@
 		9638E23318887CBD00062B4C /* HNFeedBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HNFeedBackViewController.m; sourceTree = "<group>"; };
 		9638E23718887D7500062B4C /* HNLeftMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HNLeftMenuViewController.h; sourceTree = "<group>"; };
 		9638E23818887D7500062B4C /* HNLeftMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HNLeftMenuViewController.m; sourceTree = "<group>"; };
-		9638E23F188891E200062B4C /* menu-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-icon.png"; sourceTree = "<group>"; };
-		9638E240188891E200062B4C /* menu-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-icon@2x.png"; sourceTree = "<group>"; };
 		9638E4C81888A27300062B4C /* HNClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HNClient.h; sourceTree = "<group>"; };
 		9638E4C91888A27300062B4C /* HNClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HNClient.m; sourceTree = "<group>"; };
 		9638E5051888AB0E00062B4C /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
@@ -588,14 +576,6 @@
 		96879B4B188B467E00BB707A /* left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "left@2x.png"; sourceTree = "<group>"; };
 		96879B4C188B467E00BB707A /* right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right.png; sourceTree = "<group>"; };
 		96879B4D188B467E00BB707A /* right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "right@2x.png"; sourceTree = "<group>"; };
-		96879B61188B4D6D00BB707A /* BlackXButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlackXButton.png; sourceTree = "<group>"; };
-		96879B62188B4D6D00BB707A /* BlackXButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BlackXButton@2x.png"; sourceTree = "<group>"; };
-		96879B65188C08E200BB707A /* ico_close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ico_close.png; sourceTree = "<group>"; };
-		96879B66188C08E200BB707A /* ico_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico_close@2x.png"; sourceTree = "<group>"; };
-		96879B69188C0CD300BB707A /* side_menu_quicklist_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = side_menu_quicklist_icon.png; sourceTree = SOURCE_ROOT; };
-		96879B6A188C0CD300BB707A /* side_menu_quicklist_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "side_menu_quicklist_icon@2x.png"; sourceTree = SOURCE_ROOT; };
-		96879B6D188C0EF900BB707A /* side_menu_quicklist_icon_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = side_menu_quicklist_icon_selected.png; sourceTree = "<group>"; };
-		96879B6E188C0EF900BB707A /* side_menu_quicklist_icon_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "side_menu_quicklist_icon_selected@2x.png"; sourceTree = "<group>"; };
 		96879B75188C17BC00BB707A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		96879B77188C17C800BB707A /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		968C2AC4188ACBD80052C395 /* HNNewsFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HNNewsFlowLayout.h; sourceTree = "<group>"; };
@@ -1155,16 +1135,6 @@
 			children = (
 				96F9C5431AB7A55100450F1F /* Images.xcassets */,
 				96DE1D0119A10645006647BC /* Icon */,
-				96879B6D188C0EF900BB707A /* side_menu_quicklist_icon_selected.png */,
-				96879B6E188C0EF900BB707A /* side_menu_quicklist_icon_selected@2x.png */,
-				96879B69188C0CD300BB707A /* side_menu_quicklist_icon.png */,
-				96879B6A188C0CD300BB707A /* side_menu_quicklist_icon@2x.png */,
-				96879B65188C08E200BB707A /* ico_close.png */,
-				96879B66188C08E200BB707A /* ico_close@2x.png */,
-				96879B61188B4D6D00BB707A /* BlackXButton.png */,
-				96879B62188B4D6D00BB707A /* BlackXButton@2x.png */,
-				9638E23F188891E200062B4C /* menu-icon.png */,
-				9638E240188891E200062B4C /* menu-icon@2x.png */,
 				9638E1F8188879C200062B4C /* Windmill-Info.plist */,
 				9638E1F9188879C200062B4C /* InfoPlist.strings */,
 				9638E1FC188879C200062B4C /* main.m */,
@@ -1412,17 +1382,25 @@
 			path = Libraries/SDWebImage;
 			sourceTree = "<group>";
 		};
+		964145601B5478CF00AC4BD7 /* Context menu */ = {
+			isa = PBXGroup;
+			children = (
+				96E9C7C81A9D083E006F71C7 /* HNContextMenuDelegate.h */,
+				96E9C7C91A9D083E006F71C7 /* HNContextMenuDelegate.m */,
+			);
+			name = "Context menu";
+			sourceTree = "<group>";
+		};
 		96879B46188B465B00BB707A /* Detail view */ = {
 			isa = PBXGroup;
 			children = (
-				96879B54188B468800BB707A /* Browser */,
 				96BC4B2B18E4F574000822F5 /* SPHGridViewFlowLayout.h */,
 				96BC4B2C18E4F574000822F5 /* SPHGridViewFlowLayout.m */,
 				96BC4B1318E4E301000822F5 /* HNNewsDetailViewController.h */,
 				96BC4B1418E4E301000822F5 /* HNNewsDetailViewController.m */,
 				96BC4B2018E4E836000822F5 /* Cells */,
-				96E9C7C81A9D083E006F71C7 /* HNContextMenuDelegate.h */,
-				96E9C7C91A9D083E006F71C7 /* HNContextMenuDelegate.m */,
+				964145601B5478CF00AC4BD7 /* Context menu */,
+				96879B54188B468800BB707A /* Browser */,
 			);
 			name = "Detail view";
 			sourceTree = "<group>";
@@ -2109,12 +2087,9 @@
 				96F9C51E1AB4FAE700450F1F /* DateTools.bundle in Resources */,
 				964144F81B54287D00AC4BD7 /* OpenSans-BoldItalic.ttf in Resources */,
 				96DE1D2E19A10645006647BC /* iTunesArtwork in Resources */,
-				9638E242188891E200062B4C /* menu-icon@2x.png in Resources */,
 				964144FB1B54287D00AC4BD7 /* OpenSans-Italic.ttf in Resources */,
 				964144FE1B54287D00AC4BD7 /* OpenSans-Regular.ttf in Resources */,
 				96879B52188B467E00BB707A /* right.png in Resources */,
-				96879B6B188C0CD300BB707A /* side_menu_quicklist_icon.png in Resources */,
-				96879B63188B4D6D00BB707A /* BlackXButton.png in Resources */,
 				96F9C53E1AB5C6A400450F1F /* HNButtonTableViewCell.xib in Resources */,
 				96DE1D2619A10645006647BC /* Icon-Spotlight-40.png in Resources */,
 				96879B50188B467E00BB707A /* left.png in Resources */,
@@ -2122,7 +2097,6 @@
 				96C8629C1AC7232700AAC520 /* MPCloseButtonX@2x.png in Resources */,
 				9638E1FB188879C200062B4C /* InfoPlist.strings in Resources */,
 				964144FF1B54287D00AC4BD7 /* OpenSans-Semibold.ttf in Resources */,
-				9638E241188891E200062B4C /* menu-icon.png in Resources */,
 				964144FC1B54287D00AC4BD7 /* OpenSans-Light.ttf in Resources */,
 				96439E3218E86418000BC672 /* HNWebButton.xib in Resources */,
 				96DE1D2819A10645006647BC /* Icon-Spotlight-40@2x.png in Resources */,
@@ -2130,7 +2104,6 @@
 				96DE1D1219A10645006647BC /* Icon-60.png in Resources */,
 				96BC4B1C18E4E7D2000822F5 /* HNAuthorTextView.xib in Resources */,
 				96DE1D2C19A10645006647BC /* Icon@2x.png in Resources */,
-				96879B64188B4D6D00BB707A /* BlackXButton@2x.png in Resources */,
 				9626A63819AAAA66000424FA /* NewsSections.plist in Resources */,
 				96DE1D3019A10645006647BC /* iTunesArtwork@2x in Resources */,
 				96951F241A993B6E001CE456 /* HNNewsNoTitleCell.xib in Resources */,
@@ -2142,21 +2115,16 @@
 				96C8629A1AC7232700AAC520 /* MPCloseButtonX.png in Resources */,
 				964144F91B54287D00AC4BD7 /* OpenSans-ExtraBold.ttf in Resources */,
 				96DE1D2A19A10645006647BC /* Icon.png in Resources */,
-				96879B67188C08E200BB707A /* ico_close.png in Resources */,
 				96DE1D2419A10645006647BC /* Icon-Small@2x.png in Resources */,
-				96879B68188C08E200BB707A /* ico_close@2x.png in Resources */,
 				964144FD1B54287D00AC4BD7 /* OpenSans-LightItalic.ttf in Resources */,
-				96879B70188C0EF900BB707A /* side_menu_quicklist_icon_selected@2x.png in Resources */,
 				96F9C5361AB5C61B00450F1F /* HNLastUpdateTableViewCell.xib in Resources */,
 				96DE1D2219A10645006647BC /* Icon-Small.png in Resources */,
 				96879B4F188B467E00BB707A /* BrowserViewController.xib in Resources */,
 				9626A61A19A53C35000424FA /* HNSettingsViewController.xib in Resources */,
-				96879B6C188C0CD300BB707A /* side_menu_quicklist_icon@2x.png in Resources */,
 				96879B51188B467E00BB707A /* left@2x.png in Resources */,
 				96F9C52E1AB5C5FE00450F1F /* HNShareSwitchGroupTableViewCell.xib in Resources */,
 				96F9C5251AB5C5AB00450F1F /* HNSwitchTableViewCell.xib in Resources */,
 				968C2ACD188ACFB10052C395 /* HNNewsCollectionView.xib in Resources */,
-				96879B6F188C0EF900BB707A /* side_menu_quicklist_icon_selected.png in Resources */,
 				96BC4B2A18E4EC0A000822F5 /* HNHeaderView.xib in Resources */,
 				96C8629E1AC7232700AAC520 /* MPCloseButtonX@3x.png in Resources */,
 				96E9C7D81A9D08C8006F71C7 /* ContextMenuCell.xib in Resources */,

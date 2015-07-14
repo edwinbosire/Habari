@@ -1174,7 +1174,8 @@
 				9638E22418887A6200062B4C /* UIViewController+RESideMenu.h */,
 				9638E22518887A6200062B4C /* UIViewController+RESideMenu.m */,
 			);
-			path = RESideMenu;
+			name = RESideMenu;
+			path = Libraries/RESideMenu;
 			sourceTree = "<group>";
 		};
 		9638E22918887BD100062B4C /* Delegate */ = {
@@ -1262,6 +1263,7 @@
 				967D67CA18C6A8CE005F84D2 /* UIImage+Utilities.m */,
 			);
 			name = Category;
+			path = "Habari News/Categories";
 			sourceTree = "<group>";
 		};
 		9638E48618889C3E00062B4C /* Model */ = {
@@ -1488,7 +1490,8 @@
 				96C861A81AC7232700AAC520 /* Resources */,
 				96C861AD1AC7232700AAC520 /* RewardedVideo */,
 			);
-			path = MoPubSDK;
+			name = MoPubSDK;
+			path = Libraries/MoPubSDK;
 			sourceTree = "<group>";
 		};
 		96C860A31AC7232600AAC520 /* AdNetworkSupport */ = {
@@ -1903,7 +1906,8 @@
 				96C862CF1AC899FF00AAC520 /* Bolts.framework */,
 				96C862D01AC899FF00AAC520 /* Parse.framework */,
 			);
-			path = "parse-library-1.7.0";
+			name = "parse-library-1.7.0";
+			path = "Libraries/parse-library-1.7.0";
 			sourceTree = "<group>";
 		};
 		96DE1D0119A10645006647BC /* Icon */ = {
@@ -1934,7 +1938,8 @@
 				96E9C7CF1A9D08B7006F71C7 /* YALContextMenuTableView.h */,
 				96E9C7D01A9D08B7006F71C7 /* YALContextMenuTableView.m */,
 			);
-			path = YALContextMenu;
+			name = YALContextMenu;
+			path = Libraries/YALContextMenu;
 			sourceTree = "<group>";
 		};
 		96E9C7D31A9D08C8006F71C7 /* ContextMenuCell */ = {

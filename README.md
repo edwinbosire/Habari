@@ -15,6 +15,7 @@ The project has been renamed **Windmil**, therefore any references to the origin
 <p align="center">
   <img src="http://i.imgur.com/075PjH2.gif" alt="Animated gif">
 </p>
+
 #Structure
 
 The project structure is quite simple, we query a service that returns json, we parse and store the json in coredata, and display the results in a collectionview, a detail view is also available with other bells and whistles.

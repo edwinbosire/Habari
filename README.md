@@ -8,7 +8,7 @@ A news reader for wordpress site, or any service that can spit out some proper j
 
 The project is currently using [TechWeez](http://www.techweez.com/) a Kenyan tech scene for content.
 
-This project was started a while a go, it was for a Kenyan news services, then it changed to a generic news reader. It no longer serves my purpose and is not freely available to any budding developers.
+This project was started a while a go, it was for a Kenyan news service, then it changed to a generic news reader. It no longer serves my purpose and is now freely available to any budding developers.
 
 The project has been renamed **Windmil**, therefore any references to the original project name - **Habari** should be ignored.
 
